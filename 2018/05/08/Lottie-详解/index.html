@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.0 -->
+    <script>
+        window.materialVersion = "1.5.0"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+    <link rel="dns-prefetch" href="https://cdn1.lncld.net"/>
+
+
+
+    <link rel="dns-prefetch" href="https://changyan.sohu.com"/>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Title -->
+    
+    <title>
+        
+            Lottie 详解 | 
+        
+        changoal
+    </title>
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="chang">
+    <meta name="description" itemprop="description" content="十年之前和现�?">
+    <meta name="keywords" content="十年之前和现在,Android,Lottie">
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(window.oldVersion){var remove=window.oldVersion.reduce(function(p,c){return p||data.indexOf("/*"+c+"*/")!==-1},false);if(remove){lsloader.removeLS(key)}}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload,isJs){if(typeof cssonload==="boolean"){isJs=cssonload;cssonload=undefined}isJs=isJs||false;cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload,isJs);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload,isJs);return}code=code.split(versionString)[1];if(isJs){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload,isJs)}};lsloader.requestResource=function(name,path,cssonload,isJs){var that=this;if(isJs){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else{this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/avatar_round.png">
+    <link rel="icon" sizes="192x192" href="/img/avatar_round.png">
+    <link rel="apple-touch-icon" href="/img/avatar.jpg">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="changoal">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #e9ebec;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icon -->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yoursite.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Lottie 详解 | changoal">
+    <meta property="og:image" content="http://yoursite.com/img/avatar_round.png" />
+    <meta property="og:description" content="十年之前和现�?">
+    <meta property="og:article:tag" content="Android"> <meta property="og:article:tag" content="Lottie"> 
+
+    
+        <meta property="article:published_time" content="Tue May 08 2018 20:51:33 GMT+0800" />
+        <meta property="article:modified_time" content="Mon May 21 2018 09:59:49 GMT+0800" />
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="Lottie 详解 | changoal">
+    <meta name="twitter:description" content="十年之前和现�?">
+    <meta name="twitter:image" content="http://yoursite.com/img/avatar_round.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="http://yoursite.com" />
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://yoursite.com/2018/05/08/Lottie-详解/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+<script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": "http://yoursite.com/2018/05/08/Lottie-详解/index.html",
+    "headline": "Lottie 详解",
+    "datePublished": "Tue May 08 2018 20:51:33 GMT+0800",
+    "dateModified": "Mon May 21 2018 09:59:49 GMT+0800",
+    "author": {
+        "@type": "Person",
+        "name": "chang",
+        "image": {
+            "@type": "ImageObject",
+            "url": "http://o797mwhn1.bkt.clouddn.com/avatar.jpg"
+        },
+        "description": "十年之前和现在"
+    },
+    "publisher": {
+        "@type": "Organization",
+        "name": "changoal",
+        "logo": {
+            "@type":"ImageObject",
+            "url": "/img/avatar_round.png"
+        }
+    },
+    "keywords": ",Android,Lottie十年之前和现在",
+    "description": "十年之前和现�?",
+}
+</script>
+
+
+    
+
+    <!-- Analytics -->
+    
+        <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-105599788-1', 'auto');ga('send', 'pageview');
+</script>
+    
+    
+    
+        <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1263984656&web_id=1263984656" language="JavaScript"></script>
+</div>
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+    
+    <!-- Back Button -->
+    <!--
+    <div class="material-back" id="backhome-div" tabindex="0">
+        <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon"
+           href="#" onclick="window.history.back();return false;"
+           target="_self"
+           role="button"
+           data-upgraded=",MaterialButton,MaterialRipple">
+            <i class="material-icons" role="presentation">arrow_back</i>
+            <span class="mdl-button__ripple-container">
+                <span class="mdl-ripple"></span>
+            </span>
+        </a>
+    </div>
+    -->
+
+
+    <!-- Left aligned menu below button -->
+    
+    
+    <button id="post-toc-trigger-btn"
+        class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">format_list_numbered</i>
+    </button>
+
+    <ul class="post-toc-wrap mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="post-toc-trigger-btn" style="max-height:80vh; overflow-y:scroll;">
+        <ol class="post-toc"><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#简介"><span class="post-toc-number">1.</span> <span class="post-toc-text">简介</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#使用"><span class="post-toc-number">2.</span> <span class="post-toc-text">使用</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#引入依赖"><span class="post-toc-number">2.1.</span> <span class="post-toc-text">引入依赖</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#添加-Adobe-After-Effects-导出的动画文件"><span class="post-toc-number">2.2.</span> <span class="post-toc-text">添加 Adobe After Effects 导出的动画文件</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用Lottie"><span class="post-toc-number">2.3.</span> <span class="post-toc-text">使用Lottie</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#使用小技巧"><span class="post-toc-number">2.4.</span> <span class="post-toc-text">使用小技巧</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#加载SDCard动画文件"><span class="post-toc-number">2.4.1.</span> <span class="post-toc-text">加载SDCard动画文件</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#加载SDCard图片"><span class="post-toc-number">2.4.2.</span> <span class="post-toc-text">加载SDCard图片</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#加载SDCard字体"><span class="post-toc-number">2.4.3.</span> <span class="post-toc-text">加载SDCard字体</span></a></li><li class="post-toc-item post-toc-level-3"><a class="post-toc-link" href="#缓存动画"><span class="post-toc-number">2.4.4.</span> <span class="post-toc-text">缓存动画</span></a></li></ol></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#Lottie实现原理"><span class="post-toc-number">3.</span> <span class="post-toc-text">Lottie实现原理</span></a></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#性能"><span class="post-toc-number">4.</span> <span class="post-toc-text">性能</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#官方说明"><span class="post-toc-number">4.1.</span> <span class="post-toc-text">官方说明</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#属性动画和Lottie动画对比"><span class="post-toc-number">4.2.</span> <span class="post-toc-text">属性动画和Lottie动画对比</span></a></li></ol></li><li class="post-toc-item post-toc-level-1"><a class="post-toc-link" href="#总结"><span class="post-toc-number">5.</span> <span class="post-toc-text">总结</span></a><ol class="post-toc-child"><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#优势"><span class="post-toc-number">5.1.</span> <span class="post-toc-text">优势</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#劣势"><span class="post-toc-number">5.2.</span> <span class="post-toc-text">劣势</span></a></li><li class="post-toc-item post-toc-level-2"><a class="post-toc-link" href="#参考文章"><span class="post-toc-number">5.3.</span> <span class="post-toc-text">参考文章</span></a></li></ol></li></ol>
+    </ul>
+    
+
+
+
+
+<!-- Layouts -->
+
+    <!-- Post Module -->
+    <div class="material-post_container">
+
+        <div class="material-post mdl-grid">
+            <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col">
+
+                <!-- Post Header(Thumbnail & Title) -->
+                
+    <!-- Paradox Post Header -->
+    
+        
+            <!-- Random Thumbnail -->
+            <div class="post_thumbnail-random mdl-card__media mdl-color-text--grey-50">
+            <script type="text/ls-javascript" id="post-thumbnail-script">
+    var randomNum = Math.floor(Math.random() * 19 + 1);
+
+    $('.post_thumbnail-random').attr('data-original', '/img/random/material-' + randomNum + '.png');
+    $('.post_thumbnail-random').addClass('lazy');
+</script>
+
+        
+    
+            <p class="article-headline-p">
+                Lottie 详解
+            </p>
+        </div>
+
+
+
+
+
+                
+                    <!-- Paradox Post Info -->
+                    <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+
+    <!-- Author Avatar -->
+    <div id="author-avatar">
+        <img src="http://o797mwhn1.bkt.clouddn.com/avatar.jpg" width="44px" height="44px" alt="Author Avatar"/>
+    </div>
+    <!-- Author Name & Date -->
+    <div>
+        <strong>chang</strong>
+        <span>5月 08, 2018</span>
+    </div>
+
+    <div class="section-spacer"></div>
+
+    <!-- Favorite -->
+    <!--
+        <button id="article-functions-like-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon btn-like">
+            <i class="material-icons" role="presentation">favorite</i>
+            <span class="visuallyhidden">favorites</span>
+        </button>
+    -->
+
+    <!-- Qrcode -->
+    
+
+    <!-- Tags (bookmark) -->
+    
+    <button id="article-functions-viewtags-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+        <i class="material-icons" role="presentation">bookmark</i>
+        <span class="visuallyhidden">bookmark</span>
+    </button>
+    <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-functions-viewtags-button">
+        <li class="mdl-menu__item">
+        <a class="post_tag-link" href="/tags/Android/">Android</a></li><li class="mdl-menu__item"><a class="post_tag-link" href="/tags/Lottie/">Lottie</a>
+    </ul>
+    
+
+    <!-- Share -->
+    <button id="article-fuctions-share-button" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
+    <i class="material-icons" role="presentation">share</i>
+    <span class="visuallyhidden">share</span>
+</button>
+<ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="article-fuctions-share-button">
+    
+    <!-- Leancloud Views -->
+        <a class="post_share-link" href="#">
+            <li class="mdl-menu__item">
+                <span id="/2018/05/08/Lottie-详解/" class="leancloud-views_num" data-flag-title="Lottie 详解">
+     &nbsp;浏览量
+</span>
+
+            </li>
+        </a>
+    
+
+    
+
+    <!-- Share Weibo -->
+    
+        <a class="post_share-link" href="http://service.weibo.com/share/share.php?appkey=&title=Lottie 详解&url=http://yoursite.com/2018/05/08/Lottie-详解/index.html&pic=http://yoursite.com/img/avatar_round.png&searchPic=false&style=simple" target="_blank">
+            <li class="mdl-menu__item">
+                分享到微博
+            </li>
+        </a>
+    
+
+    <!-- Share Twitter -->
+    
+        <a class="post_share-link" href="https://twitter.com/intent/tweet?text=Lottie 详解&url=http://yoursite.com/2018/05/08/Lottie-详解/index.html&via=chang" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Twitter
+            </li>
+        </a>
+    
+
+    <!-- Share Facebook -->
+    
+        <a class="post_share-link" href="https://www.facebook.com/sharer/sharer.php?u=http://yoursite.com/2018/05/08/Lottie-详解/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 Facebook
+            </li>
+        </a>
+    
+
+    <!-- Share Google+ -->
+    
+
+    <!-- Share LinkedIn -->
+    
+
+    <!-- Share QQ -->
+    
+        <a class="post_share-link" href="http://connect.qq.com/widget/shareqq/index.html?site=changoal&title=Lottie 详解&summary=十年之前和现�?&pics=http://yoursite.com/img/avatar_round.png&url=http://yoursite.com/2018/05/08/Lottie-详解/index.html" target="_blank">
+            <li class="mdl-menu__item">
+                分享到 QQ
+            </li>
+        </a>
+    
+
+    <!-- Share Telegram -->
+    
+</ul>
+
+</div>
+
+                
+
+                <!-- Post Content -->
+                <div id="post-content" class="mdl-color-text--grey-700 mdl-card__supporting-text fade out">
+    
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Lottie 是 Airbnb 开源的一个面向 iOS、Android、React Native 的动画库，能分析 Adobe After Effects 导出的动画，并且能让原生 App 像使用静态素材一样使用这些动画，完美实现动画效果。</p>
+<p>现在使用各平台的 native 代码实现一套复杂的动画是一件很困难并且耗时的事，我们需要为不同尺寸的屏幕加载不同的素材资源，还需要写大量难维护的代码，而 Lottie 可以做到同一个动画文件在不同平台上实现相同的效果，极大减少开发时间，实现不同的动画，只需要设置不同的动画文件即可，极大减少开发和维护成本。</p>
+<p>官方效果图：</p>
+<p><img src="http://o797mwhn1.bkt.clouddn.com/lottie_intro.gif" alt="官方效果图"></p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>Lottie 支持多平台，使用同一个 JSON 动画文件，可在不同平台实现相同的效果。其中，Android 通过 Airbnb 的开源项目 lottie-android 实现，最低支持 API 16。</p>
+<h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p><code>implementation &#39;com.airbnb.android:lottie:2.5.4&#39;</code></p>
+<h2 id="添加-Adobe-After-Effects-导出的动画文件"><a href="#添加-Adobe-After-Effects-导出的动画文件" class="headerlink" title="添加 Adobe After Effects 导出的动画文件"></a>添加 Adobe After Effects 导出的动画文件</h2><p>Lottie 默认读取 Assets 中的文件，我们需要把动画文件 react.json 保存在 <code>app/src/main/assets</code> 文件里。在 <a href="https://www.lottiefiles.com/popular" target="_blank" rel="noopener">官网</a> 可以免费下载动画文件。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// react.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="attr">"v"</span>: <span class="string">"4.6.0"</span>,</span><br><span class="line">    <span class="attr">"fr"</span>: <span class="number">29.9700012207031</span>,</span><br><span class="line">    <span class="attr">"ip"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"op"</span>: <span class="number">141.000005743048</span>,</span><br><span class="line">    <span class="attr">"w"</span>: <span class="number">800</span>,</span><br><span class="line">    <span class="attr">"h"</span>: <span class="number">800</span>,</span><br><span class="line">    <span class="attr">"ddd"</span>: <span class="number">0</span>,</span><br><span class="line">    <span class="attr">"assets"</span>: [ ],</span><br><span class="line">    <span class="attr">"layers"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"ddd"</span>: <span class="number">0</span>,</span><br><span class="line">            <span class="attr">"ind"</span>: <span class="number">0</span>,</span><br><span class="line">            <span class="attr">"ty"</span>: <span class="number">4</span>,</span><br><span class="line">            <span class="attr">"nm"</span>: <span class="string">"center_circle"</span>,</span><br><span class="line">            "ks": &#123;...&#125;,</span><br><span class="line">            "ao": 0,</span><br><span class="line">            "shapes": [...],</span><br><span class="line">            "ip": 0,</span><br><span class="line">            "op": 900.000036657751,</span><br><span class="line">            "st": 0,</span><br><span class="line">            "bm": 0,</span><br><span class="line">            "sr": 1</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;...&#125;,</span><br><span class="line">        &#123;...&#125;,</span><br><span class="line">        &#123;...&#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用Lottie"><a href="#使用Lottie" class="headerlink" title="使用Lottie"></a>使用Lottie</h2><p>在布局文件中直接添加 Lottie 的 LottieAnimationView 控件，即可在界面显示 React logo 动画效果</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">com.airbnb.lottie.LottieAnimationView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:id</span>=<span class="string">"@+id/animation_view"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:lottie_fileName</span>=<span class="string">"react.json"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:lottie_loop</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:lottie_autoPlay</span>=<span class="string">"true"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>属性说明：</strong></p>
+<ul>
+<li><code>app:lottie_fileName</code>: assets 文件夹下对应的动画文件的文件名</li>
+<li><code>app:lottie_loop</code>: 是否循环播放动画</li>
+<li><code>app:lottie_autoPlay</code>: 是否自动播放动画</li>
+<li><code>app:lottie_cacheStrategy</code>: 设置缓存策略。默认为none，可选值有strong和weak</li>
+<li><code>app:lottie_colorFilter</code>: 设置背景颜色</li>
+<li><code>app:lottie_progress</code>: 设置动画播放进度</li>
+<li><code>app:lottie_imageAssetsFolder</code>: 动画所需图片资源在assets中的绝对路径。如果没有图片资源，可以省略</li>
+</ul>
+<p><strong>代码使用:</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);</span><br><span class="line"></span><br><span class="line">animationView.playAnimation(); <span class="comment">//播放动画</span></span><br><span class="line"></span><br><span class="line">animationView.setAnimation(<span class="string">"data1.json"</span>, CacheStrategy.Strong); <span class="comment">// 设置动画文件以及缓存策略</span></span><br><span class="line"></span><br><span class="line">PorterDuffColorFilter colorFilter = <span class="keyword">new</span> PorterDuffColorFilter(ContextCompat.getColor(<span class="keyword">this</span>,android.R.color.holo_blue_light), PorterDuff.Mode.ADD);</span><br><span class="line">animationView.addColorFilter(colorFilter); <span class="comment">// 设置背景颜色</span></span><br><span class="line"></span><br><span class="line">animationView.loop(<span class="keyword">true</span>); <span class="comment">// 循环播放</span></span><br><span class="line"></span><br><span class="line">animationView.setProgress(<span class="number">0.5f</span>); <span class="comment">// 设置动画播放进度。需要注意值是float型。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 监听动画的状态</span></span><br><span class="line">animationView.addAnimatorListener(<span class="keyword">new</span> Animator.AnimatorListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationStart</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 开始</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 结束</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationCancel</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 取消</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationRepeat</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 重复</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 动态监听动画演示过程，可以动态获取动画进度</span></span><br><span class="line">animationView.addAnimatorUpdateListener(<span class="keyword">new</span> AnimatorUpdateListener() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationUpdate</span><span class="params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">animationView.pauseAnimation(); <span class="comment">// 暂停动画</span></span><br><span class="line"></span><br><span class="line">animationView.isAnimating() <span class="comment">// 是否正在播放动画</span></span><br><span class="line"></span><br><span class="line">animationView.resumeAnimation() <span class="comment">// 恢复动画</span></span><br><span class="line"></span><br><span class="line">animationView.cancelAnimation() <span class="comment">// 取消动画</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用小技巧"><a href="#使用小技巧" class="headerlink" title="使用小技巧"></a>使用小技巧</h2><h3 id="加载SDCard动画文件"><a href="#加载SDCard动画文件" class="headerlink" title="加载SDCard动画文件"></a>加载SDCard动画文件</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder stringBuilder = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">BufferedReader bufferedReader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> FileReader(<span class="keyword">new</span> File(JSON_PATH + <span class="string">"react.json"</span>)));</span><br><span class="line">String content = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">while</span> ((content = bufferedReader.readLine()) != <span class="keyword">null</span>)&#123;</span><br><span class="line">    stringBuilder.append(content);</span><br><span class="line">&#125;</span><br><span class="line">JSONObject jsonObject = <span class="keyword">new</span> JSONObject(stringBuilder.toString());</span><br><span class="line">animationView.setAnimation(jsonObject);</span><br><span class="line">animationView.loop(<span class="keyword">true</span>);</span><br><span class="line">animationView.playAnimation();</span><br></pre></td></tr></table></figure>
+<h3 id="加载SDCard图片"><a href="#加载SDCard图片" class="headerlink" title="加载SDCard图片"></a>加载SDCard图片</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">animationView.setImageAssetDelegate(<span class="keyword">new</span> ImageAssetDelegate() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Bitmap <span class="title">fetchBitmap</span><span class="params">(LottieImageAsset asset)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(IMAGE_PATH + asset.getFileName());</span><br><span class="line">            <span class="keyword">return</span> BitmapFactory.decodeStream(fileInputStream);  <span class="comment">///把流转化为Bitmap图片</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="加载SDCard字体"><a href="#加载SDCard字体" class="headerlink" title="加载SDCard字体"></a>加载SDCard字体</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">animationView.setFontAssetDelegate(<span class="keyword">new</span> FontAssetDelegate()&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Typeface <span class="title">fetchFont</span><span class="params">(String fontFamily)</span> </span>&#123;</span><br><span class="line">        Typeface customFont = Typeface.createFromFile(FONT_PATH + fontFamily);</span><br><span class="line">        <span class="keyword">return</span> customFont;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="缓存动画"><a href="#缓存动画" class="headerlink" title="缓存动画"></a>缓存动画</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *Lottie内部有两个缓存map（强引用缓存，弱引用缓存），在动画文件加载完成后会根据设置的缓存策略缓存动画，方便下次使用。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">animationView.setAnimation(animation, LottieAnimationView.CacheStrategy.Strong);    <span class="comment">//强缓存</span></span><br><span class="line">animationView.setAnimation(animation, LottieAnimationView.CacheStrategy.Weak);      <span class="comment">//弱缓存</span></span><br></pre></td></tr></table></figure>
+<h1 id="Lottie实现原理"><a href="#Lottie实现原理" class="headerlink" title="Lottie实现原理"></a>Lottie实现原理</h1><p>Lottie 的使用的资源是需要先通过 bodymovin( bodymovin 插件本身是用于网页上呈现各种AE效果的一个开源库) 将 Adobe After Effects (AE) 生成的aep动画工程文件转换为通用的json格式描述文件。Lottie则负责解析动画的数据，计算每个动画在某个时间点的状态，准确地绘制到屏幕上。</p>
+<p>Lottie 对外通过控件 LottieAnimationView 暴露接口，控制动画。<br>LottieAnimationView 继承自 ImageView，通过当前时间绘制 canvas 显示到界面上。这里有两个关键类：LottieComposition 负责解析json描述文件，把json内容转成Java数据对象；LottieDrawable负责绘制，把LottieComposition转成的数据对象绘制成drawable显示到View上。顺序如下：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKVViaibdGgicluU6AI9bYtKnn1IpOtMYxeA3HUFwb6jZHOsyEd5pLFMsCA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="顺序"></p>
+<p>探究更多原理解析内容请在 <a href="https://mp.weixin.qq.com/s/LrkZtDZY3SE8IUQ-x1hsmQ" target="_blank" rel="noopener">Lottie–让动画如此简单</a> 查看。</p>
+<h1 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h1><p>内容来自 腾讯音乐技术团队 。</p>
+<h2 id="官方说明"><a href="#官方说明" class="headerlink" title="官方说明"></a>官方说明</h2><ul>
+<li>如果没有 mask 和 mattes，那么性能和内存非常好，没有 bitmap 创建，大部分操作都是简单的 cavas 绘制。</li>
+<li>如果存在 mattes，将会创建2～3个 bitmap。bitmap 在动画加载到 window 时被创建，被 window 删除时回收。所以不宜在 RecyclerView 中使用包涵 mattes 或者 mask 的动画，否则会引起 bitmap 抖动。除了内存抖动，mattes和mask中必要的 bitmap.eraseColor() 和 canvas.drawBitmap() 也会降低动画性能。对于简单的动画，在实际使用时性能不太明显。</li>
+<li>如果在列表中使用动画，推荐使用缓存 <code>LottieAnimationView.setAnimation(String, CacheStrategy)</code> 。</li>
+</ul>
+<h2 id="属性动画和Lottie动画对比"><a href="#属性动画和Lottie动画对比" class="headerlink" title="属性动画和Lottie动画对比"></a>属性动画和Lottie动画对比</h2><p>以下性能对比是以K歌内单个礼物动画效果</p>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>属性动画</th>
+<th>lottie使用硬件加速</th>
+<th>lottie未使用硬件加速</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帧率</td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKqiarh4eITib6uwiatVQaNfVweOw718rVlZvvUpBG95tGNHDoFjGgWIkPg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKq33Z1py8eMsicCMLNu43ric7YQJduoYe7qfgxiamDIbwkaHYW3wmpeibzA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKNkbbUqcKkCyt0DDPMBh3ZH3iadzoNIJvAmTfpyXjx1jNEDQEjuT4ddQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+</tr>
+<tr>
+<td>内存</td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKVk16ibr4mM9UVG7UqQTZQ6mz1Z1ETAzO6zcreiaFlJ7RyXA7o6dkCVAw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKzD5U96LDhGdLOa6JWq9E7CyGHpg1URdW4hPhQpsfv10ibDugFHWcDlw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKpn3XOrnTs65wtF9cH75xBtNGW3mJqg66fZZFOu1yb4XBuSDsXVBoyQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+</tr>
+<tr>
+<td>cpu</td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_png/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKhJd4RiaicroohE8nukwLliaC4ia6iaqRqFzFGGibTNLf258Rt3AnAvibOW6YQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_png/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKaTVzCvZicYKjiay4OmNqj9VDACibWfH1g5FOqT5ibHAfL4Ry1QicNWeApng/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_png/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKaU3hrhxWQYCe3Vd5LrVNURxdmfqgmbzfj2jW1v9frUCGO3r9O1wibLQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+</tr>
+</tbody>
+</table>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Lottie使用简单，易于上手，非常值得尝试。</p>
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><ul>
+<li>开发效率高—代码实现简单，更换动画方便，易于调试和维护。</li>
+<li>数据源多样性—可从assets,sdcard,网络加载动画资源，能做到不发版本，动态更新</li>
+<li>跨平台—设计稿导出一份动画描述文件，android,ios,react native通用</li>
+</ul>
+<h2 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h2><ul>
+<li>性能不够好—某些动画特效，内存和性能不够好；</li>
+<li>相对于属性动画，在展示大动画时，帧率较低</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://www.jianshu.com/p/a37b3e4d9ccd" target="_blank" rel="noopener">Android开发之Lottie动画解析库</a></li>
+<li><a href="https://mp.weixin.qq.com/s/LrkZtDZY3SE8IUQ-x1hsmQ" target="_blank" rel="noopener">Lottie–让动画如此简单</a></li>
+<li><a href="http://airbnb.io/lottie/android/android.html" target="_blank" rel="noopener">Lottie 官网</a></li>
+</ul>
+
+        
+    
+
+    
+</div>
+
+
+                
+
+                <!-- Post Comments -->
+                
+                    
+    <!-- 使用 changyan -->
+<div id="changyan-comment">
+    <!--PC和WAP自适应版-->
+<div id="SOHUCS" sid="2018/05/08/Lottie-详解/"  ></div>
+<script type="text/javascript">
+(function(){
+var appid = 'cytbPTnjI';
+var conf = '96c2d0183701bbf3977fba585925c4ff';
+var width = window.innerWidth || document.documentElement.clientWidth;
+if (width < 960) {
+window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+
+</div>
+<style>
+    #changyan-comment{
+        background-color: #eee;
+        padding: 2pc;
+    }
+</style>
+
+                
+            </div>
+
+            <!-- Post Prev & Next Nav -->
+            <nav class="material-nav mdl-color-text--grey-50 mdl-cell mdl-cell--12-col">
+    <!-- Prev Nav -->
+    
+        <a href="/2018/05/21/Android-动态权限申请/" id="post_nav-newer" class="prev-content">
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_back</i>
+            </button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            新篇
+        </a>
+    
+
+    <!-- Section Spacer -->
+    <div class="section-spacer"></div>
+
+    <!-- Next Nav -->
+    
+        <a href="/2018/05/03/RecyclerView-IndexOutOfBoundsException/" id="post_nav-older" class="next-content">
+            旧篇
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon mdl-color--white mdl-color-text--grey-900" role="presentation">
+                <i class="material-icons">arrow_forward</i>
+            </button>
+        </a>
+    
+</nav>
+
+        </div>
+    </div>
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/landscape.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="http://o797mwhn1.bkt.clouddn.com/avatar.jpg" alt="chang's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        liuchangall@163.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/02/">二月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/01/">一月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/09/">九月 2016<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">八月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">七月 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">六月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">五月 2016<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">13</span></a></li><li><a class="sidebar_archives-link" href="/categories/Java/">Java<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/">Python<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/Django/">Django<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/爬虫/">爬虫<span class="sidebar_archives-count">7</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/爬虫/Scrapy/">Scrapy<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/师太/">师太<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/想说的/">想说的<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/摄影/">摄影<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/数据结构/">数据结构<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/文字/">文字<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/文字/收藏/">收藏<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/生活/">生活<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法/">算法<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/编程思想/">编程思想<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/足球/">足球<span class="sidebar_archives-count">2</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/tags" title="Tags">
+                
+                    <i class="material-icons sidebar-material-icons">label</i>
+                
+                Tags
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="Links">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                Links
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/timeline" title="TimeLine">
+                
+                    <i class="material-icons sidebar-material-icons">timeline</i>
+                
+                TimeLine
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="About">
+                
+                    <i class="material-icons sidebar-material-icons">person</i>
+                
+                About
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">63</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+                        <!-- Footer Top Button -->
+                        <div id="back-to-top" class="toTop-wrap">
+    <a href="#top" class="toTop">
+        <i class="material-icons footer_top-i">expand_less</i>
+    </a>
+</div>
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/Changoall" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+        <a href="http://weibo.com/u/3687003117" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-weibo">
+                <span class="visuallyhidden">Weibo</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/changoal" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+        <a href="https://www.zhihu.com/people/changoal/activities" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-zhihu">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+    
+    <!-- V2EX -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;2016&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>changoal
+            
+                <br>
+                
+                    <a href="http://www.miitbeian.gov.cn" rel="nofollow">鲁ICP备16022276号</a>
+                
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?V/53wGualMuiPM3xoetD5Q==", true)</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+    <!-- Leancloud -->
+    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+    <script>
+        AV.initialize('8ACGf4QUtP5DVmilmIom41J8-gzGzoHsz', 'irfSS6JU7jIiuECsKUump2q8');
+    </script>
+    <script type="text/ls-javascript" id="leancloud-views-script">
+    function showTime(Counter) {
+        var query = new AV.Query(Counter);
+        $('.leancloud-views_num').each(function() {
+            var url = $(this).attr('id').trim();
+            query.equalTo('url', url);
+            query.find({
+                success: function(results) {
+                    if (results.length === 0) {
+                        var content = '0 ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                        return;
+                    }
+                    for (var i = 0; i < results.length; i++) {
+                        var object = results[i];
+                        var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    }
+                },
+                error: function(object, error) {
+                    console.log('Error: ' + error.code + ' ' + error.message);
+                }
+            });
+        });
+    }
+
+    function addCount(Counter) {
+      var Counter = AV.Object.extend('Counter');
+      url = $('.leancloud-views_num').attr('id').trim();
+      title = $('.leancloud-views_num').attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+      query.equalTo('url', url);
+      query.find({
+          success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment('time');
+                counter.save(null, {
+                    success: function(counter) {
+                        var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+              var newcounter = new Counter();
+              newcounter.set('title', title);
+              newcounter.set('url', url);
+              newcounter.set('time', 1);
+              newcounter.save(null, {
+                  success: function(newcounter) {
+                      console.log('newcounter.get(\'time\')='+newcounter.get('time'));
+                      var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+                      $(document.getElementById(url)).text(content);
+                  },
+                  error: function(newcounter, error) {
+                      console.log('Failed to create');
+                  }
+              });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + ' ' + error.message);
+        }
+      });
+    }
+    $(function() {
+        var Counter = AV.Object.extend('Counter');
+        if ($('.leancloud-views_num').length === 1) {
+            addCount(Counter);
+        } else if ($('.post-title-link').length > 1) {
+            showTime(Counter);
+        }
+    });
+</script>
+
+
+
+
+
+
+   <!-- 畅言公共 js 代码 start -->
+<script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cytbPTnjI">
+</script>
+<!-- 畅言公共 js 代码 end -->
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>

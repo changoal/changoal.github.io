@@ -1,0 +1,2776 @@
+<!DOCTYPE html>
+<html style="display: none;" lang="zh">
+    <head>
+    <meta charset="utf-8">
+    <!--
+        © Material Theme
+        https://github.com/viosey/hexo-theme-material
+        Version: 1.5.0 -->
+    <script>
+        window.materialVersion = "1.5.0"
+        // Delete localstorage with these tags
+        window.oldVersion = [
+            'codestartv1',
+            '1.3.4',
+            '1.4.0',
+            '1.4.0b1'
+        ]
+    </script>
+
+    <!-- dns prefetch -->
+    <meta http-equiv="x-dns-prefetch-control" content="on">
+
+
+    <link rel="dns-prefetch" href="https://cdn1.lncld.net"/>
+
+
+
+    <link rel="dns-prefetch" href="https://changyan.sohu.com"/>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Title -->
+    
+    <title>
+        
+            timeline | 
+        
+        changoal
+    </title>
+
+    <!-- Meta & Info -->
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="theme-color" content="#0097A7">
+    <meta name="author" content="chang">
+    <meta name="description" itemprop="description" content="十年之前和现�?">
+    <meta name="keywords" content="十年之前和现在">
+
+    <!-- Import lsloader -->
+    <script>(function(){window.lsloader={jsRunSequence:[],jsnamemap:{},cssnamemap:{}};lsloader.removeLS=function(key){try{localStorage.removeItem(key)}catch(e){}};lsloader.setLS=function(key,val){try{localStorage.setItem(key,val)}catch(e){}};lsloader.getLS=function(key){var val="";try{val=localStorage.getItem(key)}catch(e){val=""}return val};versionString="/*"+(window.materialVersion||"unknownVersion")+"*/";lsloader.clean=function(){try{var keys=[];for(var i=0;i<localStorage.length;i++){keys.push(localStorage.key(i))}keys.forEach(function(key){var data=lsloader.getLS(key);if(window.oldVersion){var remove=window.oldVersion.reduce(function(p,c){return p||data.indexOf("/*"+c+"*/")!==-1},false);if(remove){lsloader.removeLS(key)}}})}catch(e){}};lsloader.clean();lsloader.load=function(jsname,jspath,cssonload,isJs){if(typeof cssonload==="boolean"){isJs=cssonload;cssonload=undefined}isJs=isJs||false;cssonload=cssonload||function(){};var code;code=this.getLS(jsname);if(code&&code.indexOf(versionString)===-1){this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload,isJs);return}if(code){var versionNumber=code.split(versionString)[0];if(versionNumber!=jspath){console.log("reload:"+jspath);this.removeLS(jsname);this.requestResource(jsname,jspath,cssonload,isJs);return}code=code.split(versionString)[1];if(isJs){this.jsRunSequence.push({name:jsname,code:code});this.runjs(jspath,jsname,code)}else{document.getElementById(jsname).appendChild(document.createTextNode(code));cssonload()}}else{this.requestResource(jsname,jspath,cssonload,isJs)}};lsloader.requestResource=function(name,path,cssonload,isJs){var that=this;if(isJs){this.iojs(path,name,function(path,name,code){that.setLS(name,path+versionString+code);that.runjs(path,name,code)})}else{this.iocss(path,name,function(code){document.getElementById(name).appendChild(document.createTextNode(code));that.setLS(name,path+versionString+code)},cssonload)}};lsloader.iojs=function(path,jsname,callback){var that=this;that.jsRunSequence.push({name:jsname,code:""});try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(path,jsname,xhr.response);return}}that.jsfallback(path,jsname)}};xhr.send(null)}catch(e){that.jsfallback(path,jsname)}};lsloader.iocss=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.iofonts=function(path,jsname,callback,cssonload){var that=this;try{var xhr=new XMLHttpRequest;xhr.open("get",path,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){callback(xhr.response);cssonload();return}}that.cssfallback(path,jsname,cssonload)}};xhr.send(null)}catch(e){that.cssfallback(path,jsname,cssonload)}};lsloader.runjs=function(path,name,code){if(!!name&&!!code){for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code=code}}}if(!!this.jsRunSequence[0]&&!!this.jsRunSequence[0].code&&this.jsRunSequence[0].status!="failed"){var script=document.createElement("script");script.appendChild(document.createTextNode(this.jsRunSequence[0].code));script.type="text/javascript";document.getElementsByTagName("head")[0].appendChild(script);this.jsRunSequence.shift();if(this.jsRunSequence.length>0){this.runjs()}}else if(!!this.jsRunSequence[0]&&this.jsRunSequence[0].status=="failed"){var that=this;var script=document.createElement("script");script.src=this.jsRunSequence[0].path;script.type="text/javascript";this.jsRunSequence[0].status="loading";script.onload=function(){that.jsRunSequence.shift();if(that.jsRunSequence.length>0){that.runjs()}};document.body.appendChild(script)}};lsloader.tagLoad=function(path,name){this.jsRunSequence.push({name:name,code:"",path:path,status:"failed"});this.runjs()};lsloader.jsfallback=function(path,name){if(!!this.jsnamemap[name]){return}else{this.jsnamemap[name]=name}for(var k in this.jsRunSequence){if(this.jsRunSequence[k].name==name){this.jsRunSequence[k].code="";this.jsRunSequence[k].status="failed";this.jsRunSequence[k].path=path}}this.runjs()};lsloader.cssfallback=function(path,name,cssonload){if(!!this.cssnamemap[name]){return}else{this.cssnamemap[name]=1}var link=document.createElement("link");link.type="text/css";link.href=path;link.rel="stylesheet";link.onload=link.onerror=cssonload;var root=document.getElementsByTagName("script")[0];root.parentNode.insertBefore(link,root)};lsloader.runInlineScript=function(scriptId,codeId){var code=document.getElementById(codeId).innerText;this.jsRunSequence.push({name:scriptId,code:code});this.runjs()};lsloader.loadCombo=function(jslist){var updateList="";var requestingModules={};for(var k in jslist){var LS=this.getLS(jslist[k].name);if(!!LS){var version=LS.split(versionString)[0];var code=LS.split(versionString)[1]}else{var version=""}if(version==jslist[k].path){this.jsRunSequence.push({name:jslist[k].name,code:code,path:jslist[k].path})}else{this.jsRunSequence.push({name:jslist[k].name,code:null,path:jslist[k].path,status:"comboloading"});requestingModules[jslist[k].name]=true;updateList+=(updateList==""?"":";")+jslist[k].path}}var that=this;if(!!updateList){var xhr=new XMLHttpRequest;xhr.open("get",combo+updateList,true);xhr.onreadystatechange=function(){if(xhr.readyState==4){if(xhr.status>=200&&xhr.status<300||xhr.status==304){if(xhr.response!=""){that.runCombo(xhr.response,requestingModules);return}}else{for(var i in that.jsRunSequence){if(requestingModules[that.jsRunSequence[i].name]){that.jsRunSequence[i].status="failed"}}that.runjs()}}};xhr.send(null)}this.runjs()};lsloader.runCombo=function(comboCode,requestingModules){comboCode=comboCode.split("/*combojs*/");comboCode.shift();for(var k in this.jsRunSequence){if(!!requestingModules[this.jsRunSequence[k].name]&&!!comboCode[0]){this.jsRunSequence[k].status="comboJS";this.jsRunSequence[k].code=comboCode[0];this.setLS(this.jsRunSequence[k].name,this.jsRunSequence[k].path+versionString+comboCode[0]);comboCode.shift()}}this.runjs()}})();</script>
+
+    <!-- Import queue -->
+    <script>function Queue(){this.dataStore=[];this.offer=b;this.poll=d;this.execNext=a;this.debug=false;this.startDebug=c;function b(e){if(this.debug){console.log("Offered a Queued Function.")}if(typeof e==="function"){this.dataStore.push(e)}else{console.log("You must offer a function.")}}function d(){if(this.debug){console.log("Polled a Queued Function.")}return this.dataStore.shift()}function a(){var e=this.poll();if(e!==undefined){if(this.debug){console.log("Run a Queued Function.")}e()}}function c(){this.debug=true}}var queue=new Queue();</script>
+
+    <!-- Favicons -->
+    <link rel="icon shortcut" type="image/ico" href="/img/avatar_round.png">
+    <link rel="icon" sizes="192x192" href="/img/avatar_round.png">
+    <link rel="apple-touch-icon" href="/img/avatar.jpg">
+
+    <!--iOS -->
+    <meta name="apple-mobile-web-app-title" content="Title">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="480">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="changoal">
+
+    <!-- Site Verification -->
+    
+    
+
+    <!-- RSS -->
+    
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="/css/ie-blocker.css">
+
+        
+            <script src="/js/ie-blocker.zhCN.js"></script>
+        
+    <![endif]-->
+
+    <!-- Import CSS -->
+    
+        <style id="material_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("material_css","/css/material.min.css?Z7a72R1E4SxzBKR/WGctOA==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+        <style id="style_css"></style><script>if(typeof window.lsLoadCSSMaxNums === "undefined")window.lsLoadCSSMaxNums = 0;window.lsLoadCSSMaxNums++;lsloader.load("style_css","/css/style.min.css?MKetZV3cUTfDxvMffaOezg==",function(){if(typeof window.lsLoadCSSNums === "undefined")window.lsLoadCSSNums = 0;window.lsLoadCSSNums++;if(window.lsLoadCSSNums == window.lsLoadCSSMaxNums)document.documentElement.style.display="";}, false)</script>
+
+        
+
+    
+
+    
+
+    <!-- Config CSS -->
+
+<!-- Other Styles -->
+<style>
+  body, html {
+    font-family: Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    overflow-x: hidden !important;
+  }
+  
+  code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  a {
+    color: #00838F;
+  }
+
+  .mdl-card__media,
+  #search-label,
+  #search-form-label:after,
+  #scheme-Paradox .hot_tags-count,
+  #scheme-Paradox .sidebar_archives-count,
+  #scheme-Paradox .sidebar-colored .sidebar-header,
+  #scheme-Paradox .sidebar-colored .sidebar-badge{
+    background-color: #0097A7 !important;
+  }
+
+  /* Sidebar User Drop Down Menu Text Color */
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:hover,
+  #scheme-Paradox .sidebar-colored .sidebar-nav>.dropdown>.dropdown-menu>li>a:focus {
+    color: #0097A7 !important;
+  }
+
+  #post_entry-right-info,
+  .sidebar-colored .sidebar-nav li:hover > a,
+  .sidebar-colored .sidebar-nav li:hover > a i,
+  .sidebar-colored .sidebar-nav li > a:hover,
+  .sidebar-colored .sidebar-nav li > a:hover i,
+  .sidebar-colored .sidebar-nav li > a:focus i,
+  .sidebar-colored .sidebar-nav > .open > a,
+  .sidebar-colored .sidebar-nav > .open > a:hover,
+  .sidebar-colored .sidebar-nav > .open > a:focus,
+  #ds-reset #ds-ctx .ds-ctx-entry .ds-ctx-head a {
+    color: #0097A7 !important;
+  }
+
+  .toTop {
+    background: #757575 !important;
+  }
+
+  .material-layout .material-post>.material-nav,
+  .material-layout .material-index>.material-nav,
+  .material-nav a {
+    color: #757575;
+  }
+
+  #scheme-Paradox .MD-burger-layer {
+    background-color: #757575;
+  }
+
+  #scheme-Paradox #post-toc-trigger-btn {
+    color: #757575;
+  }
+
+  .post-toc a:hover {
+    color: #00838F;
+    text-decoration: underline;
+  }
+
+</style>
+
+
+<!-- Theme Background Related-->
+
+    <style>
+      body{
+        background-color: #e9ebec;
+      }
+
+      /* blog_info bottom background */
+      #scheme-Paradox .material-layout .something-else .mdl-card__supporting-text{
+        background-color: #fff;
+      }
+    </style>
+
+
+
+
+<!-- Fade Effect -->
+
+    <style>
+      .fade {
+        transition: all 800ms linear;
+        -webkit-transform: translate3d(0,0,0);
+        -moz-transform: translate3d(0,0,0);
+        -ms-transform: translate3d(0,0,0);
+        -o-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+        opacity: 1;
+      }
+
+      .fade.out{
+        opacity: 0;
+      }
+    </style>
+
+
+<!-- Import Font -->
+<!-- Import Roboto -->
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+
+
+<!-- Import Material Icon -->
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
+
+    <!-- Import jQuery -->
+    
+        <script>lsloader.load("jq_js","/js/jquery.min.js?qcusAULNeBksqffqUM2+Ig==", true)</script>
+    
+
+    <!-- The Open Graph protocol -->
+    <meta property="og:url" content="http://yoursite.com">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="timeline | changoal">
+    <meta property="og:image" content="http://yoursite.com/img/avatar_round.png" />
+    <meta property="og:description" content="十年之前和现�?">
+    
+
+    
+
+    <!-- The Twitter Card protocol -->
+    <meta name="twitter:title" content="timeline | changoal">
+    <meta name="twitter:description" content="十年之前和现�?">
+    <meta name="twitter:image" content="http://yoursite.com/img/avatar_round.png">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="http://yoursite.com" />
+
+    <!-- Add canonical link for SEO -->
+    
+        <link rel="canonical" href="http://yoursite.com/timeline/index.html" />
+    
+
+    <!-- Structured-data for SEO -->
+    
+        
+
+
+
+    
+
+    <!-- Analytics -->
+    
+        <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-105599788-1', 'auto');ga('send', 'pageview');
+</script>
+    
+    
+    
+        <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1263984656&web_id=1263984656" language="JavaScript"></script>
+</div>
+    
+
+    <!-- Custom Head -->
+    
+
+</head>
+
+
+    
+        <body id="scheme-Paradox" class="lazy">
+            <div class="material-layout  mdl-js-layout has-drawer is-upgraded">
+                
+
+                <!-- Main Container -->
+                <main class="material-layout__content" id="main">
+
+                    <!-- Top Anchor -->
+                    <div id="top"></div>
+
+                    
+                        <!-- Hamburger Button -->
+                        <button class="MD-burger-icon sidebar-toggle">
+                            <span class="MD-burger-layer"></span>
+                        </button>
+                    
+
+                    <!-- Post TOC -->
+
+
+<!-- Layouts -->
+
+    <!-- Single Timeline Page -->
+    <style>
+	.md-container {
+		width: 90%;
+		max-width: 1170px;
+		margin: 0 auto;
+	}
+	.md-container::after {
+		content: '';
+		display: table;
+		clear: both;
+	}
+	#md-timeline {
+		position: relative;
+		padding: 2em 0;
+		margin-top: 2em;
+		margin-bottom: 2em;
+	}
+	@media screen and (max-device-width:480px){
+		#md-timeline {
+			margin-top: 6em;
+		}
+	}
+	#md-timeline::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 18px;
+		height: 100%;
+		width: 2px;
+		background: #d7e4ed;
+	}
+	.md-timeline-title {
+		font-size: 20px;
+		line-height: 24px;
+	}
+	.md-timeline-content a {
+		text-decoration: none;
+	}
+	.md-timeline-info {
+		height: 20px;
+		width: 100%;
+		margin: 10px 0px;
+	}
+	.md-timeline-info-span {
+		float: right;
+		margin-right: 10px;
+		text-align: right;
+	}
+	.md-timeline-excerpt {
+	    	clear: right; 
+	}
+	@media only screen and (min-width: 1170px) {
+		#md-timeline {
+			margin-top: 3em;
+			margin-bottom: 3em;
+		}
+		#md-timeline::before {
+			left: 50%;
+			margin-left: -2px;
+		}
+	}
+	.md-timeline-block {
+		position: relative;
+		margin: 2em 0;
+	}
+	.md-timeline-block:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+	.md-timeline-block:first-child {
+		margin-top: 0;
+	}
+	.md-timeline-block:last-child {
+		margin-bottom: 0;
+	}
+	@media only screen and (min-width: 1170px) {
+		.md-timeline-block {
+			margin: 4em 0;
+		}
+		.md-timeline-block:first-child {
+			margin-top: 0;
+		}
+		.md-timeline-block:last-child {
+			margin-bottom: 0;
+		}
+	}
+	.md-timeline-date {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 60px;
+		height: 40px;
+		border-radius: box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
+	}
+	.md-timeline-date.blue {
+		background: #0D395F;
+		-webkit-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+		-moz-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+		box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+	}
+	@media only screen and (min-width: 1170px) {
+		.md-timeline-date {
+			width: 60px;
+			height: 60px;
+			left: 50%;
+			margin-left: -30px;
+			/* Force Hardware Acceleration in WebKit */
+			-webkit-transform: translateZ(0);
+			-webkit-backface-visibility: hidden;
+		}
+		.cssanimations .md-timeline-date.is-hidden {
+			visibility: hidden;
+		}
+		.cssanimations .md-timeline-date.bounce-in {
+			visibility: visible;
+			-webkit-animation: md-bounce-1 0.6s;
+			-moz-animation: md-bounce-1 0.6s;
+			animation: md-bounce-1 0.6s;
+		}
+	}
+	@-webkit-keyframes md-bounce-1 {
+		0% {
+			opacity: 0;
+			-webkit-transform: scale(0.5);
+		}
+		60% {
+			opacity: 1;
+			-webkit-transform: scale(1.2);
+		}
+		100% {
+			-webkit-transform: scale(1);
+		}
+	}
+	@-moz-keyframes md-bounce-1 {
+		0% {
+			opacity: 0;
+			-moz-transform: scale(0.5);
+		}
+		60% {
+			opacity: 1;
+			-moz-transform: scale(1.2);
+		}
+		100% {
+			-moz-transform: scale(1);
+		}
+	}
+	@keyframes md-bounce-1 {
+		0% {
+			opacity: 0;
+			-webkit-transform: scale(0.5);
+			-moz-transform: scale(0.5);
+			-ms-transform: scale(0.5);
+			-o-transform: scale(0.5);
+			transform: scale(0.5);
+		}
+		60% {
+			opacity: 1;
+			-webkit-transform: scale(1.2);
+			-moz-transform: scale(1.2);
+			-ms-transform: scale(1.2);
+			-o-transform: scale(1.2);
+			transform: scale(1.2);
+		}
+		100% {
+			-webkit-transform: scale(1);
+			-moz-transform: scale(1);
+			-ms-transform: scale(1);
+			-o-transform: scale(1);
+			transform: scale(1);
+		}
+	}
+	.md-timeline-content {
+		position: relative;
+		margin-left: 60px;
+		background: white;
+		padding: 1em;
+		-webkit-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+		-moz-box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+		box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.75);
+	}
+	.md-timeline-content:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+	.md-timeline-content h2 {
+		color: #303e49;
+	}
+	.md-timeline-content p, .md-timeline-content .md-read-more, .md-timeline-content .md-date {
+		font-size: 13px;
+		font-size: 0.8125rem;
+	}
+	.md-timeline-content .md-read-more, .md-timeline-content .md-date {
+		display: inline-block;
+	}
+	.md-timeline-content p {
+		margin: 1em 0;
+		line-height: 1.6;
+	}
+	.md-timeline-content .md-read-more {
+		float: right;
+		padding: .8em 1em;
+		background: #acb7c0;
+		color: white;
+		border-radius: 0.25em;
+	}
+	.md-date {
+		color: white;
+		text-align: center;
+	}
+	.no-touch .md-timeline-content .md-read-more:hover {
+		background-color: #bac4cb;
+	}
+	.md-timeline-content::before {
+		content: '';
+		position: absolute;
+		top: 16px;
+		right: 100%;
+		height: 0;
+		width: 0;
+		border: 7px solid transparent;
+		border-right: 7px solid white;
+	}
+	@media only screen and (min-width: 768px) {
+		.md-timeline-content h2 {
+			font-size: 20px;
+			font-size: 1.25rem;
+		}
+		.md-timeline-content p {
+			font-size: 16px;
+			font-size: 1rem;
+		}
+		.md-timeline-content .md-read-more {
+			font-size: 14px;
+			font-size: 0.875rem;
+		}
+	}
+	@media only screen and (min-width: 1170px) {
+		.md-date {
+			text-align: center;
+			margin-top: 10px;
+			line-height: 20px;
+		}
+		.md-timeline-content {
+			margin-left: 0;
+			padding: 1.6em;
+			width: 45%;
+		}
+		.md-timeline-content::before {
+			top: 24px;
+			left: 100%;
+			border-color: transparent;
+			border-left-color: white;
+		}
+		.md-timeline-content .md-read-more {
+			float: left;
+		}
+		.md-timeline-block:nth-child(even) .md-timeline-content {
+			float: right;
+		}
+		.md-timeline-block:nth-child(even) .md-timeline-content::before {
+			top: 24px;
+			left: auto;
+			right: 100%;
+			border-color: transparent;
+			border-right-color: white;
+		}
+		.md-timeline-block:nth-child(even) .md-timeline-content .md-read-more {
+			float: right;
+		}
+		.cssanimations .md-timeline-content.is-hidden {
+			visibility: hidden;
+		}
+		.cssanimations .md-timeline-content.bounce-in {
+			visibility: visible;
+			-webkit-animation: md-bounce-2 0.6s;
+			-moz-animation: md-bounce-2 0.6s;
+			animation: md-bounce-2 0.6s;
+		}
+	}
+	@media only screen and (min-width: 1170px) {
+		/* inverse bounce effect on even content blocks */
+		.cssanimations .md-timeline-block:nth-child(even) .md-timeline-content.bounce-in {
+			-webkit-animation: md-bounce-2-inverse 0.6s;
+			-moz-animation: md-bounce-2-inverse 0.6s;
+			animation: md-bounce-2-inverse 0.6s;
+		}
+	}
+	@-webkit-keyframes md-bounce-2 {
+		0% {
+			opacity: 0;
+			-webkit-transform: translateX(-100px);
+		}
+		60% {
+			opacity: 1;
+			-webkit-transform: translateX(20px);
+		}
+		100% {
+			-webkit-transform: translateX(0);
+		}
+	}
+	@-moz-keyframes md-bounce-2 {
+		0% {
+			opacity: 0;
+			-moz-transform: translateX(-100px);
+		}
+		60% {
+			opacity: 1;
+			-moz-transform: translateX(20px);
+		}
+		100% {
+			-moz-transform: translateX(0);
+		}
+	}
+	@keyframes md-bounce-2 {
+		0% {
+			opacity: 0;
+			-webkit-transform: translateX(-100px);
+			-moz-transform: translateX(-100px);
+			-ms-transform: translateX(-100px);
+			-o-transform: translateX(-100px);
+			transform: translateX(-100px);
+		}
+		60% {
+			opacity: 1;
+			-webkit-transform: translateX(20px);
+			-moz-transform: translateX(20px);
+			-ms-transform: translateX(20px);
+			-o-transform: translateX(20px);
+			transform: translateX(20px);
+		}
+		100% {
+			-webkit-transform: translateX(0);
+			-moz-transform: translateX(0);
+			-ms-transform: translateX(0);
+			-o-transform: translateX(0);
+			transform: translateX(0);
+		}
+	}
+	@-webkit-keyframes md-bounce-2-inverse {
+		0% {
+			opacity: 0;
+			-webkit-transform: translateX(100px);
+		}
+		60% {
+			opacity: 1;
+			-webkit-transform: translateX(-20px);
+		}
+		100% {
+			-webkit-transform: translateX(0);
+		}
+	}
+	@-moz-keyframes md-bounce-2-inverse {
+		0% {
+			opacity: 0;
+			-moz-transform: translateX(100px);
+		}
+		60% {
+			opacity: 1;
+			-moz-transform: translateX(-20px);
+		}
+		100% {
+			-moz-transform: translateX(0);
+		}
+	}
+	@keyframes md-bounce-2-inverse {
+		0% {
+			opacity: 0;
+			-webkit-transform: translateX(100px);
+			-moz-transform: translateX(100px);
+			-ms-transform: translateX(100px);
+			-o-transform: translateX(100px);
+			transform: translateX(100px);
+		}
+		60% {
+			opacity: 1;
+			-webkit-transform: translateX(-20px);
+			-moz-transform: translateX(-20px);
+			-ms-transform: translateX(-20px);
+			-o-transform: translateX(-20px);
+			transform: translateX(-20px);
+		}
+		100% {
+			-webkit-transform: translateX(0);
+			-moz-transform: translateX(0);
+			-ms-transform: translateX(0);
+			-o-transform: translateX(0);
+			transform: translateX(0);
+		}
+	}
+</style>
+
+<section id="md-timeline" class="md-container">
+   	   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 21 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/05/21/Android-动态权限申请/">Android 动态权限申请</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/动态权限申请/">动态权限申请</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							简介
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 08 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/05/08/Lottie-详解/">Lottie 详解</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/Lottie/">Lottie</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							简介Lottie 是 Airbnb 开源的一个面向 iOS...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 03 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/05/03/RecyclerView-IndexOutOfBoundsException/">RecyclerView IndexOutOfBoundsException</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/RecyclerView/">RecyclerView</a>, <a class="tag-link" href="/tags/bug/">bug</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							前言最近使用 RecyclerView 的 n...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">4月 26 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/04/26/可是过往便是过往/">可是过往便是过往</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/文字/">文字</a>, <a class="category-link" href="/categories/文字/收藏/">收藏</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/收藏/">收藏</a>, <a class="tag-link" href="/tags/文字/">文字</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							我终究还是要走的，纵然我可以舍得，纵然我舍不得。
+我的记忆里，有这里的时光，有这里风吹过的声音，有许许多多人的笑脸和哭泣，那我对于这段         时光而言，又算什么呢。...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">4月 26 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/04/26/Glide-源码解析-一/">Glide 源码解析 一</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							前言在众多的图片加载框架中，Glide 是 Google ...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">3月 30 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/03/30/收藏/">收藏</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							View
+
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">3月 30 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/03/30/Java初始化顺序/">Java初始化顺序</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Java/">Java</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Java/">Java</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">3月 30 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/03/30/函数式编程/">函数式编程</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/编程思想/">编程思想</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/编程思想/">编程思想</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							函数式编程
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">3月 30 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/03/30/AIDL/">AIDL</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/Android开发艺术探索/">Android开发艺术探索</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							Book.java
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">3月 30 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/03/30/Android-性能优化/">Android 性能优化</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/Android开发艺术探索/">Android开发艺术探索</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							布局优化
+删除布局中无用的控件和层级...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">2月 26 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/02/26/Android-View事件分发/">Android View事件分发</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							前段时间看了《Android开发艺术探索》，关于 Android 事件分发，写了一些笔记。事件分发机制的伪代码。
+
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">2月 26 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/02/26/CrashHandler/">CrashHandler</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							源码
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">2月 26 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/02/26/RxJava详解/">RxJava详解</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							RxJava
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">1月 15 2018</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2018/01/15/Hala-2018/">Hala 2018</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/杂/">杂</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+刚看了眼积...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">12月 17 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/12/17/知乎用户基本分析/">知乎用户基本分析</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Python/">Python</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							知乎用户统计昨天爬取了知乎大v “...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 29 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/09/29/Android-百度地图仿饿了么地图定位/">Android 百度地图仿饿了么地图定位</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							今天遇到了一个需求，就是在用户选择地理位置的时候，现在地图上选择一个位置，然后再手动输入具体门牌号信息。和饿了么类似。
+想法是 在屏幕中间放一个 ImageView 固定，然...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 28 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/09/28/Scrapy-Spiders/">Scrapy Spiders</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/爬虫/">爬虫</a>, <a class="category-link" href="/categories/Python/爬虫/Scrapy/">Scrapy</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/Scrapy/">Scrapy</a>, <a class="tag-link" href="/tags/爬虫/">爬虫</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							SpidersSpider ...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 27 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/09/27/Scrapy命令行/">Scrapy命令行</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/爬虫/">爬虫</a>, <a class="category-link" href="/categories/Python/爬虫/Scrapy/">Scrapy</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/Scrapy/">Scrapy</a>, <a class="tag-link" href="/tags/爬虫/">爬虫</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							新建项目scrapy startp...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 21 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/09/21/Recyclerview加载更多/">Recyclerview加载更多</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							布局文件1
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 21 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/09/21/用-viewpager-创建欢迎页轮播图/">用 viewpager 创建欢迎页轮播图</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 18 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/09/18/四年之久/">四年之久</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/师太/">师太</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/师太/">师太</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+2...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 02 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/09/02/Scrapy-入门/">Scrapy 入门</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/爬虫/">爬虫</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/爬虫/">爬虫</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							scrapy 介绍
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 02 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/09/02/妹子图爬虫第四弹/">妹子图爬虫第四弹</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/爬虫/">爬虫</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/爬虫/">爬虫</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							多线程多进程爬虫之前我...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">8月 29 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/08/29/妹子图爬虫第三弹/">妹子图爬虫第三弹</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/爬虫/">爬虫</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/爬虫/">爬虫</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							前面两篇的教程教大家写了一个基础的爬虫程序，但是有问题啊，每次开始时都要重新下载，很难受。所以我们要解决这个问题，关键点在于要把我们爬过的页面记录下来，避免重复。在这里，原文作者使用 
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">8月 28 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/08/28/妹子图爬虫第二弹/">妹子图爬虫第二弹</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/爬虫/">爬虫</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/爬虫/">爬虫</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							上一篇文章中教大家去爬取妹子图，但是会出现很多问题，比如爬着爬着发现一直在报错，重新再来的话又得从第一张图开始下，太麻烦。通常是因为网站的反爬虫策略起了作用。
+一般反爬虫策略...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">8月 28 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/08/28/妹子图爬虫第一弹/">妹子图爬虫第一弹</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/爬虫/">爬虫</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Python/">Python</a>, <a class="tag-link" href="/tags/爬虫/">爬虫</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							本教程是根据 小白爬虫第一...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">8月 24 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/08/24/电影推荐/">电影推荐</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/杂/">杂</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							大学时看了不少电影。在这里给大家推荐一下个人特别喜欢的吧。
+先说几部对自己影响特别大的电影吧。在我心里都是神作
+
+
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">8月 24 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/08/24/Android-ListView无数据时显示其他View/">Android ListView无数据时显示其他View</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							大家都遇到过这样的情况，当 ListView 中的数据为空时，需要显示一个 “没有数据” 的 View 。想过一些办法，比如 FrameLayout 来 包含 ListView 和 数据为...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">8月 15 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/08/15/Android与JS交互/">Android与JS交互</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							最近的项目里用到了混合开发，需要进行 Android 与 JS 的交互，就了解了一下相关知识。
+
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 28 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/07/28/Android面试题集/">Android面试题集</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>, <a class="tag-link" href="/tags/面试/">面试</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							在这里记录一下面试中遇到的问题，慢慢更新。
+数据...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 18 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/07/18/数据结构基础/">数据结构基础</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/数据结构/">数据结构</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/数据结构/">数据结构</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							本文将介绍常用的数据结构。慢慢完善。
+栈先进后出
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 18 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/07/18/java四大排序/">java四大排序</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/算法/">算法</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/排序/">排序</a>, <a class="tag-link" href="/tags/数据结构/">数据结构</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							慢慢把数据结构和算法补起来吧。。
+选择排序
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 16 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/07/16/R-I-P/">R.I.P</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/想说的/">想说的</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/想说的/">想说的</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 13 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/07/13/Handler源码解析/">Handler源码解析</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							因为 Android 只允许在主线程中更新 UI ，所以每个 Android 开发者都会使用到 Handler ，最近面试也一直在问这个问题。先说一下我自己的理解吧
+
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 13 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/07/13/LruCache-解析/">LruCache 解析</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Android/">Android</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							LRU 全称为 Least Recently Used 即最近最少使用，是一种缓存置换算法。淘汰最长时间未使用的对象。下面是 LruCache 的结构。
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 04 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/07/04/Android图片三级缓存/">Android图片三级缓存</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							三级缓存来减少不必要的网络请求，节省流量。
+
+内存缓存，优先加载，速度最快
+本地缓存，次要加载，速度快
+网络缓存，最后加载，速度...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 03 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/07/03/修改Activity进入和退出动画/">修改Activity进入和退出动画</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">6月 24 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/06/24/毕业快乐/">毕业快乐</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/想说的/">想说的</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							直到今天送儿子吃完饭坐上6路后，才真的体会到了离别的气氛。
+这一个月天天过着吃完睡睡完吃的日子。大家都在虚度这最后的时光，没人说毕业，没人说要离开，大家都在麻痹自己，试图让自...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">6月 04 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/06/04/Django表单/">Django表单</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/Django/">Django</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Django/">Django</a>, <a class="tag-link" href="/tags/Python/">Python</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							Http请求
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">6月 04 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/06/04/Django模型/">Django模型</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/Django/">Django</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Django/">Django</a>, <a class="tag-link" href="/tags/Python/">Python</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							Django 对各种数据库提供了很好的支持，包括：PostgreSQL、MySQL、SQLite、Oracle。Django 为这些数据库提供了统一的调用API。 我们可以根据自己...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">6月 04 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/06/04/Django模板/">Django模板</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/Python/">Python</a>, <a class="category-link" href="/categories/Python/Django/">Django</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Django/">Django</a>, <a class="tag-link" href="/tags/Python/">Python</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							模板应用实例在上文创建的 Hell...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">6月 04 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/06/04/Django入门/">Django入门</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Django/">Django</a>, <a class="tag-link" href="/tags/Python/">Python</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							1.Django安装
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 16 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/05/16/天亮了/">天亮了</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/想说的/">想说的</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							2016.7.25-2017.5.16
+终于结束了，这地狱一般的生活，如释重负。终于不用天天提心吊胆，终于不用一直看着别人的脸色办事。至少是暂时不用。
+对北京没...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">4月 30 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/04/30/AS导入jni项目/">AS导入jni项目</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							最近遇到了一个问题，老板让看关于android直播推流方面的资料，因为觉得像百度云，腾讯云等的封装的太厉害，所以打算自己做推流的部分。在网上看到了雷霄骅大神的博客，就把他做的dem...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">4月 30 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/04/30/AS导出so文件/">AS导出so文件</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/Android/">Android</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							1.新建java类Test.java，在类中声明一个native方法
+
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">4月 30 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/04/30/Linux安装jdk/">Linux安装jdk</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/linux/">linux</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							1.下载合适的
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">2月 25 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/02/25/小雪/">小雪</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/北漂/">北漂</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">1月 28 2017</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2017/01/28/鸡年大吉吧/">鸡年大吉吧</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/想说的/">想说的</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+已经三个月没写博客了，也...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">10月 24 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/10/24/好好活着总会有好事发生/">好好活着总会有好事发生</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/想说的/">想说的</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/杂/">杂</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 26 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/09/26/60day/">60day</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 16 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/09/16/八月十五记/">八月十五记</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/北漂/">北漂</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 16 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/09/16/要笑啊/">你的眼里有光</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/师太/">师太</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+反正已经都这样了，还能怎么办（︶︿︶），还不如笑...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">9月 08 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/09/08/鲜衣怒马少年时/">鲜衣怒马少年时</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/想说的/">想说的</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">8月 22 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/08/22/此间/">此间</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/生活/">生活</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/想说的/">想说的</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							来北京一个月了，果然很快啊，这样算的话，这段注定是不堪回首的日子已经过去四分之一了。
+这一个月还好吧，经历了不少，现在也算是一半身在社会中了，还是学校好啊，真的体会到了。
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 22 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/07/22/走了/">走了</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/想说的/">想说的</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							三年三年又三年，又到了离开的时候，或许可以说我的学生生涯已经结束了~
+三年前，当我和爸妈还有妹妹下了10路，看到山科这么气派的南门的时候，有一种土包子进城的感觉。当时觉得山科...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 13 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/07/13/师太/">师太</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/师太/">师太</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">7月 11 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/07/11/十二年一轮回/">十二年一轮回</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/足球/">足球</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/足球/">足球</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">6月 06 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/06/06/changvision/">changvision</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/摄影/">摄影</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/摄影/">摄影</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 28 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/05/28/足球/">足球</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/足球/">足球</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/足球/">足球</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 23 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/05/23/目标啊/">目标啊</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/想说的/">想说的</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/生活/">生活</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 17 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/05/17/5-17/">5.17</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/推荐/">推荐</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							网站推荐几个好用的软件和网站吧
+第一个肯定是...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 16 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/05/16/嗯/">嗯</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							<a class="category-link" href="/categories/生活/">生活</a>
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							<a class="tag-link" href="/tags/想说的/">想说的</a>
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							原来一直都想着弄个博客，开始是因为不会搭建，后来是因为没时间。
+期间也用过 lofter，csdn 什么的，但这些都是现成的，用起来没什么感觉，
+今天终于搞出来...
+						...
+					</p>
+                    		</div>
+			</div>	
+   		
+			<div class="md-timeline-block">
+                		<div class="md-timeline-date blue">
+                   			<div class="md-date">5月 16 2016</div>
+                		</div>
+
+                		<div class="md-timeline-content">
+                    			<div class="md-timeline-title"><a href="/2016/05/16/First/">First</a></div>
+					<div class="md-timeline-info">
+						<span class="md-timeline-info-span">Categories:
+							
+						</span>
+						<span class="md-timeline-info-span">Tags:
+							
+						</span>
+						
+					</div>
+					<p class="md-timeline-excerpt">
+						
+							
+幸得识卿桃花面，自此阡陌多暖春。
+
+希望这是一个好的开始，
+更希望会有一个好的结果。
+
+						...
+					</p>
+                    		</div>
+			</div>	
+   			   	  		
+   	</section>
+
+<script type="text/ls-javascript" id="page-timeline-script">
+    var adjustFooter = function() {
+        if( ($('#bottom').offset().top + $('#bottom').outerHeight() )<$(window).height() ) {
+            var footerBottom = $(window).height() - $('#bottom').outerHeight() - $('#bottom').offset().top;
+            $('#bottom').css('bottom', '-' + footerBottom + 'px');
+        }
+    };
+    $(document).ready(function() {
+        adjustFooter();
+    });
+</script>
+
+
+
+
+
+                    
+                        <!-- Overlay For Active Sidebar -->
+<div class="sidebar-overlay"></div>
+
+<!-- Material sidebar -->
+<aside id="sidebar" class="sidebar sidebar-colored sidebar-fixed-left" role="navigation">
+    <div id="sidebar-main">
+        <!-- Sidebar Header -->
+        <div class="sidebar-header header-cover" style="background-image: url(/img/landscape.jpg);">
+    <!-- Top bar -->
+    <div class="top-bar"></div>
+
+    <!-- Sidebar toggle button -->
+    <button type="button" class="sidebar-toggle mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" style="display: initial;" data-upgraded=",MaterialButton,MaterialRipple">
+        <i class="material-icons">clear_all</i>
+        <span class="mdl-button__ripple-container">
+            <span class="mdl-ripple">
+            </span>
+        </span>
+    </button>
+
+    <!-- Sidebar Avatar -->
+    <div class="sidebar-image">
+        <img src="http://o797mwhn1.bkt.clouddn.com/avatar.jpg" alt="chang's avatar">
+    </div>
+
+    <!-- Sidebar Email -->
+    <a data-toggle="dropdown" class="sidebar-brand" href="#settings-dropdown">
+        liuchangall@163.com
+        <b class="caret"></b>
+    </a>
+</div>
+
+
+        <!-- Sidebar Navigation  -->
+        <ul class="nav sidebar-nav">
+    <!-- User dropdown  -->
+    <li class="dropdown">
+        <ul id="settings-dropdown" class="dropdown-menu">
+            
+                <li>
+                    <a href="" target="_blank" title="Email Me">
+                        
+                            <i class="material-icons sidebar-material-icons sidebar-indent-left1pc-element">email</i>
+                        
+                        Email Me
+                    </a>
+                </li>
+            
+        </ul>
+    </li>
+
+    <!-- Homepage -->
+    
+        <li id="sidebar-first-li">
+            <a href="/">
+                
+                    <i class="material-icons sidebar-material-icons">home</i>
+                
+                主页
+            </a>
+        </li>
+        
+    
+
+    <!-- Archives  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">inbox</i>
+                
+                    归档
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+            <li>
+                <a class="sidebar_archives-link" href="/archives/2018/05/">五月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/04/">四月 2018<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/03/">三月 2018<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/02/">二月 2018<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2018/01/">一月 2018<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/12/">十二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/09/">九月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/08/">八月 2017<span class="sidebar_archives-count">6</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/07/">七月 2017<span class="sidebar_archives-count">8</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/06/">六月 2017<span class="sidebar_archives-count">5</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/05/">五月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/04/">四月 2017<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/02/">二月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2017/01/">一月 2017<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/10/">十月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/09/">九月 2016<span class="sidebar_archives-count">4</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/08/">八月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/07/">七月 2016<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/06/">六月 2016<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/archives/2016/05/">五月 2016<span class="sidebar_archives-count">5</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Categories  -->
+    
+        <li class="dropdown">
+            <a href="#" class="ripple-effect dropdown-toggle" data-toggle="dropdown">
+                
+                    <i class="material-icons sidebar-material-icons">chrome_reader_mode</i>
+                
+                分类
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                <a class="sidebar_archives-link" href="/categories/Android/">Android<span class="sidebar_archives-count">13</span></a></li><li><a class="sidebar_archives-link" href="/categories/Java/">Java<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/">Python<span class="sidebar_archives-count">10</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/Django/">Django<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/爬虫/">爬虫<span class="sidebar_archives-count">7</span></a></li><li><a class="sidebar_archives-link" href="/categories/Python/爬虫/Scrapy/">Scrapy<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/师太/">师太<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/想说的/">想说的<span class="sidebar_archives-count">3</span></a></li><li><a class="sidebar_archives-link" href="/categories/摄影/">摄影<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/数据结构/">数据结构<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/文字/">文字<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/文字/收藏/">收藏<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/生活/">生活<span class="sidebar_archives-count">2</span></a></li><li><a class="sidebar_archives-link" href="/categories/算法/">算法<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/编程思想/">编程思想<span class="sidebar_archives-count">1</span></a></li><li><a class="sidebar_archives-link" href="/categories/足球/">足球<span class="sidebar_archives-count">2</span></a>
+            </ul>
+        </li>
+        
+    
+
+    <!-- Pages  -->
+    
+        <li>
+            <a href="/tags" title="Tags">
+                
+                    <i class="material-icons sidebar-material-icons">label</i>
+                
+                Tags
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/links" title="Links">
+                
+                    <i class="material-icons sidebar-material-icons">link</i>
+                
+                Links
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/timeline" title="TimeLine">
+                
+                    <i class="material-icons sidebar-material-icons">timeline</i>
+                
+                TimeLine
+            </a>
+        </li>
+        
+    
+        <li>
+            <a href="/about" title="About">
+                
+                    <i class="material-icons sidebar-material-icons">person</i>
+                
+                About
+            </a>
+        </li>
+        
+    
+
+    <!-- Article Number  -->
+    
+        <li>
+            <a href="/archives">
+                文章总数
+                <span class="sidebar-badge">63</span>
+            </a>
+        </li>
+        
+    
+</ul>
+
+
+        <!-- Sidebar Footer -->
+        <!--
+I'm glad you use this theme, the development is no so easy, I hope you can keep the copyright, I will thank you so much.
+If you still want to delete the copyrights, could you still retain the first one? Which namely "Theme Material"
+It will not impact the appearance and can give developers a lot of support :)
+
+很高兴您使用并喜欢该主题，开发不易 十分谢谢与希望您可以保留一下版权声明。
+如果您仍然想删除的话 能否只保留第一项呢？即 "Theme Material"
+它不会影响美观并可以给开发者很大的支持和动力。 :)
+-->
+
+<!-- Sidebar Divider -->
+
+    <div class="sidebar-divider"></div>
+
+
+<!-- Theme Material -->
+
+
+<!-- Help & Support -->
+<!--
+
+-->
+
+<!-- Feedback -->
+<!--
+
+-->
+
+<!-- About Theme -->
+<!--
+
+-->
+
+    </div>
+
+    <!-- Sidebar Image -->
+    
+
+</aside>
+
+                    
+
+                    
+
+                    <!--Footer-->
+<footer class="mdl-mini-footer" id="bottom">
+    
+        <!-- Paradox Footer Left Section -->
+        <div class="mdl-mini-footer--left-section sns-list">
+    <!-- Twitter -->
+    
+        <a href="https://twitter.com/Changoall" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-twitter">
+                <span class="visuallyhidden">Twitter</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Facebook -->
+    
+
+    <!-- Google + -->
+    
+
+    <!-- Weibo -->
+    
+        <a href="http://weibo.com/u/3687003117" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-weibo">
+                <span class="visuallyhidden">Weibo</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Instagram -->
+    
+
+    <!-- Tumblr -->
+    
+
+    <!-- Github -->
+    
+        <a href="https://github.com/changoal" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-github">
+                <span class="visuallyhidden">Github</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- LinkedIn -->
+    
+
+    <!-- Zhihu -->
+    
+        <a href="https://www.zhihu.com/people/changoal/activities" target="_blank">
+            <button class="mdl-mini-footer--social-btn social-btn footer-sns-zhihu">
+                <span class="visuallyhidden">Zhihu</span>
+            </button><!--
+     --></a>
+    
+
+    <!-- Bilibili -->
+    
+
+    <!-- Telegram -->
+    
+    
+    <!-- V2EX -->
+    
+</div>
+
+
+        <!--Copyright-->
+        <div id="copyright">
+            Copyright&nbsp;©&nbsp;2016&nbsp;-<script type="text/javascript">var fd = new Date();document.write("&nbsp;" + fd.getFullYear() + "&nbsp;");</script>changoal
+            
+                <br>
+                
+                    <a href="http://www.miitbeian.gov.cn" rel="nofollow">鲁ICP备16022276号</a>
+                
+            
+        </div>
+
+        <!-- Paradox Footer Right Section -->
+
+        <!--
+        I am glad you use this theme, the development is no so easy, I hope you can keep the copyright.
+        It will not impact the appearance and can give developers a lot of support :)
+
+        很高兴您使用该主题，开发不易，希望您可以保留一下版权声明。
+        它不会影响美观并可以给开发者很大的支持。 :)
+        -->
+
+        <div class="mdl-mini-footer--right-section">
+            <div>
+                <div class="footer-develop-div">Powered by <a href="https://hexo.io" target="_blank" class="footer-develop-a">Hexo</a></div>
+                <div class="footer-develop-div">Theme - <a href="https://github.com/viosey/hexo-theme-material" target="_blank" class="footer-develop-a">Material</a></div>
+            </div>
+        </div>
+    
+</footer>
+
+
+                    <!-- Import JS File -->
+
+    <script>lsloader.load("lazyload_js","/js/lazyload.min.js?1BcfzuNXqV+ntF6gq+5X3Q==", true)</script>
+
+
+
+    <script>lsloader.load("js_js","/js/js.min.js?V/53wGualMuiPM3xoetD5Q==", true)</script>
+
+
+
+    <script>lsloader.load("np_js","/js/nprogress.js?pl3Qhb9lvqR1FlyLUna1Yw==", true)</script>
+
+
+<script type="text/ls-javascript" id="NProgress-script">
+    NProgress.configure({
+        showSpinner: true
+    });
+    NProgress.start();
+    $('#nprogress .bar').css({
+        'background': '#29d'
+    });
+    $('#nprogress .peg').css({
+        'box-shadow': '0 0 10px #29d, 0 0 15px #29d'
+    });
+    $('#nprogress .spinner-icon').css({
+        'border-top-color': '#29d',
+        'border-left-color': '#29d'
+    });
+    setTimeout(function() {
+        NProgress.done();
+        $('.fade').removeClass('out');
+    }, 800);
+</script>
+
+
+
+
+
+    <!-- Leancloud -->
+    <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+    <script>
+        AV.initialize('8ACGf4QUtP5DVmilmIom41J8-gzGzoHsz', 'irfSS6JU7jIiuECsKUump2q8');
+    </script>
+    <script type="text/ls-javascript" id="leancloud-views-script">
+    function showTime(Counter) {
+        var query = new AV.Query(Counter);
+        $('.leancloud-views_num').each(function() {
+            var url = $(this).attr('id').trim();
+            query.equalTo('url', url);
+            query.find({
+                success: function(results) {
+                    if (results.length === 0) {
+                        var content = '0 ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                        return;
+                    }
+                    for (var i = 0; i < results.length; i++) {
+                        var object = results[i];
+                        var content = object.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    }
+                },
+                error: function(object, error) {
+                    console.log('Error: ' + error.code + ' ' + error.message);
+                }
+            });
+        });
+    }
+
+    function addCount(Counter) {
+      var Counter = AV.Object.extend('Counter');
+      url = $('.leancloud-views_num').attr('id').trim();
+      title = $('.leancloud-views_num').attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+      query.equalTo('url', url);
+      query.find({
+          success: function(results) {
+            if (results.length > 0) {
+                var counter = results[0];
+                counter.fetchWhenSave(true);
+                counter.increment('time');
+                counter.save(null, {
+                    success: function(counter) {
+                        var content =  counter.get('time') + ' ' + $(document.getElementById(url)).text();
+                        $(document.getElementById(url)).text(content);
+                    },
+                    error: function(counter, error) {
+                        console.log('Failed to save Visitor num, with error message: ' + error.message);
+                    }
+                });
+            } else {
+              var newcounter = new Counter();
+              newcounter.set('title', title);
+              newcounter.set('url', url);
+              newcounter.set('time', 1);
+              newcounter.save(null, {
+                  success: function(newcounter) {
+                      console.log('newcounter.get(\'time\')='+newcounter.get('time'));
+                      var content = newcounter.get('time') + ' ' + $(document.getElementById(url)).text();
+                      $(document.getElementById(url)).text(content);
+                  },
+                  error: function(newcounter, error) {
+                      console.log('Failed to create');
+                  }
+              });
+            }
+        },
+        error: function(error) {
+            console.log('Error:' + error.code + ' ' + error.message);
+        }
+      });
+    }
+    $(function() {
+        var Counter = AV.Object.extend('Counter');
+        if ($('.leancloud-views_num').length === 1) {
+            addCount(Counter);
+        } else if ($('.post-title-link').length > 1) {
+            showTime(Counter);
+        }
+    });
+</script>
+
+
+
+
+
+
+   <!-- 畅言公共 js 代码 start -->
+<script id="cy_cmt_num" src="https://changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cytbPTnjI">
+</script>
+<!-- 畅言公共 js 代码 end -->
+
+
+
+
+
+<!-- UC Browser Compatible -->
+<script>
+	var agent = navigator.userAgent.toLowerCase();
+	if(agent.indexOf('ucbrowser')>0) {
+		document.write('<link rel="stylesheet" href="/css/uc.css">');
+	   alert('由于 UC 浏览器使用极旧的内核，而本网站使用了一些新的特性。\n为了您能更好的浏览，推荐使用 Chrome 或 Firefox 浏览器。');
+	}
+</script>
+
+<!-- Import prettify js  -->
+
+
+
+<!-- Window Load -->
+<!-- add class for prettify -->
+<script type="text/ls-javascript" id="window-load">
+    $(window).on('load', function() {
+        // Post_Toc parent position fixed
+        $('.post-toc-wrap').parent('.mdl-menu__container').css('position', 'fixed');
+    });
+
+    
+    
+</script>
+
+<!-- MathJax Load-->
+
+
+<!-- Bing Background -->
+
+
+<script type="text/ls-javascript" id="lazy-load">
+    // Offer LazyLoad
+    queue.offer(function(){
+        $('.lazy').lazyload({
+            effect : 'show'
+        });
+    });
+
+    // Start Queue
+    $(document).ready(function(){
+        setInterval(function(){
+            queue.execNext();
+        },200);
+    });
+</script>
+
+<!-- Custom Footer -->
+
+
+
+<script>
+    (function(){
+        var scriptList = document.querySelectorAll('script[type="text/ls-javascript"]')
+
+        for (var i = 0; i < scriptList.length; ++i) {
+            var item = scriptList[i];
+            lsloader.runInlineScript(item.id,item.id);
+        }
+    })()
+console.log('\n %c © Material Theme | Version: 1.5.0 | https://github.com/viosey/hexo-theme-material %c \n', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-left-radius:5px;border-bottom-left-radius:5px;', 'color:#455a64;background:#e0e0e0;padding:5px 0;border-top-right-radius:5px;border-bottom-right-radius:5px;');
+</script>
+
+                </main>
+            </div>
+        </body>
+    
+</html>
