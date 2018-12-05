@@ -132,6 +132,60 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-07-13T06:18:14.000Z">2017-07-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    11 分钟 读完 (大约 1583 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/07/13/LruCache-解析/">LruCache 解析</a>
+            
+        </h1>
+        <div class="content">
+            <p>LRU 全称为 Least Recently Used 即最近最少使用，是一种缓存置换算法。淘汰最长时间未使用的对象。下面是 LruCache 的结构。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> LinkedHashMap&lt;K, V&gt; map;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> size; <span class="hljs-comment">//当前缓存内容的大小。它不一定是元素的个数，比如如果缓存的是图片，一般用的是图片占用的内存大小</span></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> maxSize; <span class="hljs-comment">// 最大可缓存的大小</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> putCount; <span class="hljs-comment">// put 方法被调用的次数</span></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> createCount; <span class="hljs-comment">// create(Object) 被调用的次数</span></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> evictionCount; <span class="hljs-comment">// 被置换出来的元素的个数</span></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> hitCount; <span class="hljs-comment">// get 方法命中缓存中的元素的次数</span></span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span> missCount; <span class="hljs-comment">// get 方法未命中缓存中元素的次数</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">LruCache</span><span class="hljs-params">(<span class="hljs-keyword">int</span> maxSize)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (maxSize &lt;= <span class="hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalArgumentException(<span class="hljs-string">"maxSize &lt;= 0"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">this</span>.maxSize = maxSize;</span><br><span class="line">    <span class="hljs-keyword">this</span>.map = <span class="hljs-keyword">new</span> LinkedHashMap&lt;K, V&gt;(<span class="hljs-number">0</span>, <span class="hljs-number">0.75f</span>, <span class="hljs-keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="LinkedHashMap"><a href="#LinkedHashMap" class="headerlink" title="LinkedHashMap"></a>LinkedHashMap</h2><p>可以看出，LruCache 是使用 LinkedHashMap 来存储内容的。LinkedHashMap 继承自 HashMap ，不同的是，它是一个双向循环链表，它的每一个数据结点都有两个指针，分别指向直接前驱和直接后继。LinkedHashMap 的 put（key ，value） 方法，我觉得是当 map 中已经插入过 key 的话，把newValue插入到map中，返回之前存储的 oldValue ，否则返回null。</p>
+<p>新建一个节点时的插入过程<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Override</span> <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">addNewEntry</span><span class="hljs-params">(K key, V value, <span class="hljs-keyword">int</span> hash, <span class="hljs-keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        LinkedEntry&lt;K, V&gt; header = <span class="hljs-keyword">this</span>.header;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// Remove eldest entry if instructed to do so.</span></span><br><span class="line">        LinkedEntry&lt;K, V&gt; eldest = header.nxt;</span><br><span class="line">        <span class="hljs-keyword">if</span> (eldest != header &amp;&amp; removeEldestEntry(eldest)) &#123;</span><br><span class="line">            remove(eldest.key);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// Create new entry, link it on to list, and put it into table</span></span><br><span class="line">        LinkedEntry&lt;K, V&gt; oldTail = header.prv;</span><br><span class="line">        LinkedEntry&lt;K, V&gt; newTail = <span class="hljs-keyword">new</span> LinkedEntry&lt;K,V&gt;(</span><br><span class="line">                key, value, hash, table[index], header, oldTail);</span><br><span class="line">        table[index] = oldTail.nxt = header.prv = newTail;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，当加入一个新结点时，结构如下：<br><img src="http://o797mwhn1.bkt.clouddn.com/LinkedHashMap%E6%8F%92%E5%85%A5.jpg" alt=""></p>
+<p>当accessOrder为true时，更新或者访问一个结点时，它会把这个结点移到尾部，对应代码如下：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">makeTail</span><span class="hljs-params">(LinkedEntry&lt;K, V&gt; e)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// Unlink e</span></span><br><span class="line">    e.prv.nxt = e.nxt;</span><br><span class="line">    e.nxt.prv = e.prv;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// Relink e as tail</span></span><br><span class="line">    LinkedEntry&lt;K, V&gt; header = <span class="hljs-keyword">this</span>.header;</span><br><span class="line">    LinkedEntry&lt;K, V&gt; oldTail = header.prv;</span><br><span class="line">    e.nxt = header;</span><br><span class="line">    e.prv = oldTail;</span><br><span class="line">    oldTail.nxt = header.prv = e;</span><br><span class="line">    modCount++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上代码分为两步，第一步是先把该节点取出来（Unlink e），如下图：<br><img src="http://o797mwhn1.bkt.clouddn.com/LinkedHashMap%E6%9B%B4%E6%96%B01.jpg" alt=""></p>
+<p>第二步是把这个这个结点移到尾部（Relink e as tail），也就是把旧的尾部的nxt以及头部的prv指向它，并让它的nxt指向头部，把它的prv指向旧的尾部。如下图：<br><img src="http://o797mwhn1.bkt.clouddn.com/LinkedHashMap%E6%9B%B4%E6%96%B02.jpg" alt=""></p>
+<h2 id="LruCache"><a href="#LruCache" class="headerlink" title="LruCache"></a>LruCache</h2><p><code>safeSizeOf(K key, V value)</code> 是返回 value 对应的 size 大小</p>
+<p>通过重写 sizeOf( ) 方法来确定每个 size 的大小</p>
+<p>来读一下它的get方法：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> V <span class="hljs-title">get</span><span class="hljs-params">(K key)</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">if</span> (key == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException(<span class="hljs-string">"key == null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    V mapValue;</span><br><span class="line">    <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;  <span class="hljs-comment">//获取到值时，就返回该值</span></span><br><span class="line">        mapValue = map.get(key);</span><br><span class="line">        <span class="hljs-keyword">if</span> (mapValue != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            hitCount++;</span><br><span class="line">            <span class="hljs-keyword">return</span> mapValue;</span><br><span class="line">        &#125;</span><br><span class="line">        missCount++;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">/*</span></span><br><span class="line"><span class="hljs-comment">    * Attempt to create a value. This may take a long time, and the map</span></span><br><span class="line"><span class="hljs-comment">    * may be different when create() returns. If a conflicting value was</span></span><br><span class="line"><span class="hljs-comment">    * added to the map while create() was working, we leave that value in</span></span><br><span class="line"><span class="hljs-comment">    * the map and release the created value.</span></span><br><span class="line"><span class="hljs-comment">    */</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">//尝试创建一个值，这个方法的默认实现是直接返回null。但是在它的设计中，这个方法可能执行完成之后map已经有了变化。</span></span><br><span class="line">    V createdValue = create(key);</span><br><span class="line">    <span class="hljs-keyword">if</span> (createdValue == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;  <span class="hljs-comment">// 如果不为没有命名的key创建新值，则直接返回 null</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;</span><br><span class="line">        createCount++;</span><br><span class="line">        <span class="hljs-comment">//将创建的值放入map中，如果map在前面的过程中正好放入了这对key-value，那么会返回放入的value</span></span><br><span class="line">        mapValue = map.put(key, createdValue);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (mapValue != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-comment">//如果不为空，说明不需要我们所创建的值，所以又把返回的值放进去</span></span><br><span class="line">            <span class="hljs-comment">// There was a conflict so undo that last put</span></span><br><span class="line">            map.put(key, mapValue);</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            <span class="hljs-comment">//为空，说明我们更新了这个key的值，需要重新计算大小</span></span><br><span class="line">            size += safeSizeOf(key, createdValue);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">//上面放入的值有冲突</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (mapValue != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        entryRemoved(<span class="hljs-keyword">false</span>, key, createdValue, mapValue);<span class="hljs-comment">// 通知之前创建的值已经被移除，而改为mapValue</span></span><br><span class="line">        <span class="hljs-keyword">return</span> mapValue;</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        trimToSize(maxSize);<span class="hljs-comment">//没有冲突时，因为放入了新创建的值，大小已经有变化，所以需要修整大小</span></span><br><span class="line">        <span class="hljs-keyword">return</span> createdValue;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>LruCache 是可能被多个线程同时访问的，所以在读写 map 时进行加锁。当获取不到对应的 key 的值时，它会调用其 create(K key) 方法，这个方法用于当缓存没有命名时计算一个 key 所对应的值，它的默认实现是直接返回 null。这个方法并没有加上同步锁，也就是在它进行创建时，map 可能已经有了变化。<br>所以在 get 方法中，如果 create(key) 返回的 V 不为 null，会再把它给放到 map 中，并检查是否在它创建的期间已经有其他对象也进行创建并放到 map 中了，如果有，则会放弃这个创建的对象，而把之前的对象留下，否则因为我们放入了新创建的值，所以要计算现在的大小并进行 trimToSize。<br>trimToSize 方法是根据传进来的 maxSize，如果当前大小超过了这个 maxSize，则会移除最老的结点，直到不超过。代码如下：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">trimToSize</span><span class="hljs-params">(<span class="hljs-keyword">int</span> maxSize)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;</span><br><span class="line">        K key;</span><br><span class="line">        V value;</span><br><span class="line">        <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (size &lt; <span class="hljs-number">0</span> || (map.isEmpty() &amp;&amp; size != <span class="hljs-number">0</span>)) &#123;</span><br><span class="line">                <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(getClass().getName()</span><br><span class="line">                        + <span class="hljs-string">".sizeOf() is reporting inconsistent results!"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-keyword">if</span> (size &lt;= maxSize || map.isEmpty()) &#123;</span><br><span class="line">                <span class="hljs-keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            Map.Entry&lt;K, V&gt; toEvict = map.entrySet().iterator().next();</span><br><span class="line">            key = toEvict.getKey();</span><br><span class="line">            value = toEvict.getValue();</span><br><span class="line">            map.remove(key);</span><br><span class="line">            size -= safeSizeOf(key, value);</span><br><span class="line">            evictionCount++;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        entryRemoved(<span class="hljs-keyword">true</span>, key, value, <span class="hljs-keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再来看put方法，它的代码也很简单：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> V <span class="hljs-title">put</span><span class="hljs-params">(K key, V value)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (key == <span class="hljs-keyword">null</span> || value == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> NullPointerException(<span class="hljs-string">"key == null || value == null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    V previous;</span><br><span class="line">    <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;</span><br><span class="line">        putCount++;</span><br><span class="line">        size += safeSizeOf(key, value);</span><br><span class="line">        previous = map.put(key, value);</span><br><span class="line">        <span class="hljs-keyword">if</span> (previous != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            size -= safeSizeOf(key, previous);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">if</span> (previous != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        entryRemoved(<span class="hljs-keyword">false</span>, key, previous, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    trimToSize(maxSize);</span><br><span class="line">    <span class="hljs-keyword">return</span> previous;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>主要逻辑是，计算新增加的大小，加入 size ，然后把 key-value 放入 map 中，如果是更新旧的数据（map.put(key, value) 会返回之前的 value），则减去旧数据的大小，并调用 <code>entryRemoved(false, key, previous, value)</code> 方法通知旧数据被更新为新的值，最后也是调用 <code>trimToSize(maxSize)</code> 修整缓存的大小。</p>
+<p>本文参考: <a href="http://blog.csdn.net/maosidiaoxian/article/details/51393753" target="_blank" rel="noopener">Android源码解析——LruCache</a></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-07-04T06:44:05.000Z">2017-07-04</time>
                 
                 
@@ -696,52 +750,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-04-30T10:23:23.000Z">2017-04-30</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    1 分钟 读完 (大约 163 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2017/04/30/AS导出so文件/">AS导出so文件</a>
-            
-        </h1>
-        <div class="content">
-            <p>1.新建java类Test.java，在类中声明一个native方法</p>
-<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">static</span> &#123;</span><br><span class="line">    System.loadLibrary(<span class="hljs-string">"jnitest"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>2.进入到类所在文件夹javac Test.java 生成Test.class</p>
-<p>3.返回到java目录 javah -jni com.example.jnitest.Test 生成com_example_jnitest_Test.h</p>
-<p>4.新建com_example_jnitest_Test.c，把.h里的内容拷过去，写里面的方法</p>
-<p>5.在build.gradle添加</p>
-<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ndk &#123;</span><br><span class="line">    moduleName <span class="hljs-string">"sffstreamer"</span></span><br><span class="line">    ldLibs <span class="hljs-string">"log"</span>, <span class="hljs-string">"z"</span>, <span class="hljs-string">"m"</span></span><br><span class="line">    abiFilters <span class="hljs-string">"armeabi"</span>, <span class="hljs-string">"armeabi-v7a"</span>, <span class="hljs-string">"x86"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>还有</p>
-<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">sourceSets</span> &#123;</span><br><span class="line">    main &#123;</span><br><span class="line">        jni.srcDirs = []</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>Build.gradle文件如下：</p>
-<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion <span class="hljs-number">24</span></span><br><span class="line">    buildToolsVersion <span class="hljs-string">"25.0.2"</span></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="hljs-string">"com.ishow3d.ffmpegjni"</span></span><br><span class="line">        minSdkVersion <span class="hljs-number">15</span></span><br><span class="line">        targetSdkVersion <span class="hljs-number">24</span></span><br><span class="line">        versionCode <span class="hljs-number">1</span></span><br><span class="line">        versionName <span class="hljs-string">"1.0"</span></span><br><span class="line">        testInstrumentationRunner <span class="hljs-string">"android.support.test.runner.AndroidJUnitRunner"</span></span><br><span class="line"></span><br><span class="line">        ndk &#123;</span><br><span class="line">            moduleName <span class="hljs-string">"sffstreamer"</span></span><br><span class="line">            ldLibs <span class="hljs-string">"log"</span>, <span class="hljs-string">"z"</span>, <span class="hljs-string">"m"</span></span><br><span class="line">            abiFilters <span class="hljs-string">"armeabi"</span>, <span class="hljs-string">"armeabi-v7a"</span>, <span class="hljs-string">"x86"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="hljs-keyword">false</span></span><br><span class="line">            proguardFiles getDefaultProguardFile(<span class="hljs-string">'proguard-android.txt'</span>), <span class="hljs-string">'proguard-rules.pro'</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">sourceSets</span> &#123;</span><br><span class="line">            main &#123;</span><br><span class="line">                jni.srcDirs = []</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -808,7 +816,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        68
+                        69
                     </p>
                 </div>
             </div>
@@ -828,7 +836,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -1099,7 +1107,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a> <a href="/tags/����/" style="font-size: 10px;">����</a>
     </div>
 </div>
 
@@ -1113,6 +1121,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/05/todo/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
+                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1185,25 +1212,6 @@
                     <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/07/21/告白/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="告白">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-07-21T02:13:48.000Z">2018-07-21</time></div>
-                    <a href="/2018/07/21/告白/" class="has-link-black-ter is-size-6">告白</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
@@ -1529,6 +1537,17 @@
                     </a>
                 </li>
                 
+                <li>
+                    <a class="level is-marginless" href="/tags/����/">
+                        <span class="level-start">
+                            <span class="level-item">����</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
             </ul>
         </div>
     </div>
@@ -1549,6 +1568,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/05/todo/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
+                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1621,25 +1659,6 @@
                     <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/07/21/告白/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="告白">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-07-21T02:13:48.000Z">2018-07-21</time></div>
-                    <a href="/2018/07/21/告白/" class="has-link-black-ter is-size-6">告白</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
@@ -1958,6 +1977,17 @@
                     <a class="level is-marginless" href="/tags/面试/">
                         <span class="level-start">
                             <span class="level-item">面试</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/����/">
+                        <span class="level-start">
+                            <span class="level-item">����</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>

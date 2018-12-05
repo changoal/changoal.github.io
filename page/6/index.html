@@ -132,6 +132,52 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-04-30T10:23:23.000Z">2017-04-30</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 163 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/04/30/AS导出so文件/">AS导出so文件</a>
+            
+        </h1>
+        <div class="content">
+            <p>1.新建java类Test.java，在类中声明一个native方法</p>
+<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">static</span> &#123;</span><br><span class="line">    System.loadLibrary(<span class="hljs-string">"jnitest"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>2.进入到类所在文件夹javac Test.java 生成Test.class</p>
+<p>3.返回到java目录 javah -jni com.example.jnitest.Test 生成com_example_jnitest_Test.h</p>
+<p>4.新建com_example_jnitest_Test.c，把.h里的内容拷过去，写里面的方法</p>
+<p>5.在build.gradle添加</p>
+<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ndk &#123;</span><br><span class="line">    moduleName <span class="hljs-string">"sffstreamer"</span></span><br><span class="line">    ldLibs <span class="hljs-string">"log"</span>, <span class="hljs-string">"z"</span>, <span class="hljs-string">"m"</span></span><br><span class="line">    abiFilters <span class="hljs-string">"armeabi"</span>, <span class="hljs-string">"armeabi-v7a"</span>, <span class="hljs-string">"x86"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有</p>
+<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">sourceSets</span> &#123;</span><br><span class="line">    main &#123;</span><br><span class="line">        jni.srcDirs = []</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Build.gradle文件如下：</p>
+<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion <span class="hljs-number">24</span></span><br><span class="line">    buildToolsVersion <span class="hljs-string">"25.0.2"</span></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="hljs-string">"com.ishow3d.ffmpegjni"</span></span><br><span class="line">        minSdkVersion <span class="hljs-number">15</span></span><br><span class="line">        targetSdkVersion <span class="hljs-number">24</span></span><br><span class="line">        versionCode <span class="hljs-number">1</span></span><br><span class="line">        versionName <span class="hljs-string">"1.0"</span></span><br><span class="line">        testInstrumentationRunner <span class="hljs-string">"android.support.test.runner.AndroidJUnitRunner"</span></span><br><span class="line"></span><br><span class="line">        ndk &#123;</span><br><span class="line">            moduleName <span class="hljs-string">"sffstreamer"</span></span><br><span class="line">            ldLibs <span class="hljs-string">"log"</span>, <span class="hljs-string">"z"</span>, <span class="hljs-string">"m"</span></span><br><span class="line">            abiFilters <span class="hljs-string">"armeabi"</span>, <span class="hljs-string">"armeabi-v7a"</span>, <span class="hljs-string">"x86"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="hljs-keyword">false</span></span><br><span class="line">            proguardFiles getDefaultProguardFile(<span class="hljs-string">'proguard-android.txt'</span>), <span class="hljs-string">'proguard-rules.pro'</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">sourceSets</span> &#123;</span><br><span class="line">            main &#123;</span><br><span class="line">                jni.srcDirs = []</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-04-30T10:13:05.000Z">2017-04-30</time>
                 
                 
@@ -590,50 +636,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2016-07-22T11:40:28.000Z">2016-07-22</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 303 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2016/07/22/走了/">走了</a>
-            
-        </h1>
-        <div class="content">
-            <p>三年三年又三年，又到了离开的时候，或许可以说我的学生生涯已经结束了~</p>
-<p>三年前，当我和爸妈还有妹妹下了10路，看到山科这么气派的南门的时候，有一种土包子进城的感觉。当时觉得山科真是大啊，走了十多分钟才走到宿舍，而且宿舍还挺好的，比三中真是强多了（   哈哈</p>
-<p>不过，说实话，这三年，确实是改变了不少，起码见识到了更多的东西，认识了更多的人，看到了一个更大的世界。</p>
-<p>现在，大家也算是为了自己各自的未来开始奋斗。</p>
-<p>不多说了，说得越来越伤感。</p>
-<p>山科，等我回来啊！我要衣锦还乡。</p>
-<p>宝哥，俊哥，主任，楷儿子，升哥，政哥，浪哥。祥耀，大果子，花姐姐，考研加油啊，一定会成功。征哥威哥等我回来。</p>
-<p>还有师太，加油啊 。我在北京等你，我还等着给你拍写真呢！</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -698,7 +700,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        68
+                        69
                     </p>
                 </div>
             </div>
@@ -718,7 +720,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -989,7 +991,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a> <a href="/tags/����/" style="font-size: 10px;">����</a>
     </div>
 </div>
 
@@ -1003,6 +1005,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/05/todo/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
+                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1075,25 +1096,6 @@
                     <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/07/21/告白/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="告白">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-07-21T02:13:48.000Z">2018-07-21</time></div>
-                    <a href="/2018/07/21/告白/" class="has-link-black-ter is-size-6">告白</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
@@ -1419,6 +1421,17 @@
                     </a>
                 </li>
                 
+                <li>
+                    <a class="level is-marginless" href="/tags/����/">
+                        <span class="level-start">
+                            <span class="level-item">����</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
             </ul>
         </div>
     </div>
@@ -1439,6 +1452,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/05/todo/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
+                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1511,25 +1543,6 @@
                     <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/07/21/告白/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="告白">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-07-21T02:13:48.000Z">2018-07-21</time></div>
-                    <a href="/2018/07/21/告白/" class="has-link-black-ter is-size-6">告白</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
@@ -1848,6 +1861,17 @@
                     <a class="level is-marginless" href="/tags/面试/">
                         <span class="level-start">
                             <span class="level-item">面试</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/����/">
+                        <span class="level-start">
+                            <span class="level-item">����</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>

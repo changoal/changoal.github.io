@@ -132,6 +132,67 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-12-17T08:02:14.000Z">2017-12-17</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 534 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/12/17/知乎用户基本分析/">知乎用户基本分析</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="知乎用户统计"><a href="#知乎用户统计" class="headerlink" title="知乎用户统计"></a>知乎用户统计</h1><p>昨天爬取了知乎大v “朱炫” 的关注者的用户基本信息。</p>
+<p><img src="http://o797mwhn1.bkt.clouddn.com/zhuxuan_zhihu.png" alt="image"></p>
+<p>如图所示，朱炫总共有 676697 位关注者，半小时爬取了 117913 条用户的基本信息。用户信息里每个用户只有 18 个字段的信息，都是一些很基本的信息，如图<br><img src="http://o797mwhn1.bkt.clouddn.com/json.png" alt="image"></p>
+<p>通过 requests 爬取，存进 mongodb 里。下面是一些基本分析：</p>
+<h2 id="性别"><a href="#性别" class="headerlink" title="性别"></a>性别</h2><p><img src="http://o797mwhn1.bkt.clouddn.com/gender.png" alt="image"></p>
+<p>12万的用户里，男性有 25819 位，女性有 31095 位，还有 60999 位没有设置性别信息。</p>
+<h2 id="回答"><a href="#回答" class="headerlink" title="回答"></a>回答</h2><p><img src="http://o797mwhn1.bkt.clouddn.com/answer.png" alt="image"></p>
+<p>其中有 63109 位用户从没有回答过问题，32376 位用户回答过 5 个以内的问题，而回答数量超过 50 的只有 2536 位用户。</p>
+<h2 id="关注者"><a href="#关注者" class="headerlink" title="关注者"></a>关注者</h2><p><img src="http://o797mwhn1.bkt.clouddn.com/follower.png" alt="image"></p>
+<p>有 60749 名用户是没有被任何人关注的，47116 名用户有10个以下的关注者，只有 3349 位用户有50个以上的关注者。</p>
+<h2 id="机构号"><a href="#机构号" class="headerlink" title="机构号"></a>机构号</h2><p>在 12w 的关注者里有 29 个机构用号关注了大师兄，只选取了关注者最多的 10 个机构号来显示。</p>
+<p><img src="http://o797mwhn1.bkt.clouddn.com/orgs.png" alt="image"></p>
+<h2 id="关注者-1"><a href="#关注者-1" class="headerlink" title="关注者"></a>关注者</h2><p>查取了10位关注者最多的用户。<br><img src="http://o797mwhn1.bkt.clouddn.com/top_10.png" alt="image"></p>
+<h2 id="有趣"><a href="#有趣" class="headerlink" title="有趣"></a>有趣</h2><h4 id="用的最多的用户名"><a href="#用的最多的用户名" class="headerlink" title="用的最多的用户名"></a>用的最多的用户名</h4><p>你们猜用的最多的用户名是什么？<br><img src="http://o797mwhn1.bkt.clouddn.com/name.png" alt="image"></p>
+<p>好像没有一个真名==</p>
+<p>用的最多的个人简介是这些：<br><img src="http://o797mwhn1.bkt.clouddn.com/headline.png" alt="image"></p>
+<p>看来知乎是学生党的天下。。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>爬虫使用 <code>requests</code>；</p>
+<p>数据库是 <code>MongoDB</code>；</p>
+<p>绘图用了 <code>matplotlib.pyplot</code> 和 <code>pylab</code></p>
+<p>MongoDB 作为非关系型数据库的代表，不用 sql 语句，使用起来确实是方便了一些。</p>
+<p>绘图刚学，柱状图的标签还都没有居中==</p>
+<p><strong><code>python</code> 是世界上最好用的语言</strong></p>
+<p><strong><code>python</code> 是世界上最好用的语言</strong></p>
+<p><strong><code>python</code> 是世界上最好用的语言</strong></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-09-29T14:58:37.000Z">2017-09-29</time>
                 
                 
@@ -962,67 +1023,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-08-28T15:05:39.000Z">2017-08-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Python/">Python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Python/爬虫/">爬虫</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    9 分钟 读完 (大约 1415 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2017/08/28/妹子图爬虫第二弹/">妹子图爬虫第二弹</a>
-            
-        </h1>
-        <div class="content">
-            <p>上一篇文章中教大家去爬取妹子图，但是会出现很多问题，比如爬着爬着发现一直在报错，重新再来的话又得从第一张图开始下，太麻烦。通常是因为网站的反爬虫策略起了作用。</p>
-<p>一般反爬虫策略有以下几种：</p>
-<ul>
-<li>后台对访问进行统计，如果单个IP访问超过阈值，予以封锁。</li>
-<li>后台对访问进行统计，如果单个session访问超过阈值，予以封锁。</li>
-<li>后台对访问进行统计，如果单个userAgent访问超过阈值，予以封锁。</li>
-<li>以上的组合。</li>
-</ul>
-<p>针对上面的第一二条，来写个基本的下载模块。原理就是利用的不同的 User-Ahent 和 IP 来进行爬虫。</p>
-<p>首先随便就可以在网上找到很多 User-Agent 。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24&quot;,</span><br><span class="line">&quot;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24&quot;</span><br></pre></td></tr></table></figure>
-<p>新建个下载的类然后改下代码</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> requests</span><br><span class="line"><span class="hljs-keyword">import</span> re</span><br><span class="line"><span class="hljs-keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">download</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        self.user_agent_list = [</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"</span></span><br><span class="line">        ]</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get</span><span class="hljs-params">(self, url)</span>:</span></span><br><span class="line">        UA = random.choice(self.user_agent_list) <span class="hljs-comment">##从self.user_agent_list中随机取出一个字符串（聪明的小哥儿一定发现了这是完整的User-Agent中：后面的一半段）</span></span><br><span class="line">        headers = &#123;<span class="hljs-string">'User-Agent'</span>: UA&#125;  <span class="hljs-comment">##构造成一个完整的User-Agent （UA代表的是上面随机取出来的字符串哦）</span></span><br><span class="line">        response = requests.get(url, headers=headers) <span class="hljs-comment">##这样服务器就会以为我们是真的浏览器了</span></span><br><span class="line">        <span class="hljs-keyword">return</span> response</span><br></pre></td></tr></table></figure>
-<p>下一步就是要找一些能用的 IP 了。网上有一些 IP 代理的网站，通常会发一些免费的代理 IP，比如 <strong><a href="http://haoip.cc/tiqu.htm" target="_blank" rel="noopener">http://haoip.cc/tiqu.htm</a></strong> 。</p>
-<p>下面的代码可以爬下来这些 IP。</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">iplist = [] <span class="hljs-comment">##初始化一个list用来存放我们获取到的IP</span></span><br><span class="line">html = requests.get(<span class="hljs-string">"http://haoip.cc/tiqu.htm"</span>)<span class="hljs-comment">##不解释咯</span></span><br><span class="line">iplistn = re.findall(<span class="hljs-string">r'r/&gt;(.*?)&lt;b'</span>, html.text, re.S) <span class="hljs-comment">##表示从html.text中获取所有r/&gt;&lt;b中的内容，re.S的意思是包括匹配包括换行符，findall返回的是个list哦！</span></span><br><span class="line"><span class="hljs-keyword">for</span> ip <span class="hljs-keyword">in</span> iplistn:</span><br><span class="line">    i = re.sub(<span class="hljs-string">'\n'</span>, <span class="hljs-string">''</span>, ip)<span class="hljs-comment">##re.sub 是re模块替换的方法，这儿表示将\n替换为空</span></span><br><span class="line">    iplist.append(i.strip()) <span class="hljs-comment">##添加到我们上面初始化的list里面, i.strip()的意思是去掉字符串的空格哦！！</span></span><br><span class="line">    print(i.strip())</span><br><span class="line">print(iplist)</span><br></pre></td></tr></table></figure>
-<p>然后一顿操作</p>
-<p>Download.py<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> requests</span><br><span class="line"><span class="hljs-keyword">import</span> re</span><br><span class="line"><span class="hljs-keyword">import</span> random</span><br><span class="line"><span class="hljs-keyword">import</span> time</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">download</span><span class="hljs-params">()</span>:</span></span><br><span class="line"> </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line"> </span><br><span class="line">        self.iplist = []  <span class="hljs-comment">##初始化一个list用来存放我们获取到的IP</span></span><br><span class="line">        html = requests.get(<span class="hljs-string">"http://haoip.cc/tiqu.htm"</span>)  <span class="hljs-comment">##不解释咯</span></span><br><span class="line">        iplistn = re.findall(<span class="hljs-string">r'r/&gt;(.*?)&lt;b'</span>, html.text, re.S)  <span class="hljs-comment">##表示从html.text中获取所有r/&gt;&lt;b中的内容，re.S的意思是包括匹配包括换行符，findall返回的是个list哦！</span></span><br><span class="line">        <span class="hljs-keyword">for</span> ip <span class="hljs-keyword">in</span> iplistn:</span><br><span class="line">            i = re.sub(<span class="hljs-string">'\n'</span>, <span class="hljs-string">''</span>, ip)  <span class="hljs-comment">##re.sub 是re模块替换的方法，这儿表示将\n替换为空</span></span><br><span class="line">            self.iplist.append(i.strip())  <span class="hljs-comment">##添加到我们上面初始化的list里面</span></span><br><span class="line"> </span><br><span class="line">        self.user_agent_list = [</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1090.0 Safari/536.6"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/19.77.34.5 Safari/537.1"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.9 Safari/536.5"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.0) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.36 Safari/536.5"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 5.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1063.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1062.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.1) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.1 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2) AppleWebKit/536.3 (KHTML, like Gecko) Chrome/19.0.1061.0 Safari/536.3"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"</span>,</span><br><span class="line">            <span class="hljs-string">"Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/535.24 (KHTML, like Gecko) Chrome/19.0.1055.1 Safari/535.24"</span></span><br><span class="line">        ]</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get</span><span class="hljs-params">(self, url, timeout, proxy=None, num_retries=<span class="hljs-number">6</span>)</span>:</span> <span class="hljs-comment">##给函数一个默认参数proxy为空</span></span><br><span class="line">        UA = random.choice(self.user_agent_list) <span class="hljs-comment">##从self.user_agent_list中随机取出一个字符串</span></span><br><span class="line">        headers = &#123;<span class="hljs-string">'User-Agent'</span>: UA&#125;  <span class="hljs-comment">##构造成一个完整的User-Agent （UA代表的是上面随机取出来的字符串哦）</span></span><br><span class="line"> </span><br><span class="line">        <span class="hljs-keyword">if</span> proxy == <span class="hljs-keyword">None</span>: <span class="hljs-comment">##当代理为空时，不使用代理获取response（别忘了response啥哦！之前说过了！！）</span></span><br><span class="line">            <span class="hljs-keyword">try</span>:</span><br><span class="line">                <span class="hljs-keyword">return</span> requests.get(url, headers=headers, timeout=timeout)<span class="hljs-comment">##这样服务器就会以为我们是真的浏览器了</span></span><br><span class="line">            <span class="hljs-keyword">except</span>:<span class="hljs-comment">##如过上面的代码执行报错则执行下面的代码</span></span><br><span class="line"> </span><br><span class="line">                <span class="hljs-keyword">if</span> num_retries &gt; <span class="hljs-number">0</span>: <span class="hljs-comment">##num_retries是我们限定的重试次数</span></span><br><span class="line">                    time.sleep(<span class="hljs-number">10</span>) <span class="hljs-comment">##延迟十秒</span></span><br><span class="line">                    print(<span class="hljs-string">u'获取网页出错，10S后将获取倒数第：'</span>, num_retries, <span class="hljs-string">u'次'</span>)</span><br><span class="line">                    <span class="hljs-keyword">return</span> self.get(url, timeout, num_retries<span class="hljs-number">-1</span>)  <span class="hljs-comment">##调用自身 并将次数减1</span></span><br><span class="line">                <span class="hljs-keyword">else</span>:</span><br><span class="line">                    print(<span class="hljs-string">u'开始使用代理'</span>)</span><br><span class="line">                    time.sleep(<span class="hljs-number">10</span>)</span><br><span class="line">                    IP = <span class="hljs-string">''</span>.join(str(random.choice(self.iplist)).strip()) <span class="hljs-comment">##下面有解释哦</span></span><br><span class="line">                    proxy = &#123;<span class="hljs-string">'http'</span>: IP&#125;</span><br><span class="line">                    <span class="hljs-keyword">return</span> self.get(url, timeout, proxy,) <span class="hljs-comment">##代理不为空的时候</span></span><br><span class="line"> </span><br><span class="line">        <span class="hljs-keyword">else</span>: <span class="hljs-comment">##当代理不为空</span></span><br><span class="line">            <span class="hljs-keyword">try</span>:</span><br><span class="line">                IP = <span class="hljs-string">''</span>.join(str(random.choice(self.iplist)).strip()) <span class="hljs-comment">##将从self.iplist中获取的字符串处理成我们需要的格式（处理了些什么自己看哦，这是基础呢）</span></span><br><span class="line">                proxy = &#123;<span class="hljs-string">'http'</span>: IP&#125; <span class="hljs-comment">##构造成一个代理</span></span><br><span class="line">                <span class="hljs-keyword">return</span> requests.get(url, headers=headers, proxies=proxy, timeout=timeout) <span class="hljs-comment">##使用代理获取response</span></span><br><span class="line">            <span class="hljs-keyword">except</span>:</span><br><span class="line"> </span><br><span class="line">                <span class="hljs-keyword">if</span> num_retries &gt; <span class="hljs-number">0</span>:</span><br><span class="line">                    time.sleep(<span class="hljs-number">10</span>)</span><br><span class="line">                    IP = <span class="hljs-string">''</span>.join(str(random.choice(self.iplist)).strip())</span><br><span class="line">                    proxy = &#123;<span class="hljs-string">'http'</span>: IP&#125;</span><br><span class="line">                    print(<span class="hljs-string">u'正在更换代理，10S后将重新获取倒数第'</span>, num_retries, <span class="hljs-string">u'次'</span>)</span><br><span class="line">                    print(<span class="hljs-string">u'当前代理是：'</span>, proxy)</span><br><span class="line">                    <span class="hljs-keyword">return</span> self.get(url, timeout, proxy, num_retries - <span class="hljs-number">1</span>)</span><br><span class="line">                <span class="hljs-keyword">else</span>:</span><br><span class="line">                    print(<span class="hljs-string">u'代理也不好使了！取消代理'</span>)</span><br><span class="line">                    <span class="hljs-keyword">return</span> self.get(url, <span class="hljs-number">3</span>)</span><br><span class="line"> </span><br><span class="line">request = download()</span><br></pre></td></tr></table></figure></p>
-<p>再改下 mzitu.py 中的代码</p>
-<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="hljs-keyword">import</span> os</span><br><span class="line"><span class="hljs-keyword">from</span> Download <span class="hljs-keyword">import</span> request <span class="hljs-comment">##导入模块变了一下</span></span><br><span class="line"><span class="hljs-keyword">from</span> pymongo <span class="hljs-keyword">import</span> MongoClient</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">mzitu</span><span class="hljs-params">()</span>:</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">all_url</span><span class="hljs-params">(self, url)</span>:</span></span><br><span class="line"></span><br><span class="line">        html = request.get(url, <span class="hljs-number">3</span>) </span><br><span class="line">        all_a = BeautifulSoup(html.text, <span class="hljs-string">'lxml'</span>).find(<span class="hljs-string">'div'</span>, class_=<span class="hljs-string">'all'</span>).find_all(<span class="hljs-string">'a'</span>)</span><br><span class="line">        <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> all_a:</span><br><span class="line">            title = a.get_text()</span><br><span class="line">            print(<span class="hljs-string">u'开始保存：'</span>, title)</span><br><span class="line">            path = str(title).replace(<span class="hljs-string">"?"</span>, <span class="hljs-string">'_'</span>)</span><br><span class="line">            self.mkdir(path)</span><br><span class="line">            os.chdir(<span class="hljs-string">"D:\mzitu\\"</span>+path)</span><br><span class="line">            href = a[<span class="hljs-string">'href'</span>]</span><br><span class="line">            self.html(href)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">html</span><span class="hljs-params">(self, href)</span>:</span></span><br><span class="line">        html = request.get(href, <span class="hljs-number">3</span>)</span><br><span class="line">        max_span = BeautifulSoup(html.text, <span class="hljs-string">'lxml'</span>).find_all(<span class="hljs-string">'span'</span>)[<span class="hljs-number">10</span>].get_text()</span><br><span class="line">        <span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, int(max_span) + <span class="hljs-number">1</span>):</span><br><span class="line">            page_url = href + <span class="hljs-string">'/'</span> + str(page)</span><br><span class="line">            self.img(page_url)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">img</span><span class="hljs-params">(self, page_url)</span>:</span></span><br><span class="line">        img_html = request.get(page_url, <span class="hljs-number">3</span>) </span><br><span class="line">        img_url = BeautifulSoup(img_html.text, <span class="hljs-string">'lxml'</span>).find(<span class="hljs-string">'div'</span>, class_=<span class="hljs-string">'main-image'</span>).find(<span class="hljs-string">'img'</span>)[<span class="hljs-string">'src'</span>]</span><br><span class="line">        self.save(img_url)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save</span><span class="hljs-params">(self, img_url)</span>:</span></span><br><span class="line">        name = img_url[<span class="hljs-number">-9</span>:<span class="hljs-number">-4</span>]</span><br><span class="line">        print(<span class="hljs-string">u'开始保存：'</span>, img_url)</span><br><span class="line">        img = request.get(img_url, <span class="hljs-number">3</span>) </span><br><span class="line">        f = open(name + <span class="hljs-string">'.jpg'</span>, <span class="hljs-string">'ab'</span>)</span><br><span class="line">        f.write(img.content)</span><br><span class="line">        f.close()</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mkdir</span><span class="hljs-params">(self, path)</span>:</span> </span><br><span class="line">        path = path.strip()</span><br><span class="line">        isExists = os.path.exists(os.path.join(<span class="hljs-string">"D:\mzitu"</span>, path))</span><br><span class="line">        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> isExists:</span><br><span class="line">            print(<span class="hljs-string">u'建了一个名字叫做'</span>, path, <span class="hljs-string">u'的文件夹！'</span>)</span><br><span class="line">            os.makedirs(os.path.join(<span class="hljs-string">"D:\mzitu"</span>, path))</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">True</span></span><br><span class="line">        <span class="hljs-keyword">else</span>:</span><br><span class="line">            print(<span class="hljs-string">u'名字叫做'</span>, path, <span class="hljs-string">u'的文件夹已经存在了！'</span>)</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">False</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Mzitu = mzitu() <span class="hljs-comment">##实例化</span></span><br><span class="line">Mzitu.all_url(<span class="hljs-string">'http://www.mzitu.com/all'</span>) <span class="hljs-comment">##给函数all_url传入参数  你可以当作启动爬虫（就是入口）</span></span><br></pre></td></tr></table></figure>
-<p><strong>注意：两个 py 文件要放在一个文件夹下，文件夹中还要新建一个叫 <strong>init</strong>.py 的空文件</strong></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1089,7 +1089,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        68
+                        69
                     </p>
                 </div>
             </div>
@@ -1109,7 +1109,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -1380,7 +1380,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 10px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a> <a href="/tags/����/" style="font-size: 10px;">����</a>
     </div>
 </div>
 
@@ -1394,6 +1394,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/05/todo/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
+                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1466,25 +1485,6 @@
                     <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/07/21/告白/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="告白">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-07-21T02:13:48.000Z">2018-07-21</time></div>
-                    <a href="/2018/07/21/告白/" class="has-link-black-ter is-size-6">告白</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
@@ -1810,6 +1810,17 @@
                     </a>
                 </li>
                 
+                <li>
+                    <a class="level is-marginless" href="/tags/����/">
+                        <span class="level-start">
+                            <span class="level-item">����</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
             </ul>
         </div>
     </div>
@@ -1830,6 +1841,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/05/todo/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
+                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1902,25 +1932,6 @@
                     <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/07/21/告白/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="告白">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-07-21T02:13:48.000Z">2018-07-21</time></div>
-                    <a href="/2018/07/21/告白/" class="has-link-black-ter is-size-6">告白</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
@@ -2239,6 +2250,17 @@
                     <a class="level is-marginless" href="/tags/面试/">
                         <span class="level-start">
                             <span class="level-item">面试</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/����/">
+                        <span class="level-start">
+                            <span class="level-item">����</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
