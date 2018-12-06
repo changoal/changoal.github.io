@@ -142,6 +142,78 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-07-13T06:47:47.000Z">2017-07-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    16 分钟 读完 (大约 2376 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/07/13/Handler源码解析/">Handler源码解析</a>
+            
+        </h1>
+        <div class="content">
+            <p>因为 Android 只允许在主线程中更新 UI ，所以每个 Android 开发者都会使用到 Handler ，最近面试也一直在问这个问题。先说一下我自己的理解吧</p>
+<blockquote>
+<p>每个 Activity 都会自动初始化一个 Looper 对象，这个 Looper 对象通过 loop() 方法，不断的遍历 MessageQueue，来查看消息队列里是否存在 Message，在代码里 在其他线程中可以通过 handler.sendMessage(message) 来把 Message 传到 MessageQueue 里，可以在 handler 重写的 handlerMessage(Message msg) 里获取到发送的 Message 来执行所要完成的动作。</p>
+</blockquote>
+<p>从 Handler 的无参构造方法开始看<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">Handler</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (FIND_POTENTIAL_LEAKS) &#123;</span><br><span class="line">        <span class="hljs-keyword">final</span> Class&lt;? extends Handler&gt; klass = getClass();</span><br><span class="line">        <span class="hljs-keyword">if</span> ((klass.isAnonymousClass() || klass.isMemberClass() || klass.isLocalClass()) &amp;&amp;</span><br><span class="line">                (klass.getModifiers() &amp; Modifier.STATIC) == <span class="hljs-number">0</span>) &#123;</span><br><span class="line">            Log.w(TAG, <span class="hljs-string">"The following Handler class should be static or leaks might occur: "</span> +</span><br><span class="line">                klass.getCanonicalName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    mLooper = Looper.myLooper();</span><br><span class="line">    <span class="hljs-keyword">if</span> (mLooper == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(</span><br><span class="line">            <span class="hljs-string">"Can't create handler inside thread that has not called Looper.prepare()"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    mQueue = mLooper.mQueue;</span><br><span class="line">    mCallback = <span class="hljs-keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到在第十行调用了 <code>Looper.myLooper()</code>方法来获取一个 Looper 对象，如果这个对象为空则抛出一个异常。看一下 myLooper() 方法<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> Looper <span class="hljs-title">myLooper</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">return</span> (Looper)sThreadLocal.get();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方法非常简单，就是从sThreadLocal对象中取出Looper。如果sThreadLocal中有Looper存在就返回Looper，如果没有Looper存在自然就返回空了。因此你可以想象得到是在哪里给sThreadLocal设置Looper了吧，当然是Looper.prepare()方法！我们来看下它的源码：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">prepare</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (sThreadLocal.get() != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Only one Looper may be created per thread"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    sThreadLocal.set(<span class="hljs-keyword">new</span> Looper());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，首先判断sThreadLocal中是否已经存在Looper了，如果还没有则创建一个新的Looper设置进去。这样也就完全解释了为什么我们要先调用Looper.prepare()方法，才能创建Handler对象。同时也可以看出每个线程中最多只会有一个Looper对象。</p>
+<p>所以在非 UI 线程中创建 Handler 对象之前要先调用 Looper.prepare() 方法，否则会出现异常。而且在程序启动时，系统已经自动在主线程中调用了Looper.prepare() 方法。所以在主线程中我们可以直接新建 Handler 。</p>
+<p>看完了如何创建Handler之后，接下来我们看一下如何发送消息，这个流程相信大家也已经非常熟悉了，new出一个Message对象，然后可以使用setData()方法或arg参数等方式为消息携带一些数据，再借助Handler将消息发送出去就可以了，示例代码如下：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">new</span> Thread(<span class="hljs-keyword">new</span> Runnable() &#123;</span><br><span class="line">	<span class="hljs-meta">@Override</span></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">		Message message = <span class="hljs-keyword">new</span> Message();</span><br><span class="line">		message.arg1 = <span class="hljs-number">1</span>;</span><br><span class="line">		Bundle bundle = <span class="hljs-keyword">new</span> Bundle();</span><br><span class="line">		bundle.putString(<span class="hljs-string">"data"</span>, <span class="hljs-string">"data"</span>);</span><br><span class="line">		message.setData(bundle);</span><br><span class="line">		handler.sendMessage(message);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;).start();</span><br></pre></td></tr></table></figure></p>
+<p>可是这里Handler到底是把Message发送到哪里去了呢？为什么之后又可以在Handler的handleMessage()方法中重新得到这条Message呢？看来又需要通过阅读源码才能解除我们心中的疑惑了，Handler中提供了很多个发送消息的方法，其中除了sendMessageAtFrontOfQueue()方法之外，其它的发送消息方法最终都会辗转调用到sendMessageAtTime()方法中，这个方法的源码如下所示：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">sendMessageAtTime</span><span class="hljs-params">(Message msg, <span class="hljs-keyword">long</span> uptimeMillis)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">boolean</span> sent = <span class="hljs-keyword">false</span>;</span><br><span class="line">    MessageQueue queue = mQueue;</span><br><span class="line">    <span class="hljs-keyword">if</span> (queue != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        msg.target = <span class="hljs-keyword">this</span>;</span><br><span class="line">        sent = queue.enqueueMessage(msg, uptimeMillis);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        RuntimeException e = <span class="hljs-keyword">new</span> RuntimeException(</span><br><span class="line">            <span class="hljs-keyword">this</span> + <span class="hljs-string">" sendMessageAtTime() called with no mQueue"</span>);</span><br><span class="line">        Log.w(<span class="hljs-string">"Looper"</span>, e.getMessage(), e);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> sent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>sendMessageAtTime() 方法接收两个参数，其中 msg 参数就是我们发送的 Message 对象，而 uptimeMillis 参数则表示发送消息的时间，它的值等于自系统开机到当前时间的毫秒数再加上延迟时间，如果你调用的不是<code>sendMessageDelayed()</code>方法，延迟时间就为0，然后将这两个参数都传递到 MessageQueue 的 enqueueMessage() 方法中。这个 MessageQueue 又是什么东西呢？其实从名字上就可以看出了，它是一个消息队列，用于将所有收到的消息以队列的形式进行排列，并提供入队和出队的方法。这个类是在 Looper 的构造函数中创建的，因此一个 Looper 也就对应了一个 MessageQueue。</p>
+<p>那么enqueueMessage()方法毫无疑问就是入队的方法了:<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">enqueueMessage</span><span class="hljs-params">(Message msg, <span class="hljs-keyword">long</span> when)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (msg.when != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> AndroidRuntimeException(msg + <span class="hljs-string">" This message is already in use."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">if</span> (msg.target == <span class="hljs-keyword">null</span> &amp;&amp; !mQuitAllowed) &#123;</span><br><span class="line">        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"Main thread not allowed to quit"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">synchronized</span> (<span class="hljs-keyword">this</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mQuiting) &#123;</span><br><span class="line">            RuntimeException e = <span class="hljs-keyword">new</span> RuntimeException(msg.target + <span class="hljs-string">" sending message to a Handler on a dead thread"</span>);</span><br><span class="line">            Log.w(<span class="hljs-string">"MessageQueue"</span>, e.getMessage(), e);</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (msg.target == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            mQuiting = <span class="hljs-keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        msg.when = when;</span><br><span class="line">        Message p = mMessages;</span><br><span class="line">        <span class="hljs-keyword">if</span> (p == <span class="hljs-keyword">null</span> || when == <span class="hljs-number">0</span> || when &lt; p.when) &#123;</span><br><span class="line">            msg.next = p;</span><br><span class="line">            mMessages = msg;</span><br><span class="line">            <span class="hljs-keyword">this</span>.notify();</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            Message prev = <span class="hljs-keyword">null</span>;</span><br><span class="line">            <span class="hljs-keyword">while</span> (p != <span class="hljs-keyword">null</span> &amp;&amp; p.when &lt;= when) &#123;</span><br><span class="line">                prev = p;</span><br><span class="line">                p = p.next;</span><br><span class="line">            &#125;</span><br><span class="line">            msg.next = prev.next;</span><br><span class="line">            prev.next = msg;</span><br><span class="line">            <span class="hljs-keyword">this</span>.notify();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>首先你要知道，MessageQueue 并没有使用一个集合把所有的消息都保存起来，它只使用了一个 mMessages 对象表示当前待处理的消息。然后观察上面的代码的 16~31 行我们就可以看出，所谓的入队其实就是将所有的消息按时间来进行排序，这个时间当然就是我们刚才介绍的 uptimeMilli 参数。具体的操作方法就根据时间的顺序调用 msg.next，从而为每一个消息指定它的下一个消息是什么。当然如果你是通过<code>sendMessageAtFrontOfQueue()</code>方法来发送消息的，它也会调用<code>enqueueMessage()</code>来让消息入队，只不过时间为0，这时会把 mMessages 赋值为新入队的这条消息，然后将这条消息的 next 指定为刚才的 mMessages，这样也就完成了添加消息到队列头部的操作。<br>现在入队操作我们就已经看明白了，那出队操作是在哪里进行的呢?这个就需要看一看<code>Looper.loop()</code>方法的源码了，如下所示：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    Looper me = myLooper();</span><br><span class="line">    MessageQueue queue = me.mQueue;</span><br><span class="line">    <span class="hljs-keyword">while</span> (<span class="hljs-keyword">true</span>) &#123;</span><br><span class="line">        Message msg = queue.next(); <span class="hljs-comment">// might block</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (msg != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (msg.target == <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">                <span class="hljs-keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="hljs-keyword">if</span> (me.mLogging!= <span class="hljs-keyword">null</span>) me.mLogging.println(</span><br><span class="line">                    <span class="hljs-string">"&gt;&gt;&gt;&gt;&gt; Dispatching to "</span> + msg.target + <span class="hljs-string">" "</span></span><br><span class="line">                    + msg.callback + <span class="hljs-string">": "</span> + msg.what</span><br><span class="line">                    );</span><br><span class="line">            msg.target.dispatchMessage(msg);</span><br><span class="line">            <span class="hljs-keyword">if</span> (me.mLogging!= <span class="hljs-keyword">null</span>) me.mLogging.println(</span><br><span class="line">                    <span class="hljs-string">"&lt;&lt;&lt;&lt;&lt; Finished to    "</span> + msg.target + <span class="hljs-string">" "</span></span><br><span class="line">                    + msg.callback);</span><br><span class="line">            msg.recycle();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，这个方法从第4行开始，进入了一个死循环，然后不断地调用的MessageQueue的next()方法，我想你已经猜到了，这个next()方法就是消息队列的出队方法。不过由于这个方法的代码稍微有点长，我就不贴出来了，它的简单逻辑就是如果当前MessageQueue中存在mMessages(即待处理消息)，就将这个消息出队，然后让下一条消息成为mMessages，否则就进入一个阻塞状态，一直等到有新的消息入队。继续看loop()方法的第14行，每当有一个消息出队，就将它传递到msg.target的dispatchMessage()方法中，那这里msg.target又是什么呢？其实就是Handler啦，你观察一下上面sendMessageAtTime()方法的第6行就可以看出来了。接下来当然就要看一看Handler中dispatchMessage()方法的源码了，如下所示：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dispatchMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (msg.callback != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        handleCallback(msg);</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (mCallback != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (mCallback.handleMessage(msg)) &#123;</span><br><span class="line">                <span class="hljs-keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        handleMessage(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在第5行进行判断，如果mCallback不为空，则调用mCallback的handleMessage()方法，否则直接调用Handler的handleMessage()方法，并将消息对象作为参数传递过去。这样我相信大家就都明白了为什么handleMessage()方法中可以获取到之前发送的消息了吧！</p>
+<p>另外除了发送消息之外，我们还有以下几种方法可以在子线程中进行UI操作：</p>
+<ol>
+<li><p>Handler的post()方法</p>
+</li>
+<li><p>View的post()方法</p>
+</li>
+<li><p>Activity的runOnUiThread()方法</p>
+</li>
+</ol>
+<p>Handler中的post()方法，代码如下所示：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">post</span><span class="hljs-params">(Runnable r)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">   <span class="hljs-keyword">return</span>  sendMessageDelayed(getPostMessage(r), <span class="hljs-number">0</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>原来这里还是调用了<code>sendMessageDelayed()</code>方法去发送一条消息啊，并且还使用了<code>getPostMessage()</code>方法将 Runnable 对象转换成了一条消息，我们来看下这个方法的源码：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> Message <span class="hljs-title">getPostMessage</span><span class="hljs-params">(Runnable r)</span> </span>&#123;</span><br><span class="line">    Message m = Message.obtain();</span><br><span class="line">    m.callback = r;</span><br><span class="line">    <span class="hljs-keyword">return</span> m;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个方法中将消息的 callback 字段的值指定为传入的 Runnable 对象。咦？这个 callback 字段看起来有些眼熟啊，喔！在 Handler 的<code>dispatchMessage()</code>方法中原来有做一个检查，如果 Message 的 callback 等于 null 才会去调用<code>handleMessage()</code>方法，否则就调用<code>handleCallback()</code>方法。那我们快来看下<code>handleCallback()</code>方法中的代码吧：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleCallback</span><span class="hljs-params">(Message message)</span> </span>&#123;</span><br><span class="line">    message.callback.run();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再来看一下View中的post()方法，代码如下所示：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">post</span><span class="hljs-params">(Runnable action)</span> </span>&#123;</span><br><span class="line">    Handler handler;</span><br><span class="line">    <span class="hljs-keyword">if</span> (mAttachInfo != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        handler = mAttachInfo.mHandler;</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        ViewRoot.getRunQueue().post(action);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> handler.post(action);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>原来就是调用了Handler中的post()方法，我相信已经没有什么必要再做解释了。<br>最后再来看一下Activity中的runOnUiThread()方法，代码如下所示：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">runOnUiThread</span><span class="hljs-params">(Runnable action)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (Thread.currentThread() != mUiThread) &#123;</span><br><span class="line">        mHandler.post(action);</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        action.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果当前的线程不等于UI线程(主线程)，就去调用Handler的post()方法，否则就直接调用Runnable对象的run()方法。</p>
+<p><strong>参考文章：<a href="http://blog.csdn.net/woshiwxw765/article/details/38146185" target="_blank" rel="noopener">Android Handler、Message完全解析，带你从源码的角度彻底理解</a></strong></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-07-13T06:18:14.000Z">2017-07-13</time>
                 
                 <div class="level-item">
@@ -424,7 +496,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        69
+                        70
                     </p>
                 </div>
             </div>
@@ -444,7 +516,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -589,7 +661,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
@@ -715,7 +787,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 11.43px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 11.43px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
     </div>
 </div>
 
@@ -729,6 +801,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time></div>
+                    <a href="/2018/12/06/RxJava系列-一-入门/" class="has-link-black-ter is-size-6">RxJava系列(一) 入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -806,25 +897,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/Android-命名规范/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android 命名规范">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:27:38.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -843,7 +915,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">25</span>
+                            <span class="level-item tag">26</span>
                         </span>
                     </a>
                 </li>
@@ -907,6 +979,17 @@
                     <a class="level is-marginless" href="/tags/RecyclerView/">
                         <span class="level-start">
                             <span class="level-item">RecyclerView</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RxJava/">
+                        <span class="level-start">
+                            <span class="level-item">RxJava</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1168,6 +1251,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time></div>
+                    <a href="/2018/12/06/RxJava系列-一-入门/" class="has-link-black-ter is-size-6">RxJava系列(一) 入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/05/todo/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
@@ -1242,25 +1344,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/Android-命名规范/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android 命名规范">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:27:38.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1279,7 +1362,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">25</span>
+                            <span class="level-item tag">26</span>
                         </span>
                     </a>
                 </li>
@@ -1343,6 +1426,17 @@
                     <a class="level is-marginless" href="/tags/RecyclerView/">
                         <span class="level-start">
                             <span class="level-item">RecyclerView</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RxJava/">
+                        <span class="level-start">
+                            <span class="level-item">RxJava</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>

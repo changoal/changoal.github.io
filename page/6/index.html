@@ -132,6 +132,46 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-04-30T10:24:15.000Z">2017-04-30</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 222 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/04/30/AS导入jni项目/">AS导入jni项目</a>
+            
+        </h1>
+        <div class="content">
+            <p>最近遇到了一个问题，老板让看关于android直播推流方面的资料，因为觉得像百度云，腾讯云等的封装的太厉害，所以打算自己做推流的部分。<br>在网上看到了雷霄骅大神的博客，就把他做的demo的源码下下来了，但是他之前是用 eclipse 写得项目，所以在用AS导入的时候出现了一些问题。</p>
+<p>解决<br>打开 app 的 build.gradle 在 buildTypes 里添加如下</p>
+<figure class="highlight gradle hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">sourceSets</span> &#123;</span><br><span class="line">    main &#123;</span><br><span class="line">            jni.srcDirs = []</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">task</span> ndkBuild(type: Exec, <span class="hljs-keyword">description</span>: <span class="hljs-string">'Compile JNI source via NDK'</span>) &#123;</span><br><span class="line">        commandLine <span class="hljs-string">"D:/java/android-ndk-r13b/ndk-build.cmd"</span>,</span><br><span class="line">                    <span class="hljs-string">'NDK_PROJECT_PATH=build/intermediates/ndk'</span>,</span><br><span class="line">                    <span class="hljs-string">'NDK_LIBS_OUT=src/main/jniLibs'</span>,</span><br><span class="line">                    <span class="hljs-string">'APP_BUILD_SCRIPT=src/main/jni/Android.mk'</span>,</span><br><span class="line">                    <span class="hljs-string">'NDK_APPLICATION_MK=src/main/jni/Application.mk'</span></span><br><span class="line">    &#125;</span><br><span class="line">    tasks.withType(JavaCompile) &#123;</span><br><span class="line">         compileTask -&gt; compileTask.dependsOn ndkBuild</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>其中 D:/java/android-ndk-r13b/ndk-build.cmd 是你电脑的ndk路径下的ndk-build.cmd路径</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-04-30T10:23:23.000Z">2017-04-30</time>
                 
                 
@@ -565,77 +605,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2016-08-22T15:07:07.000Z">2016-08-22</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/生活/">生活</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 636 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2016/08/22/此间/">此间</a>
-            
-        </h1>
-        <div class="content">
-            <p>来北京一个月了，果然很快啊，这样算的话，这段注定是不堪回首的日子已经过去四分之一了。</p>
-<p>这一个月还好吧，经历了不少，现在也算是一半身在社会中了，还是学校好啊，真的体会到了。</p>
-<p>还是爱玩，以后要变变了，起码 玩的时候要好好玩不要考虑其他事，哈哈哈。</p>
-<p>是我自己一直太过自负，总是有一种迷之优越感，总是觉得其他人不如自己，只有自己想着要努力。我喜欢这种优越，但是现实是每个人都想着努力，可以产生优越感，但是要让自己拥有可以优越的本钱啊。</p>
-<p>还是太浮躁，我一直都是自己的能力配不上自己的野心。</p>
-<p>淡定，慢慢来。</p>
-<p>最近特别喜欢看那种治愈系温暖类的电影：一个叫欧维的男人决定去死，一一。也许是因为心里太没安全感，太寂寞。</p>
-<blockquote>
-<p>“我们是选择死亡还是努力活着呢？”</p>
-</blockquote>
-<p>女主很漂亮，她的出现改变了欧维的一生，他俩才是最适合的吧。</p>
-<blockquote>
-<p>“我觉得，我也老了。”</p>
-</blockquote>
-<p>三个小时的电影一点不让人觉得无聊，通过一件一件小事讲述了主题，家？人？</p>
-<p>奥运会结束了，犹记得四年前林丹战胜李宗伟夺得奥运冠军后，我还转了一篇日志“林丹，李宗伟，一辈子的对手，一辈子的朋友”，喜欢这种惺惺相惜的英雄，一扯到时间就变得伤感。女排又夺冠了，又是逆转，确实让人振奋，我很激动啊。竞技运动果然热血沸腾，足球更是如此。</p>
-<blockquote>
-<p>这是个喧嚣的世界</p>
-<p>我从未觉得安静过</p>
-</blockquote>
-<blockquote>
-<p>它的繁荣，它的昌盛</p>
-<p>带给人们却只是更多的疲惫，更多的抱怨</p>
-<p>于是我捂住双耳</p>
-<p>不去听它的疲惫，不去听它的昌盛</p>
-<p>不去听他的抱怨，不去听它的繁荣</p>
-<p>于是我以为我的世界安静了</p>
-<p>只是这世上总有那么一人</p>
-<p>哪怕她不曾对我讲过一言一语</p>
-<p>但我却听得到她的声音</p>
-</blockquote>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -700,7 +669,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        69
+                        70
                     </p>
                 </div>
             </div>
@@ -720,7 +689,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -865,7 +834,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
@@ -991,7 +960,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 11.43px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 11.43px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
     </div>
 </div>
 
@@ -1005,6 +974,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time></div>
+                    <a href="/2018/12/06/RxJava系列-一-入门/" class="has-link-black-ter is-size-6">RxJava系列(一) 入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1082,25 +1070,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/Android-命名规范/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android 命名规范">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:27:38.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1119,7 +1088,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">25</span>
+                            <span class="level-item tag">26</span>
                         </span>
                     </a>
                 </li>
@@ -1183,6 +1152,17 @@
                     <a class="level is-marginless" href="/tags/RecyclerView/">
                         <span class="level-start">
                             <span class="level-item">RecyclerView</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RxJava/">
+                        <span class="level-start">
+                            <span class="level-item">RxJava</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -1444,6 +1424,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time></div>
+                    <a href="/2018/12/06/RxJava系列-一-入门/" class="has-link-black-ter is-size-6">RxJava系列(一) 入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/05/todo/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
@@ -1518,25 +1517,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/Android-命名规范/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android 命名规范">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:27:38.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1555,7 +1535,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">25</span>
+                            <span class="level-item tag">26</span>
                         </span>
                     </a>
                 </li>
@@ -1619,6 +1599,17 @@
                     <a class="level is-marginless" href="/tags/RecyclerView/">
                         <span class="level-start">
                             <span class="level-item">RecyclerView</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RxJava/">
+                        <span class="level-start">
+                            <span class="level-item">RxJava</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>

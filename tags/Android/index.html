@@ -139,6 +139,175 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2018/12/06/RxJava系列-一-入门/" class="image is-7by1">
+            <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    19 分钟 读完 (大约 2846 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/12/06/RxJava系列-一-入门/">RxJava系列(一) 入门</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="RxJava-入门"><a href="#RxJava-入门" class="headerlink" title="RxJava 入门"></a>RxJava 入门</h1><ol>
+<li>入门（概念、基础使用）</li>
+<li>进阶（操作符（map、flatmap、zip、defer、contatMap等等），背压等）</li>
+<li>实战（网络请求等）</li>
+<li>源码解析（变换、线程调度，源码探讨）</li>
+</ol>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>下面是摘自 <a href="http://reactivex.io/intro.html" target="_blank" rel="noopener">ReactiveX 官网</a> 的一段话。</p>
+<blockquote>
+<p>ReactiveX is a library for composing asynchronous and event-based programs by using observable sequences.(一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库)</p>
+</blockquote>
+<p>其中提到了几个概念，观察者模式、响应式编程。</p>
+<h3 id="响应式编程"><a href="#响应式编程" class="headerlink" title="响应式编程"></a>响应式编程</h3><blockquote>
+<p>概念：响应式编程是一种通过异步和数据流来构建事物关系的编程模型。</p>
+</blockquote>
+<p>一般的编码模式中，“人”在其中扮演了过重的角色，关心程序中的每一部分。某种意义上这是一种顺序性思维的编程，我要做什么，然后做什么，最后做什么，按部就班编写就好了。具体如下图：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/1/16769c6573deaa61?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="顺序性思维"></p>
+<p>而响应式编程，全都是事物与事物之间的关系，解脱了”人”，之后一个事物发生变化另一个事物就自动响应。如下：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/12/1/16769c721891702e?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="响应式编程"></p>
+<p>个人感觉响应式编程就是用异步数据流进行编程。流是响应式的核心，可以基于任何东西创建数据流，响应式编程就是根据数据流的流向进行一系列的操作。</p>
+<h3 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h3><blockquote>
+<p>观察者模式(Observer Pattern)：定义了对象间的一种一对多的依赖关系，当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式又叫做发布-订阅（Publish/Subscribe）模式、模型-视图（Model/View）模式、源-监听器（Source/Listener）模式或从属者（Dependents）模式。</p>
+</blockquote>
+<p>观察者模式面向的需求是：A 对象（观察者）对 B 对象（被观察者）的某种变化高度敏感，需要在 B 变化的一瞬间做出反应。举个例子，新闻里喜闻乐见的警察抓小偷，警察需要在小偷伸手作案的时候实施抓捕。在这个例子里，警察是观察者，小偷是被观察者，警察需要时刻盯着小偷的一举一动，才能保证不会漏过任何瞬间。程序的观察者模式和这种真正的『观察』略有不同，观察者不需要时刻盯着被观察者（例如 A 不需要每过 2ms 就检查一次 B 的状态），而是采用 <strong>注册(Register)</strong> 或者称为 <strong>订阅(Subscribe)</strong> 的方式，告诉被观察者：我需要你的某某状态，你要在它变化的时候通知我。 Android 开发中一个比较典型的例子是点击监听器 <code>OnClickListener</code> 。对设置 <code>OnClickListener</code> 来说， <code>View</code> 是被观察者， <code>OnClickListener</code> 是观察者，二者通过 <code>setOnClickListener()</code> 方法达成订阅关系。订阅之后用户点击按钮的瞬间，Android Framework 就会将点击事件发送给已经注册的 <code>OnClickListener</code> 。采取这样被动的观察方式，既省去了反复检索状态的资源消耗，也能够得到最高的反馈速度。当然，这也得益于我们可以随意定制自己程序中的观察者和被观察者，而警察叔叔明显无法要求小偷『你在作案的时候务必通知我』。</p>
+<h3 id="RxJava-简介"><a href="#RxJava-简介" class="headerlink" title="RxJava 简介"></a>RxJava 简介</h3><p>RxJava 有三个基本概念: <code>Observable</code> （被观察者），<code>Observer</code> （观察者），<code>subscribe</code> （订阅）。<code>Observable</code>  和 <code>Observer</code> 通过 <code>subscribe()</code> 方法实现订阅关系，从而 <code>Observable</code> 可以在需要的时候发出事件来通知 <code>Observer</code>。</p>
+<p>Github 链接：</p>
+<p>RxJava <a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="noopener">https://github.com/ReactiveX/RxJava</a></p>
+<p>RxAndroid <a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="noopener">https://github.com/ReactiveX/RxAndroid</a></p>
+<p>gradle 依赖：</p>
+<p><code>implementation &#39;io.reactivex.rxjava2:rxjava:2.x.y&#39;</code></p>
+<p><code>implementation &#39;io.reactivex.rxjava2:rxandroid:2.x.y&#39;</code></p>
+<h3 id="RxJava-使用"><a href="#RxJava-使用" class="headerlink" title="RxJava 使用"></a>RxJava 使用</h3><h4 id="创建被观察者"><a href="#创建被观察者" class="headerlink" title="创建被观察者"></a>创建被观察者</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Observable&lt;String&gt; observable = Observable</span><br><span class="line">            .create(<span class="hljs-keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">                <span class="hljs-meta">@Override</span></span><br><span class="line">                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">subscribe</span><span class="hljs-params">(ObservableEmitter&lt;String&gt; emitter)</span> </span>&#123;</span><br><span class="line">                    emitter.onNext(<span class="hljs-string">"Hello"</span>);</span><br><span class="line">                    emitter.onNext(<span class="hljs-string">"World"</span>);</span><br><span class="line">                    emitter.onComplete();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
+<p>可以看到，这里传入了一个 <code>ObservableOnSubscribe</code> 对象作为参数。<code>ObservableOnSubscribe</code> 会被存储在返回的 <code>Observable</code> 对象中，当 <code>Observable</code> 被订阅的时候，<code>subscribe</code> 方法就会自动被调用，事件序列就会依照设定依次触发（对于上面的代码，就是观察者 <code>observer</code>  将会被调用三次 <code>onNext()</code> 和一次 <code>onComplete()</code>）。</p>
+<p>此外，还可以通过其他方法来创建被观察者。</p>
+<ul>
+<li><p><code>just(T...)</code>: 将传入的参数依次发送出来。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(<span class="hljs-string">"Hello"</span>, <span class="hljs-string">"World"</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>fromArray(T...items)</code> : 将传入的数组或 Iterable 拆分成具体对象后，依次发送出来。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">String[] words = &#123;<span class="hljs-string">"Hello"</span>, <span class="hljs-string">"Hi"</span>, <span class="hljs-string">"Aloha"</span>&#125;;</span><br><span class="line">Observable&lt;String&gt; observable = Observable.fromArray(words);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>除 <code>Observable</code> 外还有 <code>Flowable</code> 等被观察者类型。</p>
+<h4 id="创建观察者"><a href="#创建观察者" class="headerlink" title="创建观察者"></a>创建观察者</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Observer&lt;String&gt; observer = <span class="hljs-keyword">new</span> Observer&lt;String&gt;() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSubscribe</span><span class="hljs-params">(Disposable d)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onComplete</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
+<p>在观察者中进行响应事件对应的相关操作。</p>
+<h4 id="订阅"><a href="#订阅" class="headerlink" title="订阅"></a>订阅</h4><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">observable.subscribe(observer);</span><br></pre></td></tr></table></figure>
+<p>这里的写法是被观察者订阅了观察者，而不是观察者订阅被观察者，是为了保证流式API调用风格。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">observable</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .filter(s -&gt; s != <span class="hljs-keyword">null</span>)</span><br><span class="line">    .subscribe(observer);</span><br></pre></td></tr></table></figure>
+<p>上面就是一个非常简易的RxJava流式API的调用：同一个调用主体一路调用下来，一气呵成。</p>
+<p>整个流程如下图所示：</p>
+<p><img src="https://lc-gold-cdn.xitu.io/d8c61ba1e064f977c8cb.png?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="流程图"></p>
+<p>结合流程图的相应代码实例如下：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//创建被观察者，是事件传递的起点</span></span><br><span class="line">Observable.just(<span class="hljs-string">"On"</span>,<span class="hljs-string">"Off"</span>,<span class="hljs-string">"On"</span>,<span class="hljs-string">"On"</span>)</span><br><span class="line">        <span class="hljs-comment">//这就是在传递过程中对事件进行过滤操作</span></span><br><span class="line">         .filter(<span class="hljs-keyword">new</span> Func1&lt;String, Boolean&gt;() &#123;</span><br><span class="line">                    <span class="hljs-meta">@Override</span></span><br><span class="line">                    <span class="hljs-function"><span class="hljs-keyword">public</span> Boolean <span class="hljs-title">call</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line">                        <span class="hljs-keyword">return</span> s！=<span class="hljs-keyword">null</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;)</span><br><span class="line">        <span class="hljs-comment">//实现订阅</span></span><br><span class="line">        .subscribe(</span><br><span class="line">                <span class="hljs-comment">//创建观察者，作为事件传递的终点处理事件    </span></span><br><span class="line">                  <span class="hljs-keyword">new</span> Subscriber&lt;String&gt;() &#123;</span><br><span class="line">                        <span class="hljs-meta">@Override</span></span><br><span class="line">                        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCompleted</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">                            Log.d(<span class="hljs-string">"DDDDDD"</span>,<span class="hljs-string">"结束观察...\n"</span>);</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        <span class="hljs-meta">@Override</span></span><br><span class="line">                        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;</span><br><span class="line">                            <span class="hljs-comment">//出现错误会调用这个方法</span></span><br><span class="line">                        &#125;</span><br><span class="line">                        <span class="hljs-meta">@Override</span></span><br><span class="line">                        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line">                            <span class="hljs-comment">//处理事件</span></span><br><span class="line">                            Log.d(<span class="hljs-string">"DDDDD"</span>,<span class="hljs-string">"handle this---"</span>+s)</span><br><span class="line">                        &#125;</span><br><span class="line">        );</span><br></pre></td></tr></table></figure>
+<p><strong>注意：当调用订阅操作（即调用Observable.subscribe()方法）的时候，被观察者才真正开始发出事件。</strong> </p>
+<h4 id="线程调度"><a href="#线程调度" class="headerlink" title="线程调度"></a>线程调度</h4><p>至此，在 RxJava 的默认规则中，事件的发出和消费都是在同一个线程的。</p>
+<p>在 RxJava 中，通过 <code>Scheduler</code> 来指定每一段代码应该运行在什么样的线程。下表展示了RxJava中可用的调度器种类：</p>
+<table>
+<thead>
+<tr>
+<th>调度器类型</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Schedulers.computation( )</td>
+<td>用于计算任务，如事件循环或和回调处理，不要用于IO操作(IO操作请使用Schedulers.io())；默认线程数等于处理器的数量</td>
+</tr>
+<tr>
+<td>Schedulers.from(executor)</td>
+<td>使用指定的Executor作为调度器</td>
+</tr>
+<tr>
+<td>Schedulers.immediate( )</td>
+<td>在当前线程立即开始执行任务</td>
+</tr>
+<tr>
+<td>Schedulers.io( )</td>
+<td>用于IO密集型任务，如异步阻塞IO操作，这个调度器的线程池会根据需要增长；对于普通的计算任务，请使用Schedulers.computation()；Schedulers.io( )默认是一个CachedThreadScheduler，很像一个有线程缓存的新线程调度器</td>
+</tr>
+<tr>
+<td>Schedulers.newThread( )</td>
+<td>为每个任务创建一个新线程</td>
+</tr>
+<tr>
+<td>Schedulers.trampoline( )</td>
+<td>当其它排队的任务完成后，在当前线程排队开始执行</td>
+</tr>
+<tr>
+<td>AndroidSchedulers.mainThread()</td>
+<td>Android 主线程</td>
+</tr>
+</tbody>
+</table>
+<p><code>subscribeOn()</code>: 指定 <code>subscribe()</code> 所发生的线程，或者叫做事件产生的线程。</p>
+<p><code>observeOn()</code>: 指定 <code>Observer</code> 所运行在的线程。或者叫做事件消费的线程。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//new Observable.just()执行在新线程</span></span><br><span class="line">Observable.just(getFilePath())</span><br><span class="line">        <span class="hljs-comment">//指定在新线程中创建被观察者</span></span><br><span class="line">        .subscribeOn(Schedulers.newThread())</span><br><span class="line">        <span class="hljs-comment">//将接下来执行的线程环境指定为io线程</span></span><br><span class="line">        .observeOn(Schedulers.io())</span><br><span class="line">        <span class="hljs-comment">//map就处在io线程</span></span><br><span class="line">        .map(mMapOperater)</span><br><span class="line">        <span class="hljs-comment">//将后面执行的线程环境切换为主线程，</span></span><br><span class="line">        <span class="hljs-comment">//但是这一句依然执行在io线程</span></span><br><span class="line">        .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">        <span class="hljs-comment">//指定线程无效，但这句代码本身执行在主线程</span></span><br><span class="line">        .subscribeOn(Schedulers.io())</span><br><span class="line">        <span class="hljs-comment">//执行在主线程</span></span><br><span class="line">        .subscribe(mSubscriber);</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<ul>
+<li><code>subscribeOn()</code> 它指示 <code>Observable</code> 在一个指定的调度器上创建（只作用于被观察者创建阶段）。只能指定一次，如果指定多次则以第一次为准</li>
+<li><code>observeOn()</code> 指定在事件传递（加工变换）和最终被处理（观察者）的发生在哪一个调度器。可指定多次，每次指定完都在下一步生效。</li>
+</ul>
+<p>=======================================================</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testRxJava</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    Observable.create(<span class="hljs-keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">subscribe</span><span class="hljs-params">(ObservableEmitter&lt;String&gt; emitter)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).subscribe(<span class="hljs-keyword">new</span> Observer&lt;String&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSubscribe</span><span class="hljs-params">(Disposable d)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onComplete</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 伪代码</span></span><br><span class="line">Observable.create( ObservableOnSubscribe(ObservableEmitter -&gt; *) )&#123;</span><br><span class="line">                        ObservableCreate&lt;T&gt;(observableOnSubscribe)</span><br><span class="line">            &#125;</span><br><span class="line">          .subscribe(Observer)&#123;</span><br><span class="line">                subscribeActual(observer)&#123;</span><br><span class="line">                    parent = <span class="hljs-keyword">new</span> CreateEmitter&lt;T&gt;(observer)</span><br><span class="line">                    observer.onSubscribe(parent);</span><br><span class="line">                    observableOnSubscribe.subscribe(parent);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>参考资料：</p>
+<ul>
+<li><a href="http://rkhcy.github.io/2017/12/13/RxJava2_1/" target="_blank" rel="noopener">图解 RxJava2</a></li>
+<li><a href="http://rkhcy.github.io/2017/12/21/RxJava2_2/" target="_blank" rel="noopener">图解 RxJava2 - subscribeOn</a></li>
+<li><a href="http://rkhcy.github.io/2017/12/22/RxJava2_3/" target="_blank" rel="noopener">图解 RxJava2 - observeOn</a></li>
+<li><a href="https://juejin.im/book/5a09997cf265da432002bf6a/section/5a0b02b3f265da432717c023" target="_blank" rel="noopener">响应式编程 - RxJava 高阶指南</a></li>
+<li><a href="https://www.jianshu.com/p/517fdd568ea3" target="_blank" rel="noopener">拆轮子系列：RxJava</a></li>
+<li><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/" target="_blank" rel="noopener">ReactiveX/RxJava文档中文版</a></li>
+<li><a href="https://blog.csdn.net/yalinfendou/article/details/80752021" target="_blank" rel="noopener">自己动手实现RxJava</a></li>
+<li><a href="http://gank.io/post/560e15be2dca930e00da1083" target="_blank" rel="noopener">给 Android 开发者的 RxJava 详解</a></li>
+<li><a href="https://juejin.im/post/5b17560e6fb9a01e2862246f" target="_blank" rel="noopener">RxJava2 只看这一篇文章就够了</a></li>
+<li><a href="https://juejin.im/post/5c026915f265da615876e42e" target="_blank" rel="noopener">响应式编程在Android 中的一些探索</a></li>
+<li><a href="https://juejin.im/post/582d413c8ac24700619cceed" target="_blank" rel="noopener">关于RxJava最友好的文章——背压（Backpressure）</a></li>
+<li><a href="https://juejin.im/post/580103f20e3dd90057fc3e6d" target="_blank" rel="noopener">关于RxJava最友好的文章</a></li>
+<li><a href="https://www.atjiang.com/intro-reactive-programming/" target="_blank" rel="noopener">响应式编程(Reactive Programming) 入门</a></li>
+</ul>
+<blockquote>
+<p>我所理解的RxJava的核心优势应该是它可以对复杂逻辑进行拆分成为一个一个的Observable后，RxJava的各种操作符予这些解耦的Observable能够合理的进行再组织的能力，并且它给予了你足够丰富的再组织能力。这种分拆再组织的能力是十分强大的，只有运用好RxJava这种强大的能力，才能真正意义上使你原来非常复杂的揉在一团的逻辑代码变得清晰、简洁，本质上是因为RxJava给你提供了这种强大方便的组织能力，我觉得有点像一种编程模式，你可以放心的将复杂的逻辑拆块，最后RxJava给你提供了丰富的组织、变换、串联、控制这些块的能力，只有这个时候你才会真正觉得这是个好东西，而不应该是跟风使用，但是心里也说不清楚为什么要使用。</p>
+</blockquote>
+<p>RxJava 的这个实现，是一条从上到下的链式调用，没有任何嵌套，这在逻辑的简洁性上是具有优势的。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2018/09/28/Android流行ORM框架/" class="image is-7by1">
             <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android流行ORM框架">
         </a>
@@ -1255,98 +1424,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-03-30T13:09:02.000Z">2018-03-30</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    11 分钟 读完 (大约 1700 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/03/30/Android-性能优化/">Android 性能优化</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="布局优化"><a href="#布局优化" class="headerlink" title="布局优化"></a>布局优化</h1><ul>
-<li>删除布局中无用的控件和层级，其次有选择的使用性能较低的 <code>ViewGroup</code>，比如 <code>RelativeLayout</code>, <code>ConstraintLayout</code> 。同样层级的话更优先选择使用 <code>LinearLayout</code>，因为<code>RelativeLayout</code> 的布局过程需要花费更多的 <code>CPU</code> 时间。如果需要嵌套的方式来做，更建议采用 <code>RelativeLayout</code> ，因为 <code>ViewGroup</code> 的嵌套就相当于增加了布局的层级，同样会降低程序的性能。</li>
-<li>采用 <code>&lt;include&gt;</code> 标签，如果多个布局中需要一个相同的 <code>layout</code> ，可以使用<code>&lt;include&gt;</code> 来避免写重复的布局文件。</li>
-<li>采用 <code>&lt;merge&gt;</code> 标签。一般和 <code>&lt;include&gt;</code> 标签一起使用而减少布局的层级。</li>
-<li><code>ViewStub</code>。它非常轻量级，而且高/宽都是 0，因此它本身不参与任何的布局和绘制过程。<code>ViewStub</code> 的意义在于按需加载所需的布局文件，在实际开发中，有很多布局文件在正常情况下不会显示，这个时候就没有必要在整个界面初始化的时候将其加载进来，通过 <code>ViewStub</code> 就可以做到在使用的时候再加载。<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">ViewStub</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/stub_import"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_gravity</span>=<span class="hljs-string">"center"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:inflatedId</span>=<span class="hljs-string">"@+id/id_login"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout</span>=<span class="hljs-string">"@layout/refresh_layout"</span> /&gt;</span></span><br><span class="line">    </span><br><span class="line">其中 stub_import 是 ViewStub 的 id，id_login 是 refresh_layout 这个布局根元素的 id, 需要加载 ViewStub 的布局时，有两种方式：</span><br><span class="line"></span><br><span class="line">((ViewStub)findViewById(R.id.stub_import)).setVisibility(View.VISIBLE);</span><br><span class="line"></span><br><span class="line">或者</span><br><span class="line"></span><br><span class="line">View layout = ((ViewStub)findViewById(R.id.stub_import)).inflate();</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h1 id="绘制优化"><a href="#绘制优化" class="headerlink" title="绘制优化"></a>绘制优化</h1><p>绘制优化是指 <code>View</code> 的 <code>onDraw</code> 方法要避免执行大量的操作。</p>
-<p><code>onDraw</code> 里不要创建新的局部对象 不要做耗时的操作。</p>
-<h1 id="内存泄露优化"><a href="#内存泄露优化" class="headerlink" title="内存泄露优化"></a>内存泄露优化</h1><p>内存泄露优化分为两个方面，一方面是在开发过程中避免写出有内存泄漏的代码，另一方面是通过一些分析工具找出潜在的内存泄漏继而解决。</p>
-<h2 id="场景1-静态变量导致的内存泄漏"><a href="#场景1-静态变量导致的内存泄漏" class="headerlink" title="场景1 静态变量导致的内存泄漏"></a>场景1 静态变量导致的内存泄漏</h2><p>下面的代码将导致 <code>Activity</code> 无法正常销毁，因为静态变量 <code>sContext</code> 引用了它。<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String TAG = <span class="hljs-string">"MainActivity"</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Context sContext;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main); </span><br><span class="line">        </span><br><span class="line">        sContext = <span class="hljs-keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>解决方案：</strong></p>
-<ol>
-<li>在 <code>onDestroy</code> 中释放 <code>sContext = null</code>。</li>
-<li>变成虚引用 <code>private static WeakReference&lt;Context&gt; context</code>。</li>
-</ol>
-<h2 id="场景2-单例模式导致的内存泄漏"><a href="#场景2-单例模式导致的内存泄漏" class="headerlink" title="场景2 单例模式导致的内存泄漏"></a>场景2 单例模式导致的内存泄漏</h2><p>如下所示，提供一个单例模式的 <code>TestManager</code>，<code>TestManager</code>可以接受外部的注册并将外部的监听器存储起来。</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestManager</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> List&lt;OnDataArrivedListener&gt; mOnDataArrivedListeners = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SingletonHolder</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> TestManager INSTANCE = <span class="hljs-keyword">new</span> TestManager();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">TestManager</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> TestManager <span class="hljs-title">getInstance</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> SingletonHolder.INSTANCE;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">registerListener</span><span class="hljs-params">(OnDataArrivedListener listener)</span></span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span>(!mOnDataArrivedListeners.contains(listener))&#123;</span><br><span class="line">            mOnDataArrivedListeners.add(listener);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">synchronized</span> <span class="hljs-keyword">void</span> <span class="hljs-title">unregisterListener</span><span class="hljs-params">(OnDataArrivedListener listener)</span></span>&#123;</span><br><span class="line">        mOnDataArrivedListeners.remove(listener);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">OnDataArrivedListener</span></span>&#123;</span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">onDataArrived</span><span class="hljs-params">(Object data)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>让 <code>Activity</code> 实现 <code>OnDataArrivedListener</code> 并向 <code>TestManager</code> 注册监听，如下所示。下面的代码由于缺少解注册的操作而引起内存泄漏，泄露的原因是 <code>Activity</code> 的对象被单例模式的  <code>TestManager</code> 所持有，而单例模式的特点是其生命周期和 <code>Application</code> 保持一致，因此 <code>Activity</code> 无法被及时释放。</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class MainActivity extends Activity&#123;</span><br><span class="line"></span><br><span class="line">    private static final String TAG = &quot;MainActivity&quot;;</span><br><span class="line">    </span><br><span class="line">    private static Context sContext;</span><br><span class="line">    </span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main); </span><br><span class="line">        </span><br><span class="line">        TestManager.getInstance().registerListener(this);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><strong>解决方案：</strong></p>
-<p>在 <code>onDestroy</code> 中 <code>TestManager.getInstance().unregisterListener(this);</code>。</p>
-<h2 id="场景3-属性动画导致的内存泄漏"><a href="#场景3-属性动画导致的内存泄漏" class="headerlink" title="场景3 属性动画导致的内存泄漏"></a>场景3 属性动画导致的内存泄漏</h2><p>属性动画中有一类无限循环的动画，如果在 <code>Activity</code> 中播放此类动画并且没有在 <code>onDestroy</code> 中去停止动画，那么动画会一直播放下去，尽管已经无法在页面上看到动画效果了，并且这个时候 <code>Activity</code> 的 <code>View</code> 会被动画持有，而 <code>View</code> 又持有了 <code>Activity</code>，最终 <code>Activity</code> 无法释放。</p>
-<p><strong>解决方法</strong></p>
-<p>是在 <code>onDestroy</code> 中停止动画。</p>
-<h2 id="场景4-非静态内部类导致的内存泄漏"><a href="#场景4-非静态内部类导致的内存泄漏" class="headerlink" title="场景4 非静态内部类导致的内存泄漏"></a>场景4 非静态内部类导致的内存泄漏</h2><p>比如 <code>Handler</code><br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> MyHandler handler;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyHandler</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Handler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">private</span> WeakReference&lt;MainActivity&gt; reference;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyHandler</span><span class="hljs-params">(MainActivity activity)</span> </span>&#123;</span><br><span class="line">            reference = <span class="hljs-keyword">new</span> WeakReference&lt;&gt;(activity);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(Message msg)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-comment">//<span class="hljs-doctag">TODO:</span> do something</span></span><br><span class="line">            reference.get().doSomeThing();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        handler = <span class="hljs-keyword">new</span> MyHandler(<span class="hljs-keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onDestroy</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        handler.removeMessages(<span class="hljs-number">1</span>);</span><br><span class="line">        <span class="hljs-keyword">super</span>.onDestroy();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h1 id="响应速度优化和-ANR-日志分析"><a href="#响应速度优化和-ANR-日志分析" class="headerlink" title="响应速度优化和 ANR 日志分析"></a>响应速度优化和 ANR 日志分析</h1><p>响应速度优化的核心思想是避免在主线程中做耗时操作。响应速度过慢更多的体现在 <code>Activity</code> 的启动速度上，如果在主线程中做太多事情，会导致 <code>Activity</code> 启动时出现黑屏现象，甚至出现 <code>ANR(Application not response)</code>。<code>Android</code> 规定，<code>Activity</code> 如果 5s 内无法响应屏幕触摸事件或者键盘输入事件就会出现 <code>ANR</code>， <code>BroadcastReceiver</code> 如果 10s 之内还未执行完操作也会出现 <code>ANR</code>，<code>Service</code>  如果 20s 之内还未执行完操作也会出现 <code>ANR</code>。</p>
-<p>当一个进程发生了 <code>ANR</code> 以后，系统会在<code>data/anr</code> 目录下创建一个 <code>traces.txt</code>，通过分析这个文件就能定位出 <code>ANR</code> 的原因。</p>
-<h1 id="ListView-优化-和-Bitmap-优化"><a href="#ListView-优化-和-Bitmap-优化" class="headerlink" title="ListView 优化 和 Bitmap 优化"></a>ListView 优化 和 Bitmap 优化</h1><h2 id="ListView-优化方式"><a href="#ListView-优化方式" class="headerlink" title="ListView 优化方式"></a>ListView 优化方式</h2><ul>
-<li>布局复用</li>
-<li>使用 <code>ViewHolder</code>，减小 <code>findViewById</code> 的使用，避免在 <code>getView</code> 中执行耗时操作</li>
-<li>在列表快速滑动时不适合开启大量的异步任务的。</li>
-<li>数据可以分页加载。</li>
-<li>可以尝试开启硬件加速来使 <code>ListView</code> 的滑动更加流畅。</li>
-<li>尽量让 ItemView 的 Layout 层次结构简单。</li>
-<li>ItemView 元素避免半透明。</li>
-<li>尽量能保证 Adapter 的 hasStableIds() 返回 true，这样在 notifyDataSetChanged() 的时候，如果 id 不变，ListView 将不会重新绘制这个 View，达到优化的目的。</li>
-<li>每个 ItemView 不能太高，特别是不要超过屏幕的高度。</li>
-</ul>
-<h2 id="Bitmap-优化方式"><a href="#Bitmap-优化方式" class="headerlink" title="Bitmap 优化方式"></a>Bitmap 优化方式</h2><ul>
-<li>加载合适尺寸的图片（二次采样，inSampleSize）。</li>
-</ul>
-<h1 id="线程优化"><a href="#线程优化" class="headerlink" title="线程优化"></a>线程优化</h1><p>线程优化的思想是使用线程池，避免程序中存在大量的 <code>Thread</code>。线程池可以重用内部的线程，从而避免了线程的创建和销毁所带来的性能开销，同时线程池还可以有效的控制线程池的最大并发数，避免大量的线程因互相抢占系统资源从而导致堵塞现象的发生。</p>
-<h1 id="一些性能优化建议"><a href="#一些性能优化建议" class="headerlink" title="一些性能优化建议"></a>一些性能优化建议</h1><ul>
-<li>避免创建过多的对象。</li>
-<li>不要过多使用枚举，枚举占用的内存空间要比整形大。（不过枚举要是能影响性能的话，就太差了）</li>
-<li>常量请使用 <code>static final</code> 来修饰。</li>
-<li>使用 <code>Android</code> 特有的数据结构，比如 <code>SparseArray</code> 和 <code>Pair</code> 等。</li>
-<li>适当使用软引用和弱引用。</li>
-<li>尽量采用静态内部类，这样可以避免潜在的由于内部类而导致的内存泄漏。</li>
-</ul>
-<hr>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1407,7 +1484,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        69
+                        70
                     </p>
                 </div>
             </div>
@@ -1427,7 +1504,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -1572,7 +1649,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">16</span>
+                <span class="level-item tag">17</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
@@ -1698,7 +1775,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 11.43px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 11.43px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
     </div>
 </div>
 
@@ -1712,6 +1789,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time></div>
+                    <a href="/2018/12/06/RxJava系列-一-入门/" class="has-link-black-ter is-size-6">RxJava系列(一) 入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1789,25 +1885,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/Android-命名规范/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android 命名规范">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:27:38.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1826,7 +1903,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">25</span>
+                            <span class="level-item tag">26</span>
                         </span>
                     </a>
                 </li>
@@ -1890,6 +1967,17 @@
                     <a class="level is-marginless" href="/tags/RecyclerView/">
                         <span class="level-start">
                             <span class="level-item">RecyclerView</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RxJava/">
+                        <span class="level-start">
+                            <span class="level-item">RxJava</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
@@ -2151,6 +2239,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time></div>
+                    <a href="/2018/12/06/RxJava系列-一-入门/" class="has-link-black-ter is-size-6">RxJava系列(一) 入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/05/todo/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
@@ -2225,25 +2332,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/Android-命名规范/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Android 命名规范">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:27:38.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/Android-命名规范/" class="has-link-black-ter is-size-6">Android 命名规范</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2262,7 +2350,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">25</span>
+                            <span class="level-item tag">26</span>
                         </span>
                     </a>
                 </li>
@@ -2326,6 +2414,17 @@
                     <a class="level is-marginless" href="/tags/RecyclerView/">
                         <span class="level-start">
                             <span class="level-item">RecyclerView</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RxJava/">
+                        <span class="level-start">
+                            <span class="level-item">RxJava</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">1</span>
