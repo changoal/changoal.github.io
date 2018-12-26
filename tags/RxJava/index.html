@@ -158,7 +158,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    19 分钟 读完 (大约 2846 个字)
+                    22 分钟 读完 (大约 3342 个字)
                 </span>
                 
             </div>
@@ -193,7 +193,10 @@
 <p>观察者模式(Observer Pattern)：定义了对象间的一种一对多的依赖关系，当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式又叫做发布-订阅（Publish/Subscribe）模式、模型-视图（Model/View）模式、源-监听器（Source/Listener）模式或从属者（Dependents）模式。</p>
 </blockquote>
 <p>观察者模式面向的需求是：A 对象（观察者）对 B 对象（被观察者）的某种变化高度敏感，需要在 B 变化的一瞬间做出反应。举个例子，新闻里喜闻乐见的警察抓小偷，警察需要在小偷伸手作案的时候实施抓捕。在这个例子里，警察是观察者，小偷是被观察者，警察需要时刻盯着小偷的一举一动，才能保证不会漏过任何瞬间。程序的观察者模式和这种真正的『观察』略有不同，观察者不需要时刻盯着被观察者（例如 A 不需要每过 2ms 就检查一次 B 的状态），而是采用 <strong>注册(Register)</strong> 或者称为 <strong>订阅(Subscribe)</strong> 的方式，告诉被观察者：我需要你的某某状态，你要在它变化的时候通知我。 Android 开发中一个比较典型的例子是点击监听器 <code>OnClickListener</code> 。对设置 <code>OnClickListener</code> 来说， <code>View</code> 是被观察者， <code>OnClickListener</code> 是观察者，二者通过 <code>setOnClickListener()</code> 方法达成订阅关系。订阅之后用户点击按钮的瞬间，Android Framework 就会将点击事件发送给已经注册的 <code>OnClickListener</code> 。采取这样被动的观察方式，既省去了反复检索状态的资源消耗，也能够得到最高的反馈速度。当然，这也得益于我们可以随意定制自己程序中的观察者和被观察者，而警察叔叔明显无法要求小偷『你在作案的时候务必通知我』。</p>
-<h3 id="RxJava-简介"><a href="#RxJava-简介" class="headerlink" title="RxJava 简介"></a>RxJava 简介</h3><p>RxJava 有三个基本概念: <code>Observable</code> （被观察者），<code>Observer</code> （观察者），<code>subscribe</code> （订阅）。<code>Observable</code>  和 <code>Observer</code> 通过 <code>subscribe()</code> 方法实现订阅关系，从而 <code>Observable</code> 可以在需要的时候发出事件来通知 <code>Observer</code>。</p>
+<h3 id="RxJava-简介"><a href="#RxJava-简介" class="headerlink" title="RxJava 简介"></a>RxJava 简介</h3><blockquote>
+<p>我所理解的RxJava的核心优势应该是它可以对复杂逻辑进行拆分成为一个一个的Observable后，RxJava的各种操作符予这些解耦的Observable能够合理的进行再组织的能力，并且它给予了你足够丰富的再组织能力。这种分拆再组织的能力是十分强大的，只有运用好RxJava这种强大的能力，才能真正意义上使你原来非常复杂的揉在一团的逻辑代码变得清晰、简洁，本质上是因为RxJava给你提供了这种强大方便的组织能力，我觉得有点像一种编程模式，你可以放心的将复杂的逻辑拆块，最后RxJava给你提供了丰富的组织、变换、串联、控制这些块的能力，只有这个时候你才会真正觉得这是个好东西，而不应该是跟风使用，但是心里也说不清楚为什么要使用。</p>
+</blockquote>
+<p>RxJava 有三个基本概念: <code>Observable</code> （被观察者），<code>Observer</code> （观察者），<code>subscribe</code> （订阅）。<code>Observable</code>  和 <code>Observer</code> 通过 <code>subscribe()</code> 方法实现订阅关系，从而 <code>Observable</code> 可以在需要的时候发出事件来通知 <code>Observer</code>。</p>
 <p>Github 链接：</p>
 <p>RxJava <a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="noopener">https://github.com/ReactiveX/RxJava</a></p>
 <p>RxAndroid <a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="noopener">https://github.com/ReactiveX/RxAndroid</a></p>
@@ -218,6 +221,7 @@
 <p>这里的写法是被观察者订阅了观察者，而不是观察者订阅被观察者，是为了保证流式API调用风格。</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">observable</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .filter(s -&gt; s != <span class="hljs-keyword">null</span>)</span><br><span class="line">    .subscribe(observer);</span><br></pre></td></tr></table></figure>
 <p>上面就是一个非常简易的RxJava流式API的调用：同一个调用主体一路调用下来，一气呵成。</p>
+<p>RxJava 的这个实现，是一条从上到下的链式调用，没有任何嵌套，这在逻辑的简洁性上是具有优势的。</p>
 <p>整个流程如下图所示：</p>
 <p><img src="https://lc-gold-cdn.xitu.io/d8c61ba1e064f977c8cb.png?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="流程图"></p>
 <p>结合流程图的相应代码实例如下：</p>
@@ -272,12 +276,117 @@
 <li><code>observeOn()</code> 指定在事件传递（加工变换）和最终被处理（观察者）的发生在哪一个调度器。可指定多次，每次指定完都在下一步生效。</li>
 </ul>
 <p>=======================================================</p>
+<h1 id="进阶（操作符（map、flatmap、zip、defer、contatMap等等），背压等）"><a href="#进阶（操作符（map、flatmap、zip、defer、contatMap等等），背压等）" class="headerlink" title="进阶（操作符（map、flatmap、zip、defer、contatMap等等），背压等）"></a>进阶（操作符（map、flatmap、zip、defer、contatMap等等），背压等）</h1><table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Create.html" target="_blank" rel="noopener">Create</a></td>
+<td>使用一个函数从头开始创建一个Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Defer.html" target="_blank" rel="noopener">Defer</a></td>
+<td>直到有观察者订阅时才创建Observable，并且为每个观察者创建一个新的Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Empty.html" target="_blank" rel="noopener">Empty</a></td>
+<td>创建一个不发射任何数据但是正常终止的Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Empty.html" target="_blank" rel="noopener">Never</a></td>
+<td>创建一个不发射数据也不终止的Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Empty.html" target="_blank" rel="noopener">Throw</a></td>
+<td>创建一个不发射数据以一个错误终止的Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/From.html" target="_blank" rel="noopener">From</a></td>
+<td>将其它种类的对象和数据类型转换为Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Interval.html" target="_blank" rel="noopener">Interval</a></td>
+<td>创建一个按固定时间间隔发射整数序列的Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Just.html" target="_blank" rel="noopener">Just</a></td>
+<td>创建一个发射指定值的Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Range.html" target="_blank" rel="noopener">Range</a></td>
+<td>创建一个发射特定整数序列的Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Repeat.html" target="_blank" rel="noopener">Repeat</a></td>
+<td>创建一个发射特定数据重复多次的Observable</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Start.html" target="_blank" rel="noopener">Start</a></td>
+<td>返回一个Observable，它发射一个类似于函数声明的值</td>
+</tr>
+<tr>
+<td><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Timer.html" target="_blank" rel="noopener">Timer</a></td>
+<td>创建一个Observable，它在一个给定的延迟后发射一个特殊的值</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href=""></a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href=""></a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href=""></a></td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href=""></a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href=""></a></td>
+<td></td>
+</tr>
+<tr>
+<td><a href=""></a></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>=======================================================</p>
 <figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testRxJava</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    Observable.create(<span class="hljs-keyword">new</span> ObservableOnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">subscribe</span><span class="hljs-params">(ObservableEmitter&lt;String&gt; emitter)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).subscribe(<span class="hljs-keyword">new</span> Observer&lt;String&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSubscribe</span><span class="hljs-params">(Disposable d)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onComplete</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 伪代码</span></span><br><span class="line">Observable.create( ObservableOnSubscribe(ObservableEmitter -&gt; *) )&#123;</span><br><span class="line">                        ObservableCreate&lt;T&gt;(observableOnSubscribe)</span><br><span class="line">            &#125;</span><br><span class="line">          .subscribe(Observer)&#123;</span><br><span class="line">                subscribeActual(observer)&#123;</span><br><span class="line">                    parent = <span class="hljs-keyword">new</span> CreateEmitter&lt;T&gt;(observer)</span><br><span class="line">                    observer.onSubscribe(parent);</span><br><span class="line">                    observableOnSubscribe.subscribe(parent);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="hljs-comment">// subscribeOn 是改变上流的线程调度，所以只有第一个 subscribeOn 是有用的</span></span><br><span class="line"><span class="hljs-comment">// observeOn  是改变下流的线程调度，所以每一个 observeOn 对它下流的 操作都是有用的</span></span><br><span class="line"><span class="hljs-function">ObservableCreate            <span class="hljs-title">subscribeActual</span><span class="hljs-params">(SubscribeOnObserver)</span></span>&#123; ObservableOnSubscribe.subscribe(observableEmitter) &#125;</span><br><span class="line"><span class="hljs-function">ObservableSubscribeOn       <span class="hljs-title">subscribeActual</span><span class="hljs-params">(ObserveOnObserver)</span></span></span><br><span class="line"><span class="hljs-function">ObservableObserveOn         <span class="hljs-title">subscribeActual</span><span class="hljs-params">(MapObserver)</span></span></span><br><span class="line"><span class="hljs-function">ObservableMap               <span class="hljs-title">subscribeActual</span><span class="hljs-params">(SubscribeOnObserver)</span></span></span><br><span class="line"><span class="hljs-function">ObservableSubscribeOn       <span class="hljs-title">subscribeActual</span><span class="hljs-params">(ObserveOnObserver)</span></span></span><br><span class="line"><span class="hljs-function">ObservableObserveOn         <span class="hljs-title">subscribeActual</span><span class="hljs-params">(MergeObserver)</span></span></span><br><span class="line"><span class="hljs-function">ObservableFlatMap           <span class="hljs-title">subscribeActual</span><span class="hljs-params">(Observer)</span></span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-title">subscribe</span><span class="hljs-params">(Observer)</span></span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function"></span></span><br><span class="line"><span class="hljs-function">Observable.<span class="hljs-title">create</span><span class="hljs-params">(...)</span></span></span><br><span class="line"><span class="hljs-function">            .<span class="hljs-title">subscribeOn</span><span class="hljs-params">(Schedulers.newThread()</span>)</span></span><br><span class="line"><span class="hljs-function">            .<span class="hljs-title">observeOn</span><span class="hljs-params">(AndroidSchedulers.mainThread()</span>)</span></span><br><span class="line"><span class="hljs-function">            .<span class="hljs-title">map</span><span class="hljs-params">(s -&gt; s + <span class="hljs-string">"!"</span>)</span></span></span><br><span class="line"><span class="hljs-function">            .<span class="hljs-title">subscribeOn</span><span class="hljs-params">(Schedulers.newThread()</span>)</span></span><br><span class="line"><span class="hljs-function">            .<span class="hljs-title">observeOn</span><span class="hljs-params">(AndroidSchedulers.mainThread()</span>)</span></span><br><span class="line"><span class="hljs-function">            .<span class="hljs-title">flatMap</span><span class="hljs-params">(Function&lt;String, ObservableSource&lt;String&gt;&gt;)</span> s -&gt; Observable.<span class="hljs-title">just</span><span class="hljs-params">(s + <span class="hljs-string">"!"</span>)</span>)</span></span><br><span class="line"><span class="hljs-function">            .<span class="hljs-title">subscribe</span><span class="hljs-params">(new Observer&lt;String&gt;()</span> </span>&#123;</span><br><span class="line">                <span class="hljs-meta">@Override</span></span><br><span class="line">                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSubscribe</span><span class="hljs-params">(Disposable d)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="hljs-meta">@Override</span></span><br><span class="line">                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="hljs-meta">@Override</span></span><br><span class="line">                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="hljs-meta">@Override</span></span><br><span class="line">                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onComplete</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br></pre></td></tr></table></figure>
 <p>参考资料：</p>
 <ul>
 <li><a href="http://rkhcy.github.io/2017/12/13/RxJava2_1/" target="_blank" rel="noopener">图解 RxJava2</a></li>
 <li><a href="http://rkhcy.github.io/2017/12/21/RxJava2_2/" target="_blank" rel="noopener">图解 RxJava2 - subscribeOn</a></li>
-<li><a href="http://rkhcy.github.io/2017/12/22/RxJava2_3/" target="_blank" rel="noopener">图解 RxJava2 - observeOn</a></li>
 <li><a href="https://juejin.im/book/5a09997cf265da432002bf6a/section/5a0b02b3f265da432717c023" target="_blank" rel="noopener">响应式编程 - RxJava 高阶指南</a></li>
 <li><a href="https://www.jianshu.com/p/517fdd568ea3" target="_blank" rel="noopener">拆轮子系列：RxJava</a></li>
 <li><a href="https://mcxiaoke.gitbooks.io/rxdocs/content/" target="_blank" rel="noopener">ReactiveX/RxJava文档中文版</a></li>
@@ -289,10 +398,6 @@
 <li><a href="https://juejin.im/post/580103f20e3dd90057fc3e6d" target="_blank" rel="noopener">关于RxJava最友好的文章</a></li>
 <li><a href="https://www.atjiang.com/intro-reactive-programming/" target="_blank" rel="noopener">响应式编程(Reactive Programming) 入门</a></li>
 </ul>
-<blockquote>
-<p>我所理解的RxJava的核心优势应该是它可以对复杂逻辑进行拆分成为一个一个的Observable后，RxJava的各种操作符予这些解耦的Observable能够合理的进行再组织的能力，并且它给予了你足够丰富的再组织能力。这种分拆再组织的能力是十分强大的，只有运用好RxJava这种强大的能力，才能真正意义上使你原来非常复杂的揉在一团的逻辑代码变得清晰、简洁，本质上是因为RxJava给你提供了这种强大方便的组织能力，我觉得有点像一种编程模式，你可以放心的将复杂的逻辑拆块，最后RxJava给你提供了丰富的组织、变换、串联、控制这些块的能力，只有这个时候你才会真正觉得这是个好东西，而不应该是跟风使用，但是心里也说不清楚为什么要使用。</p>
-</blockquote>
-<p>RxJava 的这个实现，是一条从上到下的链式调用，没有任何嵌套，这在逻辑的简洁性上是具有优势的。</p>
 
         </div>
         
