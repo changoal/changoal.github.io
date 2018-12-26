@@ -129,6 +129,123 @@
     <div class="card">
     
     <div class="card-image">
+        <a href="/2018/12/26/Android-屏幕适配/" class="image is-7by1">
+            <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+        </a>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3323 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/12/26/Android-屏幕适配/">Android 屏幕适配</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="屏幕适配"><a href="#屏幕适配" class="headerlink" title="屏幕适配"></a>屏幕适配</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>由于Android系统的开放性，任何用户、开发者、硬件厂商、运营商都可以对Android系统和硬件进行定制，修改成他们想要的样子。 那么这种“碎片化”到达什么程度呢？</p>
+<p><img src="https://user-gold-cdn.xitu.io/2018/4/26/163021dcdd4d55f2?imageView2/0/w/1280/h/960/format/webp/ignore-error/1" alt="Android屏幕碎片化"></p>
+<p>以上每一个矩形都代表一种机型，且它们屏幕尺寸、屏幕分辨率大相径庭。随着Android设备的增多，设备碎片化、系统碎片化、屏幕尺寸碎片化、屏幕碎片化的程度也在不断加深。</p>
+<p>当 Android 系统、屏幕尺寸、屏幕密度出现碎片化的时候，就很容易出现同一元素在不同手机上显示不同的问题。试想一下这么一个场景： 为 4.3 寸屏幕准备的 UI 设计图，运行在 5.0 寸的屏幕上，很可能在右侧和下侧存在大量的空白；而 5.0 寸的 UI 设计图运行到 4.3 寸的设备上，很可能显示不下。</p>
+<p> 为了保证用户获得一致的用户体验效果,使得某一元素在 Android 不同尺寸、不同分辨率的、不同系统的手机上具备相同的显示效果，能够保持界面上的效果一致,我们需要对各种手机屏幕进行适配！</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h3 id="像素（px）："><a href="#像素（px）：" class="headerlink" title="像素（px）："></a>像素（px）：</h3><p>单位：px（pixel），<strong>像素就是手机屏幕的最小构成单元</strong></p>
+<h3 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h3><p>px（pixel），1px = 1像素点，手机在横向、纵向上的像素点数总和 一般描述成 宽<em>高 ，即横向像素点个数 </em> 纵向像素点个数（如1080 x 1920）。</p>
+<h3 id="屏幕尺寸"><a href="#屏幕尺寸" class="headerlink" title="屏幕尺寸"></a>屏幕尺寸</h3><p>单位 英寸（inch），手机对角线的<strong>物理尺寸</strong></p>
+<h3 id="屏幕像素密度"><a href="#屏幕像素密度" class="headerlink" title="屏幕像素密度"></a>屏幕像素密度</h3><p>单位：dpi，每英寸的像素点数。 例如每英寸内有 160 个像素点，则其像素密度为 160dpi。计算公式：<strong>像素密度 = 像素 / 尺寸 （dpi = px / in）</strong></p>
+<h3 id="密度无关像素"><a href="#密度无关像素" class="headerlink" title="密度无关像素"></a>密度无关像素</h3><p>density-independent pixel，叫dp或dip，与终端上的实际物理像素点无关。单位：dp，可以保证在不同屏幕像素密度的设备上显示相同的效果，是安卓特有的长度单位。dp 与 px 的转换：<strong>1dp = （dpi / 160 ） * 1px</strong></p>
+<h3 id="独立比例像素"><a href="#独立比例像素" class="headerlink" title="独立比例像素"></a>独立比例像素</h3><p>scale-independent pixel，叫sp或sip。单位：sp，字体大小专用单位 Android开发时用此单位设置文字大小。</p>
+<p><strong>DPI</strong> 的存在，不就是为了让大屏能显示更多的内容</p>
+<h2 id="适配方案"><a href="#适配方案" class="headerlink" title="适配方案"></a>适配方案</h2><h3 id="今日头条"><a href="#今日头条" class="headerlink" title="今日头条"></a><a href="https://mp.weixin.qq.com/s/d9QCoBP6kV9VSWvVldVVwA" target="_blank" rel="noopener">今日头条</a></h3><p>参考项目地址：<a href="https://github.com/JessYanCoding/AndroidAutoSize" target="_blank" rel="noopener">https://github.com/JessYanCoding/AndroidAutoSize</a></p>
+<p>今日头条适配方案默认项目中只能以高或宽中的一个作为基准。</p>
+<p>density 是 DisplayMetrics 中的成员变量，而 DisplayMetrics 实例通过 Resources#getDisplayMetrics 可以获得，而Resouces 通过 Activity 或者 Application 的 Context 获得。</p>
+<p>如果每个 <strong>View</strong> 的 <strong>dp</strong> 值是固定不变的，那我们只要保证每个设备的屏幕总 <strong>dp</strong> 宽度不变，就能保证每个 <strong>View</strong> 在所有分辨率的屏幕上与屏幕的比例都保持不变，从而完成等比例适配，并且这个屏幕总 <strong>dp</strong> 宽度如果还能保证和设计图的宽度一致的话，那我们在布局时就可以直接按照设计图上的尺寸填写 <strong>dp</strong> 值</p>
+<p><strong>屏幕的总 px 宽度 / density = 屏幕的总 dp 宽度</strong></p>
+<p>在这个公式中我们要保证 <strong>屏幕的总 dp 宽度</strong> 和 <strong>设计图总宽度</strong> 一致，并且在所有分辨率的屏幕上都保持不变，我们需要怎么做呢？<strong>屏幕的总 px 宽度</strong> 每个设备都不一致，这个值是肯定会变化的，这时今日头条的公式就派上用场了</p>
+<p><strong>当前设备屏幕总宽度（单位为像素）/  设计图总宽度（单位为 dp) = density</strong></p>
+<p>这个公式就是把上面公式中的 <strong>屏幕的总 dp 宽度</strong> 换成 <strong>设计图总宽度</strong>，原理都是一样的，只要 <strong>density</strong> 根据不同的设备进行实时计算并作出改变，就能保证 <strong>设计图总宽度</strong> 不变，也就完成了适配。</p>
+<p>布局文件中 dp 的转换，最终都是调用 <code>TypedValue#applyDimension(int unit, float value, DisplayMetrics metrics)</code> 来进行转换:</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">float</span> <span class="hljs-title">applyDimension</span><span class="hljs-params">(<span class="hljs-keyword">int</span> unit, <span class="hljs-keyword">float</span> value, DisplayMetrics metrics)</span></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">switch</span> (unit) &#123;</span><br><span class="line">        <span class="hljs-keyword">case</span> COMPLEX_UNIT_PX:</span><br><span class="line">            <span class="hljs-keyword">return</span> value;</span><br><span class="line">        <span class="hljs-keyword">case</span> COMPLEX_UNIT_DIP:</span><br><span class="line">            <span class="hljs-keyword">return</span> value * metrics.density;</span><br><span class="line">        <span class="hljs-keyword">case</span> COMPLEX_UNIT_SP:</span><br><span class="line">            <span class="hljs-keyword">return</span> value * metrics.scaledDensity;</span><br><span class="line">        <span class="hljs-keyword">case</span> COMPLEX_UNIT_PT:</span><br><span class="line">            <span class="hljs-keyword">return</span> value * metrics.xdpi * (<span class="hljs-number">1.0f</span>/<span class="hljs-number">72</span>);</span><br><span class="line">        <span class="hljs-keyword">case</span> COMPLEX_UNIT_IN:</span><br><span class="line">            <span class="hljs-keyword">return</span> value * metrics.xdpi;</span><br><span class="line">        <span class="hljs-keyword">case</span> COMPLEX_UNIT_MM:</span><br><span class="line">            <span class="hljs-keyword">return</span> value * metrics.xdpi * (<span class="hljs-number">1.0f</span>/<span class="hljs-number">25.4f</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里用到的 DisplayMetrics 正是从 Resources 中获得的。图片的decode，也是通过 DisplayMetrics 中的值来计算的。</p>
+<p>当然还有些其他 dp 转换的场景，基本都是通过 DisplayMetrics 来计算的，这里不再详述。因此，想要满足上述需求，我们只需要修改 DisplayMetrics 中和 dp 转换相关的变量即可。</p>
+<p>适配后的 density = 设备真实宽(单位px) / 360，接下来只需要把我们计算好的 density 在系统中修改下即可，代码实现如下：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">float</span> sNonCompatDensity;</span><br><span class="line"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">float</span> sNonCompatScaledDensity;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setCustomDensity</span><span class="hljs-params">(@NonNull Activity activity, @NonNull <span class="hljs-keyword">final</span> Application application)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// 设计图宽度</span></span><br><span class="line">    <span class="hljs-keyword">int</span> customWidth = <span class="hljs-number">360</span>;</span><br><span class="line">    <span class="hljs-keyword">final</span> DisplayMetrics appDisplayMetrics = application.getResources().getDisplayMetrics();</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">if</span> (sNonCompatDensity == <span class="hljs-number">0</span>) &#123;</span><br><span class="line">        sNonCompatDensity = appDisplayMetrics.density;</span><br><span class="line">        sNonCompatScaledDensity = appDisplayMetrics.scaledDensity;</span><br><span class="line">        <span class="hljs-comment">// 监听系统字体变化</span></span><br><span class="line">        application.registerComponentCallbacks(<span class="hljs-keyword">new</span> ComponentCallbacks() &#123;</span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onConfigurationChanged</span><span class="hljs-params">(Configuration newConfig)</span> </span>&#123;</span><br><span class="line">                <span class="hljs-keyword">if</span> (newConfig != <span class="hljs-keyword">null</span> &amp;&amp; newConfig.fontScale &gt; <span class="hljs-number">0</span>) &#123;</span><br><span class="line">                    sNonCompatScaledDensity = application.getResources().getDisplayMetrics().scaledDensity;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="hljs-meta">@Override</span></span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onLowMemory</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">final</span> <span class="hljs-keyword">float</span> targetDensity = appDisplayMetrics.widthPixels / customWidth;</span><br><span class="line">    <span class="hljs-keyword">final</span> <span class="hljs-keyword">float</span> targetScaledDensity = targetDensity * (sNonCompatScaledDensity / sNonCompatDensity);</span><br><span class="line">    <span class="hljs-keyword">final</span> <span class="hljs-keyword">int</span> targetDensityDpi = (<span class="hljs-keyword">int</span>) (<span class="hljs-number">160</span> * targetDensity);</span><br><span class="line"></span><br><span class="line">    appDisplayMetrics.density = targetDensity;</span><br><span class="line">    appDisplayMetrics.scaledDensity = targetScaledDensity;</span><br><span class="line">    appDisplayMetrics.densityDpi = targetDensityDpi;</span><br><span class="line"></span><br><span class="line">    DisplayMetrics activityDisplayMetrics = activity.getResources().getDisplayMetrics();</span><br><span class="line">    activityDisplayMetrics.density = targetDensity;</span><br><span class="line">    activityDisplayMetrics.scaledDensity = targetScaledDensity;</span><br><span class="line">    activityDisplayMetrics.densityDpi = targetDensityDpi;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>使用成本非常低，操作非常简单，使用该方案后在页面布局时不需要额外的代码和操作，这点可以说完虐其他屏幕适配方案。</li>
+<li>侵入性非常低，该方案和项目完全解耦，在项目布局时不会依赖哪怕一行该方案的代码，而且使用的还是 <strong>Android</strong> 官方的 <strong>API</strong>，意味着当你遇到什么问题无法解决，想切换为其他屏幕适配方案时，基本不需要更改之前的代码，整个切换过程几乎在瞬间完成，会少很多麻烦，节约很多时间，试错成本接近于 0。</li>
+<li>可适配三方库的控件和系统的控件(不止是是 <strong>Activity</strong> 和 <strong>Fragment</strong>，<strong>Dialog</strong>、<strong>Toast</strong> 等所有系统控件都可以适配)，由于修改的 <strong>density</strong> 在整个项目中是全局的，所以只要一次修改，项目中的所有地方都会受益。</li>
+<li>不会有任何性能的损耗</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><p>会影响第三方控件</p>
+<p><strong>解决方案：</strong></p>
+<ol>
+<li>我们自身作出修改，去适应三方库的设计图尺寸，我们将项目自身的设计图尺寸修改为这个三方库的设计图尺寸，就能完成项目自身和三方库的适配</li>
+<li>按 <strong>Activity</strong> 为单位，取消当前 <strong>Activity</strong> 的适配效果，改用其他的适配方案</li>
+</ol>
+<h3 id="SmallestWidth"><a href="#SmallestWidth" class="headerlink" title="SmallestWidth"></a>SmallestWidth</h3><p>这个方案的的使用方式和我们平时在布局中引用 <strong>dimens</strong> 无异，核心点在于生成 <strong>dimens.xml</strong> 文件，但是已经有大神帮我们做了这 <a href="https://link.juejin.im/?target=https%3A%2F%2Fwww.jianshu.com%2Fp%2F1302ad5a4b04" target="_blank" rel="noopener">一步</a>。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">├── src/main</span><br><span class="line">│   ├── res</span><br><span class="line">│   ├── ├──values</span><br><span class="line">│   ├── ├──values-800x480</span><br><span class="line">│   ├── ├──values-860x540</span><br><span class="line">│   ├── ├──values-1024x600</span><br><span class="line">│   ├── ├──values-1024x768</span><br><span class="line">│   ├── ├──...</span><br><span class="line">│   ├── ├──values-2560x1440</span><br></pre></td></tr></table></figure>
+<p>如果有人还记得上面这种 <strong>宽高限定符屏幕适配方案</strong> 的话，就可以把 <strong>smallestWidth 限定符屏幕适配方案</strong> 当成这种方案的升级版，<strong>smallestWidth 限定符屏幕适配方案</strong> 只是把 <strong>dimens.xml</strong> 文件中的值从 <strong>px</strong> 换成了 <strong>dp</strong>，原理和使用方式都是没变的，这些在上面的文章中都有介绍，下面就直接开始剖析原理，<strong>smallestWidth 限定符屏幕适配方案</strong> 长这样</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">├── src/main</span><br><span class="line">│   ├── res</span><br><span class="line">│   ├── ├──values</span><br><span class="line">│   ├── ├──values-sw320dp</span><br><span class="line">│   ├── ├──values-sw360dp</span><br><span class="line">│   ├── ├──values-sw400dp</span><br><span class="line">│   ├── ├──values-sw411dp</span><br><span class="line">│   ├── ├──values-sw480dp</span><br><span class="line">│   ├── ├──...</span><br><span class="line">│   ├── ├──values-sw600dp</span><br><span class="line">│   ├── ├──values-sw640dp</span><br></pre></td></tr></table></figure>
+<p>其实 <strong>smallestWidth 限定符屏幕适配方案</strong> 的原理也很简单，开发者先在项目中根据主流屏幕的 <strong>最小宽度 (smallestWidth)</strong> 生成一系列 <strong>values-sw<n>dp</n></strong> 文件夹 (含有 <strong>dimens.xml</strong> 文件)，当把项目运行到设备上时，系统会根据当前设备屏幕的 <strong>最小宽度 (smallestWidth)</strong> 去匹配对应的 <strong>values-sw<n>dp</n></strong> 文件夹，而对应的 <strong>values-sw<n>dp</n></strong> 文件夹中的 <strong>dimens.xml</strong> 文字中的值，又是根据当前设备屏幕的 <strong>最小宽度 (smallestWidth)</strong> 而定制的，所以一定能适配当前设备。</p>
+<p>如果系统根据当前设备屏幕的 <strong>最小宽度 (smallestWidth)</strong> 没找到对应的 <strong>values-sw<n>dp</n></strong> 文件夹，则会去寻找与之 <strong>最小宽度 (smallestWidth)</strong> 相近的 <strong>values-sw<n>dp</n></strong> 文件夹，系统只会寻找小于或等于当前设备 <strong>最小宽度 (smallestWidth)</strong> 的 <strong>values-sw<n>dp</n></strong>，这就是优于 <strong>宽高限定符屏幕适配方案</strong> 的容错率，并且也可以少生成很多 <strong>values-sw<n>dp</n></strong> 文件夹，减轻 <strong>App</strong> 的体积。</p>
+<h4 id="优点-1"><a href="#优点-1" class="headerlink" title="优点"></a>优点</h4><ol>
+<li>非常稳定，极低概率出现意外</li>
+<li>不会有任何性能的损耗</li>
+<li>适配范围可自由控制，不会影响其他三方库</li>
+<li>在插件的配合下，学习成本低</li>
+</ol>
+<h4 id="缺点-1"><a href="#缺点-1" class="headerlink" title="缺点"></a>缺点</h4><ol>
+<li>在布局中引用 <strong>dimens</strong> 的方式，虽然学习成本低，但是在日常维护修改时较麻烦</li>
+<li>侵入性高，如果项目想切换为其他屏幕适配方案，因为每个 <strong>Layout</strong> 文件中都存在有大量 <strong>dimens</strong> 的引用，这时修改起来工作量非常巨大，切换成本非常高昂</li>
+<li>无法覆盖全部机型，想覆盖更多机型的做法就是生成更多的资源文件，但这样会增加 <strong>App</strong> 体积，在没有覆盖的机型上还会出现一定的误差，所以有时需要在适配效果和占用空间上做一些抉择</li>
+<li>如果想使用 <strong>sp</strong>，也需要生成一系列的 <strong>dimens</strong>，导致再次增加 <strong>App</strong> 的体积</li>
+<li>不能自动支持横竖屏切换时的适配，如上文所说，如果想自动支持横竖屏切换时的适配，需要使用 <strong>values-w<n>dp</n></strong> 或 <strong>屏幕方向限定符</strong> 再生成一套资源文件，这样又会再次增加 <strong>App</strong> 的体积</li>
+<li>不能以高度为基准进行适配，考虑到这个方案的名字本身就叫 <strong>最小宽度限定符适配方案</strong>，所以在使用这个方案之前就应该要知道这个方案只能以宽度为基准进行适配，为什么现在的屏幕适配方案只能以高度或宽度其中的一个作为基准进行适配</li>
+</ol>
+<h3 id="AndroidAutoSize"><a href="#AndroidAutoSize" class="headerlink" title="AndroidAutoSize"></a><a href="https://github.com/JessYanCoding/AndroidAutoSize" target="_blank" rel="noopener">AndroidAutoSize</a></h3><p>根据 <strong>今日头条屏幕适配方案</strong> 优化的屏幕适配框架。</p>
+<h3 id="其他方案"><a href="#其他方案" class="headerlink" title="其他方案"></a>其他方案</h3><h4 id="UI适配框架"><a href="#UI适配框架" class="headerlink" title="UI适配框架"></a>UI适配框架</h4><p>例如 <a href="https://blog.csdn.net/lmj623565791/article/details/45460089" target="_blank" rel="noopener">Android 屏幕适配方案</a>，不过已经停止维护</p>
+<h4 id="宽高限定符适配"><a href="#宽高限定符适配" class="headerlink" title="宽高限定符适配"></a>宽高限定符适配</h4><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">├── src/main</span><br><span class="line">│   ├── res</span><br><span class="line">│   ├── ├──values</span><br><span class="line">│   ├── ├──values-800x480</span><br><span class="line">│   ├── ├──values-860x540</span><br><span class="line">│   ├── ├──values-1024x600</span><br><span class="line">│   ├── ├──values-1024x768</span><br><span class="line">│   ├── ├──...</span><br><span class="line">│   ├── ├──values-2560x1440</span><br></pre></td></tr></table></figure>
+<h4 id="Android-屏幕适配终结者"><a href="#Android-屏幕适配终结者" class="headerlink" title="Android 屏幕适配终结者"></a>Android 屏幕适配终结者</h4><p><a href="https://juejin.im/post/5c18039d5188253b7e74987e" target="_blank" rel="noopener">Android 屏幕适配终结者</a> ，也是基于头条的原理，不过是操作 <code>pt</code>，所以不是改 <code>DisplayMetrics#density</code>，而是 <code>DisplayMetrics#xdpi</code>，由于适配不会失效</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://www.jianshu.com/p/a4b8e4c5d9b0" target="_blank" rel="noopener">Android 目前稳定高效的UI适配方案</a></li>
+<li><a href="https://juejin.im/post/5b7a29736fb9a019d53e7ee2" target="_blank" rel="noopener">骚年你的屏幕适配方式该升级了!-今日头条适配方案</a></li>
+<li><a href="https://juejin.im/post/5ba197e46fb9a05d0b142c62" target="_blank" rel="noopener">骚年你的屏幕适配方式该升级了!-SmallestWidth 限定符适配方案</a></li>
+<li><a href="https://github.com/JessYanCoding/AndroidAutoSize" target="_blank" rel="noopener">今日头条屏幕适配方案终极版</a></li>
+<li><a href="https://juejin.im/post/5ae32bac518825671a638405" target="_blank" rel="noopener">Android 屏幕适配方案</a></li>
+<li><a href="https://juejin.im/post/5c18039d5188253b7e74987e" target="_blank" rel="noopener">Android 屏幕适配终结者</a></li>
+<li><a href="https://juejin.im/post/5b6250bee51d451918537021" target="_blank" rel="noopener">Android 屏幕适配从未如斯简单(8月10日最终更新版)</a></li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-image">
         <a href="/2018/12/06/RxJava系列-一-入门/" class="image is-7by1">
             <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
         </a>
@@ -1026,69 +1143,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-05-03T12:39:33.000Z">2018-05-03</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 638 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/05/03/RecyclerView-IndexOutOfBoundsException/">RecyclerView IndexOutOfBoundsException</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用 RecyclerView 的 <code>notifyItemInserted</code> 和 <code>notifyItemRemoved</code> 的时候，经常遇到这个异常。</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid view holder adapter positionViewHolder&#123;<span class="hljs-number">2064e5</span>c6 position=<span class="hljs-number">2</span> id=-<span class="hljs-number">1</span>, oldPos=<span class="hljs-number">2</span>, pLpos:-<span class="hljs-number">1</span> scrap [attachedScrap] tmpDetached no parent&#125;</span><br><span class="line">at android.support.v7.widget.RecyclerView$Recycler.validateViewHolderForOffsetPosition(RecyclerView.java:<span class="hljs-number">4505</span>)</span><br><span class="line">at android.support.v7.widget.RecyclerView$Recycler.getViewForPosition(RecyclerView.java:<span class="hljs-number">4636</span>)</span><br><span class="line">at android.support.v7.widget.RecyclerView$Recycler.getViewForPosition(RecyclerView.java:<span class="hljs-number">4617</span>)</span><br><span class="line">at android.support.v7.widget.LinearLayoutManager$LayoutState.next(LinearLayoutManager.java:<span class="hljs-number">1994</span>)</span><br><span class="line">at android.support.v7.widget.LinearLayoutManager.layoutChunk(LinearLayoutManager.java:<span class="hljs-number">1390</span>)</span><br><span class="line">at android.support.v7.widget.LinearLayoutManager.fill(LinearLayoutManager.java:<span class="hljs-number">1353</span>)</span><br><span class="line">at android.support.v7.widget.LinearLayoutManager.onLayoutChildren(LinearLayoutManager.java:<span class="hljs-number">574</span>)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>查了一些资料，大多是说因为数据源改变了，但是 adapter 却没有及时调用 <code>notifyItemRangeChanged</code> 。</p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>自己写一个继承 LinearLayoutManager 的包装类，在 onLayoutChildren() 方法里 try-catch 捕获该异常。然后给 recyclerView 设置该 LayoutManager<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WrapContentLinearLayoutManager</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LinearLayoutManager</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//... constructor</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onLayoutChildren</span><span class="hljs-params">(RecyclerView.Recycler recycler, RecyclerView.State state)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>.onLayoutChildren(recycler, state);</span><br><span class="line">        &#125; <span class="hljs-keyword">catch</span> (IndexOutOfBoundsException e) &#123;</span><br><span class="line">            Log.e(<span class="hljs-string">"probe"</span>, <span class="hljs-string">"meet a IOOBE in RecyclerView"</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view);</span><br><span class="line"></span><br><span class="line">recyclerView.setLayoutManager(<span class="hljs-keyword">new</span> WrapContentLinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, <span class="hljs-keyword">false</span>));</span><br></pre></td></tr></table></figure></p>
-<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>在进行数据移除和数据增加时，务必要保证RecyclerView的Adapter中的数据集和移除／添加等操作后的数据集保持一致！</p>
-<p>这里，前者是在该Adapter内部，不妨叫做内部数据集，后者是开发人员传过给Adapter的，不妨叫外部数据集。更新RecyclerView数据时，需要保证外部数据集和内部数据集<strong>实时</strong>保持一致。<strong>每一次对外部数据集做改动时，都需要紧接着主动对外部数据集和内部数据集做一次同步操作</strong></p>
-<p>外部数据集同步到内部数据集，使用如下的方法：</p>
-<ul>
-<li>notifyItemRangeRemoved();</li>
-<li>notifyItemRangeInserted();</li>
-<li>notifyItemRangeChanged();</li>
-<li>notifyDataSetChanged();</li>
-</ul>
-<p>这里对 notifyDataSetChange() 做些说明：</p>
-<p>使用该方法的更新内部数据集，没有默认的动画效果，同时更新数据的效率页不如上面的方法，官方不推荐使用这种方式更新数据集。</p>
-<h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><p>使用notifyDataSetChanged同步外部数据集和内部数据集。该方法简单，但是失去了动画效果，并且更新数据的性能低。</p>
-<p>另外，如果对外部数据集做了二次以上的操作，却只调用notifyDataSetChanged同步一次，也很有可能会报上文所示的错误。</p>
-<p><strong>参考文章:</strong></p>
-<ul>
-<li><a href="https://stackoverflow.com/questions/31759171/recyclerview-and-java-lang-indexoutofboundsexception-inconsistency-detected-in" target="_blank" rel="noopener">stackoverflow</a></li>
-<li><a href="https://www.jianshu.com/p/2eca433869e9" target="_blank" rel="noopener">当RecyclerView遇到Inconsistency detected崩溃</a></li>
-<li><a href="https://blog.csdn.net/Singleton1900/article/details/48369239" target="_blank" rel="noopener">使用RecyclerView遇到的一些问题 Inconsistency detected</a></li>
-</ul>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1107,7 +1161,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/7/">7</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/page/8/">8</a></li>
             
         </ul>
     </nav>
@@ -1151,7 +1205,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        70
+                        71
                     </p>
                 </div>
             </div>
@@ -1316,7 +1370,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">17</span>
+                <span class="level-item tag">18</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
@@ -1459,6 +1513,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time></div>
+                    <a href="/2018/12/26/Android-屏幕适配/" class="has-link-black-ter is-size-6">Android 屏幕适配</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
@@ -1533,25 +1606,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/懒加载-fragment/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="懒加载 fragment">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:29:53.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/懒加载-fragment/" class="has-link-black-ter is-size-6">懒加载 fragment</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1570,7 +1624,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">26</span>
+                            <span class="level-item tag">27</span>
                         </span>
                     </a>
                 </li>
@@ -1906,6 +1960,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time></div>
+                    <a href="/2018/12/26/Android-屏幕适配/" class="has-link-black-ter is-size-6">Android 屏幕适配</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
@@ -1980,25 +2053,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/懒加载-fragment/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="懒加载 fragment">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:29:53.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/懒加载-fragment/" class="has-link-black-ter is-size-6">懒加载 fragment</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2017,7 +2071,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">26</span>
+                            <span class="level-item tag">27</span>
                         </span>
                     </a>
                 </li>

@@ -128,6 +128,59 @@
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2">
     <div class="card">
     
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-01T16:14:49.000Z">2017-09-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Python/">Python</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Python/爬虫/">爬虫</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分钟 读完 (大约 1448 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/09/02/妹子图爬虫第四弹/">妹子图爬虫第四弹</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="多线程多进程爬虫"><a href="#多线程多进程爬虫" class="headerlink" title="多线程多进程爬虫"></a>多线程多进程爬虫</h1><p>之前我们的程序都可以用，但是速度太慢了，因为我们只用了一个线程一个进程来进行爬虫，大部分时间都在等待，效率太低。所以接下来我们要加快我们的爬虫效率。</p>
+<p>同上篇，我们用数据库的方式来解决线程以及进程间的通信问题。</p>
+<p>要爬取的 url 总共有三种状态：</p>
+<ul>
+<li>OUTSTANDING(初始状态)</li>
+<li>PROCESSING(正在下载状态)</li>
+<li>COMPLETE(下载完成状态)</li>
+</ul>
+<p>当一个所有初始的URL状态都为outstanding；当开始爬取的时候状态改为：processing；爬取完成状态改为：complete；失败的URL重置状态为：outstanding。为了能够处理URL进程被终止的情况、我们设置一个计时参数，当超过这个值时；我们则将状态重置为outstanding。下面是代码实现：</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime, timedelta</span><br><span class="line"><span class="hljs-keyword">from</span> pymongo <span class="hljs-keyword">import</span> MongoClient, errors</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MogoQueue</span><span class="hljs-params">()</span>:</span></span><br><span class="line"></span><br><span class="line">    OUTSTANDING = <span class="hljs-number">1</span> <span class="hljs-comment">##初始状态</span></span><br><span class="line">    PROCESSING = <span class="hljs-number">2</span> <span class="hljs-comment">##正在下载状态</span></span><br><span class="line">    COMPLETE = <span class="hljs-number">3</span> <span class="hljs-comment">##下载完成状态</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, db, collection, timeout=<span class="hljs-number">300</span>)</span>:</span><span class="hljs-comment">##初始mongodb连接</span></span><br><span class="line">        self.client = MongoClient()</span><br><span class="line">        self.Client = self.client[db]</span><br><span class="line">        self.db = self.Client[collection]</span><br><span class="line">        self.timeout = timeout</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__bool__</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        这个函数，我的理解是如果下面的表达为真，则整个类为真</span></span><br><span class="line"><span class="hljs-string">        至于有什么用，后面我会注明的（如果我的理解有误，请指点出来谢谢，我也是Python新手）</span></span><br><span class="line"><span class="hljs-string">        $ne的意思是不匹配</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        record = self.db.find_one(</span><br><span class="line">            &#123;<span class="hljs-string">'status'</span>: &#123;<span class="hljs-string">'$ne'</span>: self.COMPLETE&#125;&#125;</span><br><span class="line">        )</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">True</span> <span class="hljs-keyword">if</span> record <span class="hljs-keyword">else</span> <span class="hljs-keyword">False</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">push</span><span class="hljs-params">(self, url, title)</span>:</span> <span class="hljs-comment">##这个函数用来添加新的URL进队列</span></span><br><span class="line">        <span class="hljs-keyword">try</span>:</span><br><span class="line">            self.db.insert(&#123;<span class="hljs-string">'_id'</span>: url, <span class="hljs-string">'status'</span>: self.OUTSTANDING, <span class="hljs-string">'主题'</span>: title&#125;)</span><br><span class="line">            print(url, <span class="hljs-string">'插入队列成功'</span>)</span><br><span class="line">        <span class="hljs-keyword">except</span> errors.DuplicateKeyError <span class="hljs-keyword">as</span> e:  <span class="hljs-comment">##报错则代表已经存在于队列之中了</span></span><br><span class="line">            print(url, <span class="hljs-string">'已经存在于队列中了'</span>)</span><br><span class="line">            <span class="hljs-keyword">pass</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">push_imgurl</span><span class="hljs-params">(self, title, url)</span>:</span></span><br><span class="line">        <span class="hljs-keyword">try</span>:</span><br><span class="line">            self.db.insert(&#123;<span class="hljs-string">'_id'</span>: title, <span class="hljs-string">'statue'</span>: self.OUTSTANDING, <span class="hljs-string">'url'</span>: url&#125;)</span><br><span class="line">            print(<span class="hljs-string">'图片地址插入成功'</span>)</span><br><span class="line">        <span class="hljs-keyword">except</span> errors.DuplicateKeyError <span class="hljs-keyword">as</span> e:</span><br><span class="line">            print(<span class="hljs-string">'地址已经存在了'</span>)</span><br><span class="line">            <span class="hljs-keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pop</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        这个函数会查询队列中的所有状态为OUTSTANDING的值，</span></span><br><span class="line"><span class="hljs-string">        更改状态，（query后面是查询）（update后面是更新）</span></span><br><span class="line"><span class="hljs-string">        并返回_id（就是我们的ＵＲＬ），MongDB好使吧，^_^</span></span><br><span class="line"><span class="hljs-string">        如果没有OUTSTANDING的值则调用repair()函数重置所有超时的状态为OUTSTANDING，</span></span><br><span class="line"><span class="hljs-string">        $set是设置的意思，和MySQL的set语法一个意思</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        record = self.db.find_and_modify(</span><br><span class="line">            query=&#123;<span class="hljs-string">'status'</span>: self.OUTSTANDING&#125;,</span><br><span class="line">            update=&#123;<span class="hljs-string">'$set'</span>: &#123;<span class="hljs-string">'status'</span>: self.PROCESSING, <span class="hljs-string">'timestamp'</span>: datetime.now()&#125;&#125;</span><br><span class="line">        )</span><br><span class="line">        <span class="hljs-keyword">if</span> record:</span><br><span class="line">            <span class="hljs-keyword">return</span> record[<span class="hljs-string">'_id'</span>]</span><br><span class="line">        <span class="hljs-keyword">else</span>:</span><br><span class="line">            self.repair()</span><br><span class="line">            <span class="hljs-keyword">raise</span> KeyError</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pop_title</span><span class="hljs-params">(self, url)</span>:</span></span><br><span class="line">        record = self.db.find_one(&#123;<span class="hljs-string">'_id'</span>: url&#125;)</span><br><span class="line">        <span class="hljs-keyword">return</span> record[<span class="hljs-string">'主题'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">peek</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""这个函数是取出状态为 OUTSTANDING的文档并返回_id(URL)"""</span></span><br><span class="line">        record = self.db.find_one(&#123;<span class="hljs-string">'status'</span>: self.OUTSTANDING&#125;)</span><br><span class="line">        <span class="hljs-keyword">if</span> record:</span><br><span class="line">            <span class="hljs-keyword">return</span> record[<span class="hljs-string">'_id'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">complete</span><span class="hljs-params">(self, url)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""这个函数是更新已完成的URL完成"""</span></span><br><span class="line">        self.db.update(&#123;<span class="hljs-string">'_id'</span>: url&#125;, &#123;<span class="hljs-string">'$set'</span>: &#123;<span class="hljs-string">'status'</span>: self.COMPLETE&#125;&#125;)</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">repair</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""这个函数是重置状态$lt是比较"""</span></span><br><span class="line">        record = self.db.find_and_modify(</span><br><span class="line">           query=&#123;</span><br><span class="line">               <span class="hljs-string">'timestamp'</span>: &#123;<span class="hljs-string">'$lt'</span>: datetime.now() - timedelta(seconds=self.timeout)&#125;,</span><br><span class="line">               <span class="hljs-string">'status'</span>: &#123;<span class="hljs-string">'$ne'</span>: self.COMPLETE&#125;</span><br><span class="line">           &#125;,</span><br><span class="line">            update=&#123;<span class="hljs-string">'$set'</span>: &#123;<span class="hljs-string">'status'</span>: self.OUTSTANDING&#125;&#125;</span><br><span class="line">        )</span><br><span class="line">        <span class="hljs-keyword">if</span> record:</span><br><span class="line">            print(<span class="hljs-string">'重置URL状态'</span>, record[<span class="hljs-string">'_id'</span>])</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">clear</span><span class="hljs-params">(self)</span>:</span></span><br><span class="line">        <span class="hljs-string">"""这个函数只有第一次才调用、后续不要调用、因为这是删库啊！"""</span></span><br><span class="line">        self.db.drop()</span><br></pre></td></tr></table></figure>
+<p>接下来就需要来爬取所有的链接地址来存进我们的数据库里了。</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> Download <span class="hljs-keyword">import</span> request</span><br><span class="line"><span class="hljs-keyword">from</span> mongodb_queue <span class="hljs-keyword">import</span> MogoQueue</span><br><span class="line"><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">spider_queue = MogoQueue(<span class="hljs-string">'meinvxiezhenji'</span>, <span class="hljs-string">'crawl_queue'</span>)</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">start</span><span class="hljs-params">(url)</span>:</span></span><br><span class="line">    response = request.get(url, <span class="hljs-number">3</span>)</span><br><span class="line">    Soup = BeautifulSoup(response.text, <span class="hljs-string">'lxml'</span>)</span><br><span class="line">    all_a = Soup.find(<span class="hljs-string">'div'</span>, class_=<span class="hljs-string">'all'</span>).find_all(<span class="hljs-string">'a'</span>)</span><br><span class="line">    <span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> all_a:</span><br><span class="line">        title = a.get_text()</span><br><span class="line">        url = a[<span class="hljs-string">'href'</span>]</span><br><span class="line">        spider_queue.push(url, title)</span><br><span class="line">    <span class="hljs-string">"""上面这个调用就是把URL写入MongoDB的队列了"""</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:</span><br><span class="line">    start(<span class="hljs-string">'http://www.mzitu.com/all'</span>)</span><br><span class="line"></span><br><span class="line"><span class="hljs-string">"""这一段儿就不解释了哦！超级简单的"""</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">import</span> os</span><br><span class="line"><span class="hljs-keyword">import</span> time</span><br><span class="line"><span class="hljs-keyword">import</span> threading</span><br><span class="line"><span class="hljs-keyword">import</span> multiprocessing</span><br><span class="line"><span class="hljs-keyword">from</span> mongodb_queue <span class="hljs-keyword">import</span> MogoQueue</span><br><span class="line"><span class="hljs-keyword">from</span> Download <span class="hljs-keyword">import</span> request</span><br><span class="line"><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup</span><br><span class="line"></span><br><span class="line">SLEEP_TIME = <span class="hljs-number">1</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mzitu_crawler</span><span class="hljs-params">(max_threads=<span class="hljs-number">10</span>)</span>:</span></span><br><span class="line">    crawl_queue = MogoQueue(<span class="hljs-string">'meinvxiezhenji'</span>, <span class="hljs-string">'crawl_queue'</span>) <span class="hljs-comment">##这个是我们获取URL的队列</span></span><br><span class="line">    <span class="hljs-comment">##img_queue = MogoQueue('meinvxiezhenji', 'img_queue')</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pageurl_crawler</span><span class="hljs-params">()</span>:</span></span><br><span class="line">        <span class="hljs-keyword">while</span> <span class="hljs-keyword">True</span>:</span><br><span class="line">            <span class="hljs-keyword">try</span>:</span><br><span class="line">                url = crawl_queue.pop()</span><br><span class="line">                print(url)</span><br><span class="line">            <span class="hljs-keyword">except</span> KeyError:</span><br><span class="line">                print(<span class="hljs-string">'队列没有数据'</span>)</span><br><span class="line">                <span class="hljs-keyword">break</span></span><br><span class="line">            <span class="hljs-keyword">else</span>:</span><br><span class="line">                img_urls = []</span><br><span class="line">                req = request.get(url, <span class="hljs-number">3</span>).text</span><br><span class="line">                title = crawl_queue.pop_title(url)</span><br><span class="line">                mkdir(title)</span><br><span class="line">                os.chdir(<span class="hljs-string">'D:\mzitu\\'</span> + title)</span><br><span class="line">                max_span = BeautifulSoup(req, <span class="hljs-string">'lxml'</span>).find(<span class="hljs-string">'div'</span>, class_=<span class="hljs-string">'pagenavi'</span>).find_all(<span class="hljs-string">'span'</span>)[<span class="hljs-number">-2</span>].get_text()</span><br><span class="line">                <span class="hljs-keyword">for</span> page <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, int(max_span) + <span class="hljs-number">1</span>):</span><br><span class="line">                    page_url = url + <span class="hljs-string">'/'</span> + str(page)</span><br><span class="line">                    img_url = BeautifulSoup(request.get(page_url, <span class="hljs-number">3</span>).text, <span class="hljs-string">'lxml'</span>).find(<span class="hljs-string">'div'</span>, class_=<span class="hljs-string">'main-image'</span>).find(<span class="hljs-string">'img'</span>)[<span class="hljs-string">'src'</span>]</span><br><span class="line">                    img_urls.append(img_url)</span><br><span class="line">                    save(img_url)</span><br><span class="line">                crawl_queue.complete(url) <span class="hljs-comment">##设置为完成状态</span></span><br><span class="line">                <span class="hljs-comment">##img_queue.push_imgurl(title, img_urls)</span></span><br><span class="line">                <span class="hljs-comment">##print('插入数据库成功')</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">save</span><span class="hljs-params">(img_url)</span>:</span></span><br><span class="line">        name = img_url[<span class="hljs-number">-9</span>:<span class="hljs-number">-4</span>]</span><br><span class="line">        print(<span class="hljs-string">u'开始保存：'</span>, img_url)</span><br><span class="line">        img = request.get(img_url, <span class="hljs-number">3</span>)</span><br><span class="line">        f = open(name + <span class="hljs-string">'.jpg'</span>, <span class="hljs-string">'ab'</span>)</span><br><span class="line">        f.write(img.content)</span><br><span class="line">        f.close()</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mkdir</span><span class="hljs-params">(path)</span>:</span></span><br><span class="line">        path = path.strip()</span><br><span class="line">        isExists = os.path.exists(os.path.join(<span class="hljs-string">"D:\mzitu"</span>, path))</span><br><span class="line">        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> isExists:</span><br><span class="line">            print(<span class="hljs-string">u'建了一个名字叫做'</span>, path, <span class="hljs-string">u'的文件夹！'</span>)</span><br><span class="line">            os.makedirs(os.path.join(<span class="hljs-string">"D:\mzitu"</span>, path))</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">True</span></span><br><span class="line">        <span class="hljs-keyword">else</span>:</span><br><span class="line">            print(<span class="hljs-string">u'名字叫做'</span>, path, <span class="hljs-string">u'的文件夹已经存在了！'</span>)</span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-keyword">False</span></span><br><span class="line"></span><br><span class="line">    threads = []</span><br><span class="line">    <span class="hljs-keyword">while</span> threads <span class="hljs-keyword">or</span> crawl_queue:</span><br><span class="line">        <span class="hljs-string">"""</span></span><br><span class="line"><span class="hljs-string">        这儿crawl_queue用上了，就是我们__bool__函数的作用，为真则代表我们MongoDB队列里面还有数据</span></span><br><span class="line"><span class="hljs-string">        threads 或者 crawl_queue为真都代表我们还没下载完成，程序就会继续执行</span></span><br><span class="line"><span class="hljs-string">        """</span></span><br><span class="line">        <span class="hljs-keyword">for</span> thread <span class="hljs-keyword">in</span> threads:</span><br><span class="line">            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> thread.is_alive(): <span class="hljs-comment">##is_alive是判断是否为空,不是空则在队列中删掉</span></span><br><span class="line">                threads.remove(thread)</span><br><span class="line">        <span class="hljs-keyword">while</span> len(threads) &lt; max_threads <span class="hljs-keyword">or</span> crawl_queue.peek(): <span class="hljs-comment">##线程池中的线程少于max_threads 或者 crawl_qeue时</span></span><br><span class="line">            thread = threading.Thread(target=pageurl_crawler) <span class="hljs-comment">##创建线程</span></span><br><span class="line">            thread.setDaemon(<span class="hljs-keyword">True</span>) <span class="hljs-comment">##设置守护线程</span></span><br><span class="line">            thread.start() <span class="hljs-comment">##启动线程</span></span><br><span class="line">            threads.append(thread) <span class="hljs-comment">##添加进线程队列</span></span><br><span class="line">        time.sleep(SLEEP_TIME)</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">process_crawler</span><span class="hljs-params">()</span>:</span></span><br><span class="line">    process = []</span><br><span class="line">    num_cpus = multiprocessing.cpu_count()</span><br><span class="line">    print(<span class="hljs-string">'将会启动进程数为：'</span>, num_cpus)</span><br><span class="line">    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(num_cpus):</span><br><span class="line">        p = multiprocessing.Process(target=mzitu_crawler) <span class="hljs-comment">##创建进程</span></span><br><span class="line">        p.start() <span class="hljs-comment">##启动进程</span></span><br><span class="line">        process.append(p) <span class="hljs-comment">##添加进进程队列</span></span><br><span class="line">    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> process:</span><br><span class="line">        p.join() <span class="hljs-comment">##等待进程队列里面的进程结束</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:</span><br><span class="line">    process_crawler()</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
     <div class="card-image">
         <a href="/2017/08/29/妹子图爬虫第三弹/" class="image is-7by1">
             <img class="thumbnail" src="http://o797mwhn1.bkt.clouddn.com/han.jpg" alt="妹子图爬虫第三弹">
@@ -753,54 +806,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-07-16T08:32:54.000Z">2017-07-16</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/想说的/">想说的</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    3 分钟 读完 (大约 406 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2017/07/16/R-I-P/">R.I.P</a>
-            
-        </h1>
-        <div class="content">
-            <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width="330" height="86" src="//music.163.com/outchain/player?type=2&id=292246&auto=0&height=66"></iframe>
-
-<p>7.13 他走了</p>
-<p>之前从没有认真去了解过那年那以日期为称呼的事件，甚至之前我都没听说过昨天去世的那个人。之前只是跟风，觉得知道了一些别人不知道的，有人不想让你知道的事会显得自己很厉害，却从来没考虑过事情的真相，事情的发展。个人觉得其中肯定夹杂着境外破坏势力，但是更多的人只是想要”自由”和”民主”，他们一直试图和平解决。这件事双方都有错，一方是过分信任对方，太善良了；另一方也是应该从始至终保持一种态度，开始的温和派给了学生一种可以和平解决的希望。而后的强硬派则是让他们死在了自己的希望上。也许没有这件事。现在不会这样，应该是肯定不会这样。1984慢慢变成了现实，各种备案，各种下架，各种不符合当前法律法规。只是在意这件事的真相，在意那些去世的亡魂。其他那些政治的东西我不在乎，只是觉得应该给他们一个交代，他们什么都没错。之前总觉得这种事跟自己无关，远远躲开。但是</p>
-<blockquote>
-<p>為眾人抱薪者， 不可使其凍斃於風雪。<br>為自由開路者， 不可使其困頓於荊棘。</p>
-</blockquote>
-<p>愿自由。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -823,9 +828,9 @@
             
             <li><a class="pagination-link has-text-black-ter" href="/page/5/">5</a></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/6/">6</a></li>
+            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/7/">7</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/page/8/">8</a></li>
             
         </ul>
     </nav>
@@ -869,7 +874,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        70
+                        71
                     </p>
                 </div>
             </div>
@@ -1034,7 +1039,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">17</span>
+                <span class="level-item tag">18</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
@@ -1177,6 +1182,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time></div>
+                    <a href="/2018/12/26/Android-屏幕适配/" class="has-link-black-ter is-size-6">Android 屏幕适配</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
@@ -1251,25 +1275,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/懒加载-fragment/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="懒加载 fragment">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:29:53.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/懒加载-fragment/" class="has-link-black-ter is-size-6">懒加载 fragment</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1288,7 +1293,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">26</span>
+                            <span class="level-item tag">27</span>
                         </span>
                     </a>
                 </li>
@@ -1624,6 +1629,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time></div>
+                    <a href="/2018/12/26/Android-屏幕适配/" class="has-link-black-ter is-size-6">Android 屏幕适配</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
@@ -1698,25 +1722,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/懒加载-fragment/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="懒加载 fragment">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:29:53.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/懒加载-fragment/" class="has-link-black-ter is-size-6">懒加载 fragment</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1735,7 +1740,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">26</span>
+                            <span class="level-item tag">27</span>
                         </span>
                     </a>
                 </li>

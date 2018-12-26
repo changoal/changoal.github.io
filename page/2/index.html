@@ -132,6 +132,69 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-05-03T12:39:33.000Z">2018-05-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 638 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/05/03/RecyclerView-IndexOutOfBoundsException/">RecyclerView IndexOutOfBoundsException</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近使用 RecyclerView 的 <code>notifyItemInserted</code> 和 <code>notifyItemRemoved</code> 的时候，经常遇到这个异常。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">java.lang.IndexOutOfBoundsException: Inconsistency detected. Invalid view holder adapter positionViewHolder&#123;<span class="hljs-number">2064e5</span>c6 position=<span class="hljs-number">2</span> id=-<span class="hljs-number">1</span>, oldPos=<span class="hljs-number">2</span>, pLpos:-<span class="hljs-number">1</span> scrap [attachedScrap] tmpDetached no parent&#125;</span><br><span class="line">at android.support.v7.widget.RecyclerView$Recycler.validateViewHolderForOffsetPosition(RecyclerView.java:<span class="hljs-number">4505</span>)</span><br><span class="line">at android.support.v7.widget.RecyclerView$Recycler.getViewForPosition(RecyclerView.java:<span class="hljs-number">4636</span>)</span><br><span class="line">at android.support.v7.widget.RecyclerView$Recycler.getViewForPosition(RecyclerView.java:<span class="hljs-number">4617</span>)</span><br><span class="line">at android.support.v7.widget.LinearLayoutManager$LayoutState.next(LinearLayoutManager.java:<span class="hljs-number">1994</span>)</span><br><span class="line">at android.support.v7.widget.LinearLayoutManager.layoutChunk(LinearLayoutManager.java:<span class="hljs-number">1390</span>)</span><br><span class="line">at android.support.v7.widget.LinearLayoutManager.fill(LinearLayoutManager.java:<span class="hljs-number">1353</span>)</span><br><span class="line">at android.support.v7.widget.LinearLayoutManager.onLayoutChildren(LinearLayoutManager.java:<span class="hljs-number">574</span>)</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>查了一些资料，大多是说因为数据源改变了，但是 adapter 却没有及时调用 <code>notifyItemRangeChanged</code> 。</p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><h2 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h2><p>自己写一个继承 LinearLayoutManager 的包装类，在 onLayoutChildren() 方法里 try-catch 捕获该异常。然后给 recyclerView 设置该 LayoutManager<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">WrapContentLinearLayoutManager</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">LinearLayoutManager</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">//... constructor</span></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onLayoutChildren</span><span class="hljs-params">(RecyclerView.Recycler recycler, RecyclerView.State state)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            <span class="hljs-keyword">super</span>.onLayoutChildren(recycler, state);</span><br><span class="line">        &#125; <span class="hljs-keyword">catch</span> (IndexOutOfBoundsException e) &#123;</span><br><span class="line">            Log.e(<span class="hljs-string">"probe"</span>, <span class="hljs-string">"meet a IOOBE in RecyclerView"</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recycler_view);</span><br><span class="line"></span><br><span class="line">recyclerView.setLayoutManager(<span class="hljs-keyword">new</span> WrapContentLinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, <span class="hljs-keyword">false</span>));</span><br></pre></td></tr></table></figure></p>
+<h2 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h2><p>在进行数据移除和数据增加时，务必要保证RecyclerView的Adapter中的数据集和移除／添加等操作后的数据集保持一致！</p>
+<p>这里，前者是在该Adapter内部，不妨叫做内部数据集，后者是开发人员传过给Adapter的，不妨叫外部数据集。更新RecyclerView数据时，需要保证外部数据集和内部数据集<strong>实时</strong>保持一致。<strong>每一次对外部数据集做改动时，都需要紧接着主动对外部数据集和内部数据集做一次同步操作</strong></p>
+<p>外部数据集同步到内部数据集，使用如下的方法：</p>
+<ul>
+<li>notifyItemRangeRemoved();</li>
+<li>notifyItemRangeInserted();</li>
+<li>notifyItemRangeChanged();</li>
+<li>notifyDataSetChanged();</li>
+</ul>
+<p>这里对 notifyDataSetChange() 做些说明：</p>
+<p>使用该方法的更新内部数据集，没有默认的动画效果，同时更新数据的效率页不如上面的方法，官方不推荐使用这种方式更新数据集。</p>
+<h2 id="方法三"><a href="#方法三" class="headerlink" title="方法三"></a>方法三</h2><p>使用notifyDataSetChanged同步外部数据集和内部数据集。该方法简单，但是失去了动画效果，并且更新数据的性能低。</p>
+<p>另外，如果对外部数据集做了二次以上的操作，却只调用notifyDataSetChanged同步一次，也很有可能会报上文所示的错误。</p>
+<p><strong>参考文章:</strong></p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/31759171/recyclerview-and-java-lang-indexoutofboundsexception-inconsistency-detected-in" target="_blank" rel="noopener">stackoverflow</a></li>
+<li><a href="https://www.jianshu.com/p/2eca433869e9" target="_blank" rel="noopener">当RecyclerView遇到Inconsistency detected崩溃</a></li>
+<li><a href="https://blog.csdn.net/Singleton1900/article/details/48369239" target="_blank" rel="noopener">使用RecyclerView遇到的一些问题 Inconsistency detected</a></li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-04-26T12:49:40.000Z">2018-04-26</time>
                 
                 <div class="level-item">
@@ -1053,184 +1116,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-02-26T13:04:55.000Z">2018-02-26</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    37 分钟 读完 (大约 5616 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/02/26/RxJava详解/">RxJava详解</a>
-            
-        </h1>
-        <div class="content">
-            <h1 id="RxJava"><a href="#RxJava" class="headerlink" title="RxJava"></a>RxJava</h1><h2 id="RxJava-到底是什么"><a href="#RxJava-到底是什么" class="headerlink" title="RxJava 到底是什么"></a>RxJava 到底是什么</h2><p>一个词：异步。</p>
-<p>RxJava 在 GitHub 主页上的自我介绍是 “a library for composing asynchronous and event-based programs using observable sequences for the Java VM”（一个在 Java VM 上使用可观测的序列来组成异步的、基于事件的程序的库）。这就是 RxJava ，概括得非常精准。</p>
-<p>然而，对于初学者来说，这太难看懂了。因为它是一个『总结』，而初学者更需要一个『引言』。</p>
-<p>其实， RxJava 的本质可以压缩为异步这一个词。说到根上，它就是一个实现异步操作的库，而别的定语都是基于这之上的。</p>
-<h2 id="RxJava-好在哪"><a href="#RxJava-好在哪" class="headerlink" title="RxJava 好在哪"></a>RxJava 好在哪</h2><p>换句话说，『同样是做异步，为什么人们用它，而不用现成的 AsyncTask / Handler / XXX / … ？』</p>
-<p>一个词：简洁。</p>
-<p>异步操作很关键的一点是程序的简洁性，因为在调度过程比较复杂的情况下，异步代码经常会既难写也难被读懂。 Android 创造的 AsyncTask 和Handler ，其实都是为了让异步代码更加简洁。RxJava 的优势也是简洁，但它的简洁的与众不同之处在于，随着程序逻辑变得越来越复杂，它依然能够保持简洁。</p>
-<h2 id="API-介绍和原理简析"><a href="#API-介绍和原理简析" class="headerlink" title="API 介绍和原理简析"></a>API 介绍和原理简析</h2><h3 id="1-概念：扩展的观察者模式"><a href="#1-概念：扩展的观察者模式" class="headerlink" title="1.概念：扩展的观察者模式"></a>1.概念：扩展的观察者模式</h3><p>RxJava 的异步实现，是通过一种扩展的观察者模式来实现的。</p>
-<h4 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h4><p>观察者模式面向的需求是：A 对象(观察者)对 B 对象(被观察者)的某种变化高度敏感，需要在 B 变化的一瞬间做出反应。举个例子，新闻里喜闻乐见的警察抓小偷，警察需要在小偷伸手作案的时候实施抓捕。在这个例子里，警察是观察者，小偷是被观察者，警察需要时刻盯着小偷的一举一动，才能保证不会漏过任何瞬间。程序的观察者模式和这种真正的『观察』略有不同，观察者不需要时刻盯着被观察者( 例如 A 不需要每过 2ms 就检查一次 B 的状态)，而是采用注册 ( Register ) 或者称为订阅 ( Subscribe )的方式，告诉被观察者：我需要你的某某状态，你要在它变化的时候通知我。 Android 开发中一个比较典型的例子是点击监听器 OnClickListener 。对设置 OnClickListener 来说， View 是被观察者， OnClickListener 是观察者，二者通过 setOnClickListener() 方法达成订阅关系。订阅之后用户点击按钮的瞬间，Android Framework 就会将点击事件发送给已经注册的 OnClickListener 。采取这样被动的观察方式，既省去了反复检索状态的资源消耗，也能够得到最高的反馈速度。当然，这也得益于我们可以随意定制自己程序中的观察者和被观察者，而警察叔叔明显无法要求小偷『你在作案的时候务必通知我』。</p>
-<p>OnClickListener 的模式大致如下图：<br><img src="http://ww4.sinaimg.cn/mw1024/52eb2279jw1f2rx42h1wgj20fz03rglt.jpg" alt="OnClickListener模式"></p>
-<p>如图所示，通过 <code>setOnClickListener()</code> 方法，Button 持有 <code>OnClickListener</code> 的引用；当用户点击时，<code>Button</code> 调用 <code>OnClickListener</code> 的 <code>onClick()</code> 方法。另外，如果把这张图中的概念抽象出来（<code>Button</code> -&gt; 被观察者、<code>OnClickListener</code> -&gt; 观察者、<code>setOnClickListener()</code> -&gt; 订阅，<code>onClick()</code> -&gt; 事件），就由专用的观察者模式（例如只用于监听控件点击）转变成了通用的观察者模式。如下图：<br><img src="http://ww3.sinaimg.cn/mw1024/52eb2279jw1f2rx4446ldj20ga03p74h.jpg" alt="通用的观察者模式"></p>
-<h4 id="RxJava-的观察者模式"><a href="#RxJava-的观察者模式" class="headerlink" title="RxJava 的观察者模式"></a>RxJava 的观察者模式</h4><p>RxJava 有四个基本概念：<code>Onservable</code>(被观察者)、<code>Observer</code>(观察者)、<code>subscribe</code>(订阅)、<code>Event</code>(事件)。<code>Observable</code> 和 <code>Observer</code> 通过 <code>subscribe()</code> 方法实现订阅关系，从而 <code>Observable</code> 可以在需要的时候发出 <code>Event</code> 来通知 <code>Observer</code>。</p>
-<p>与传统观察者模式不同， <code>RxJava</code> 的事件回调方法除了普通事件 <code>onNext()</code> （相当于 <code>onClick()</code> / <code>onEvent()</code>）之外，还定义了两个特殊的事件：<code>onCompleted()</code> 和 <code>onError()</code>。</p>
-<ul>
-<li><code>onCompleted()</code>: 事件队列完结。<code>RxJava</code> 不仅把每个事件单独处理，还会把它们看做一个队列。<code>RxJava</code> 规定，当不会再有新的 <code>onNext()</code> 发出时，需要触发 <code>onCompleted()</code> 方法作为标志。</li>
-<li><code>onError()</code>: 事件队列异常。在事件处理过程中出异常时，<code>onError()</code> 会被触发，同时队列自动终止，不允许再有事件发出。</li>
-<li>在一个正确运行的事件序列中, <code>onCompleted()</code> 和 <code>onError()</code> 有且只有一个，并且是事件序列中的最后一个。需要注意的是，<code>onCompleted()</code> 和 <code>onError()</code> 二者也是互斥的，即在队列中调用了其中一个，就不应该再调用另一个。</li>
-</ul>
-<p>RxJava 的观察者模式大致如下图：<br><img src="http://ww3.sinaimg.cn/mw1024/52eb2279jw1f2rx46dspqj20gn04qaad.jpg" alt="RxJava 的观察者模式"></p>
-<h3 id="2-基本实现"><a href="#2-基本实现" class="headerlink" title="2. 基本实现"></a>2. 基本实现</h3><p>基于以上的概念， RxJava 的基本实现主要有三点：</p>
-<h4 id="1-创建-Observer"><a href="#1-创建-Observer" class="headerlink" title="1) 创建 Observer"></a>1) 创建 Observer</h4><p>Observer 即观察者，它决定事件触发的时候将有怎样的行为。 RxJava 中的 Observer 接口的实现方式：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Observer&lt;String&gt; observer = <span class="hljs-keyword">new</span> Observer&lt;String&gt;() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="hljs-string">"Item: "</span> + s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCompleted</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="hljs-string">"Completed!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="hljs-string">"Error!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>除了 Observer 接口之外，RxJava 还内置了一个实现了 Observer 的抽象类：Subscriber。 Subscriber 对 Observer 接口进行了一些扩展，但他们的基本使用方式是完全一样的：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Subscriber&lt;String&gt; subscriber = <span class="hljs-keyword">new</span> Subscriber&lt;String&gt;() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onSubscribe</span><span class="hljs-params">(Subscription s)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="hljs-string">"onSubscribe"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(String s)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="hljs-string">"Item: "</span> + s);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="hljs-string">"Error!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onComplete</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        Log.d(tag, <span class="hljs-string">"Completed!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>不仅基本使用方式一样，实质上，在 RxJava 的 subscribe 过程中，Observer 也总是会先被转换成一个 Subscriber 再使用。所以如果你只想使用基本功能，选择 Observer 和 Subscriber 是完全一样的。它们的区别对于使用者来说主要有：</p>
-<ul>
-<li><code>onSubscribe()</code>: 这是 <code>Subscriber</code> 增加的方法。它会在 <code>subscribe</code> 刚开始，而事件还未发送之前被调用，可以用于做一些准备工作，例如数据的清零或重置。这是一个可选方法，默认情况下它的实现为空。需要注意的是，如果对准备工作的线程有要求（例如弹出一个显示进度的对话框，这必须在主线程执行）， <code>onSubscribe()</code> 就不适用了，因为它总是在 <code>subscribe</code> 所发生的线程被调用，而不能指定线程。要在指定的线程来做准备工作，可以使用 <code>doOnSubscribe()</code> 方法，具体可以在后面的文中看到。</li>
-</ul>
-<h4 id="2-创建-Observable"><a href="#2-创建-Observable" class="headerlink" title="2) 创建 Observable"></a>2) 创建 Observable</h4><p>Observable 即被观察者，它决定什么时候触发事件以及触发怎样的事件。 RxJava 使用 <code>create()</code> 方法来创建一个 Observable ，并为它定义事件触发规则：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.create(<span class="hljs-keyword">new</span> Observable.OnSubscribe&lt;String&gt;() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">call</span><span class="hljs-params">(Subscriber&lt;? <span class="hljs-keyword">super</span> String&gt; subscriber)</span> </span>&#123;</span><br><span class="line">        subscriber.onNext(<span class="hljs-string">"Hello"</span>);</span><br><span class="line">        subscriber.onNext(<span class="hljs-string">"Hi"</span>);</span><br><span class="line">        subscriber.onNext(<span class="hljs-string">"Aloha"</span>);</span><br><span class="line">        subscriber.onCompleted();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>可以看到，这里传入了一个 <code>OnSubscribe</code> 对象作为参数。<code>OnSubscribe</code> 会被存储在返回的 <code>Observable</code> 对象中，它的作用相当于一个计划表，当 <code>Observable</code> 被订阅的时候，<code>OnSubscribe</code> 的 <code>call()</code> 方法会自动被调用，事件序列就会依照设定依次触发（对于上面的代码，就是观察者 <code>Subscriber</code> 将会被调用三次 <code>onNext()</code> 和一次 <code>onCompleted()</code>）。这样，由被观察者调用了观察者的回调方法，就实现了由被观察者向观察者的事件传递，即观察者模式。</p>
-<blockquote>
-<p>这个例子很简单：事件的内容是字符串，而不是一些复杂的对象；事件的内容是已经定好了的，而不像有的观察者模式一样是待确定的（例如网络请求的结果在请求返回之前是未知的）；所有事件在一瞬间被全部发送出去，而不是夹杂一些确定或不确定的时间间隔或者经过某种触发器来触发的。总之，这个例子看起来毫无实用价值。但这是为了便于说明，实质上只要你想，各种各样的事件发送规则你都可以自己来写。至于具体怎么做，后面都会讲到，但现在不行。只有把基础原理先说明白了，上层的运用才能更容易说清楚。</p>
-</blockquote>
-<p><code>create()</code> 方法是 RxJava 最基本的创造事件序列的方法。基于这个方法， RxJava 还提供了一些方法用来快捷创建事件队列，例如：</p>
-<ul>
-<li><code>just(T...)</code>: 将传入的参数依次发送出来。</li>
-</ul>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Observable observable = Observable.just(<span class="hljs-string">"Hello"</span>, <span class="hljs-string">"Hi"</span>, <span class="hljs-string">"Aloha"</span>);</span><br><span class="line"><span class="hljs-comment">// 将会依次调用：</span></span><br><span class="line"><span class="hljs-comment">// onNext("Hello");</span></span><br><span class="line"><span class="hljs-comment">// onNext("Hi");</span></span><br><span class="line"><span class="hljs-comment">// onNext("Aloha");</span></span><br><span class="line"><span class="hljs-comment">// onCompleted();</span></span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>from(T[])</code> / <code>from(Iterable&lt;? extends T&gt;)</code> : 将传入的数组或 Iterable 拆分成具体对象后，依次发送出来。</li>
-</ul>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">String[] words = &#123;<span class="hljs-string">"Hello"</span>, <span class="hljs-string">"Hi"</span>, <span class="hljs-string">"Aloha"</span>&#125;;</span><br><span class="line">Observable observable = Observable.from(words);</span><br><span class="line"><span class="hljs-comment">// 将会依次调用：</span></span><br><span class="line"><span class="hljs-comment">// onNext("Hello");</span></span><br><span class="line"><span class="hljs-comment">// onNext("Hi");</span></span><br><span class="line"><span class="hljs-comment">// onNext("Aloha");</span></span><br><span class="line"><span class="hljs-comment">// onCompleted();</span></span><br></pre></td></tr></table></figure>
-<h4 id="3-Subscribe-订阅"><a href="#3-Subscribe-订阅" class="headerlink" title="3) Subscribe (订阅)"></a>3) Subscribe (订阅)</h4><p>创建了 <code>Observable</code> 和 <code>Observer</code> 之后，再用 <code>subscribe()</code> 方法将它们联结起来，整条链子就可以工作了。代码形式很简单：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">observable.subscribe(observer);</span><br><span class="line"><span class="hljs-comment">// 或者：</span></span><br><span class="line">observable.subscribe(subscriber);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>有人可能会注意到， <code>subscribe()</code> 这个方法有点怪：它看起来是『<code>observalbe</code> 订阅了 <code>observer</code> / <code>subscriber</code>』而不是『<code>observer</code> / <code>subscriber</code> 订阅了 <code>observalbe</code>』，这看起来就像『杂志订阅了读者』一样颠倒了对象关系。这让人读起来有点别扭，不过如果把 API 设计成 <code>observer.subscribe(observable)</code> / <code>subscriber.subscribe(observable)</code> ，虽然更加符合思维逻辑，但对流式 API 的设计就造成影响了，比较起来明显是得不偿失的。</p>
-</blockquote>
-<p>Observable.subscribe(Subscriber) 的内部实现是这样的（仅核心代码）：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 注意：这不是 subscribe() 的源码，而是将源码中与性能、兼容性、扩展性有关的代码剔除后的核心代码。</span></span><br><span class="line"><span class="hljs-comment">// 如果需要看源码，可以去 RxJava 的 GitHub 仓库下载。</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> Subscription <span class="hljs-title">subscribe</span><span class="hljs-params">(Subscriber subscriber)</span> </span>&#123;</span><br><span class="line">    subscriber.onStart();</span><br><span class="line">    onSubscribe.call(subscriber);</span><br><span class="line">    <span class="hljs-keyword">return</span> subscriber;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>可以看到，<code>subscriber()</code> 做了3件事：</p>
-<ol>
-<li><p>调用 <code>Subscriber.onStart()</code> 。这个方法在前面已经介绍过，是一个可选的准备方法。</p>
-</li>
-<li><p>调用 <code>Observable</code> 中的 <code>OnSubscribe.call(Subscriber)</code> 。在这里，事件发送的逻辑开始运行。从这也可以看出，在 <code>RxJava</code> 中， <code>Observable</code> 并不是在创建的时候就立即开始发送事件，而是在它被订阅的时候，即当 <code>subscribe()</code> 方法执行的时候。</p>
-</li>
-<li><p>将传入的 <code>Subscriber</code> 作为 <code>Subscription</code> 返回。这是为了方便 <code>unsubscribe()</code>.</p>
-</li>
-</ol>
-<p>整个过程中对象间的关系如下图：<br><img src="http://ww4.sinaimg.cn/mw1024/52eb2279jw1f2rx489robj20lk0a8my2.jpg" alt="image"></p>
-<p>或者可以看动图：</p>
-<p><img src="http://ww3.sinaimg.cn/mw1024/52eb2279jw1f2rx4ay0hrg20ig08wk4q.gif" alt="image"></p>
-<h4 id="4-场景示例"><a href="#4-场景示例" class="headerlink" title="4) 场景示例"></a>4) 场景示例</h4><p>a. 打印字符串数组</p>
-<p>将字符串数组 names 中的所有字符串依次打印出来：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">String[] names = ...;</span><br><span class="line">Observable.from(names)</span><br><span class="line">    .subscribe(<span class="hljs-keyword">new</span> Action1&lt;String&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">call</span><span class="hljs-params">(String name)</span> </span>&#123;</span><br><span class="line">            Log.d(tag, name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p>b. 由 id 取得图片并显示</p>
-<p>由指定的一个 drawable 文件 id <code>drawableRes</code> 取得图片，并显示在 <code>ImageView</code> 中，并在出现异常的时候打印 Toast 报错：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> drawableRes = ...;</span><br><span class="line">ImageView imageView = ...;</span><br><span class="line">Observable.create(<span class="hljs-keyword">new</span> OnSubscribe&lt;Drawable&gt;() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">call</span><span class="hljs-params">(Subscriber&lt;? <span class="hljs-keyword">super</span> Drawable&gt; subscriber)</span> </span>&#123;</span><br><span class="line">        Drawable drawable = getTheme().getDrawable(drawableRes));</span><br><span class="line">        subscriber.onNext(drawable);</span><br><span class="line">        subscriber.onCompleted();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).subscribe(<span class="hljs-keyword">new</span> Observer&lt;Drawable&gt;() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(Drawable drawable)</span> </span>&#123;</span><br><span class="line">        imageView.setImageDrawable(drawable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCompleted</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onError</span><span class="hljs-params">(Throwable e)</span> </span>&#123;</span><br><span class="line">        Toast.makeText(activity, <span class="hljs-string">"Error!"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>注意：在 <code>RxJava</code> 的默认规则中，事件的发出和消费都是在同一个线程的。也就是说，如果只用上面的方法，实现出来的只是一个同步的观察者模式。观察者模式本身的目的就是『后台处理，前台回调』的异步机制，因此异步对于 <code>RxJava</code> 是至关重要的。而要实现异步，则需要用到 <code>RxJava</code> 的另一个概念：<code>Scheduler</code> 。</p>
-</blockquote>
-<h3 id="3-线程控制-——-Scheduler-一"><a href="#3-线程控制-——-Scheduler-一" class="headerlink" title="3. 线程控制 —— Scheduler (一)"></a>3. 线程控制 —— Scheduler (一)</h3><p>在不指定线程的情况下， <code>RxJava</code> 遵循的是线程不变的原则，即：在哪个线程调用 <code>subscribe()</code>，就在哪个线程生产事件；在哪个线程生产事件，就在哪个线程消费事件。如果需要切换线程，就需要用到 <code>Scheduler</code> （调度器）。</p>
-<h4 id="Scheduler-的-API"><a href="#Scheduler-的-API" class="headerlink" title="Scheduler 的 API"></a>Scheduler 的 API</h4><p>在<code>RxJava</code> 中，<code>Scheduler</code> ——调度器，相当于线程控制器，<code>RxJava</code> 通过它来指定每一段代码应该运行在什么样的线程。<code>RxJava</code> 已经内置了几个 <code>Scheduler</code> ，它们已经适合大多数的使用场景：</p>
-<ul>
-<li><code>Schedulers.immediate()</code>: 直接在当前线程运行，相当于不指定线程。这是默认的 <code>Scheduler</code>。</li>
-<li><code>Schedulers.newThread()</code>: 总是启用新线程，并在新线程执行操作。</li>
-<li><code>Schedulers.io()</code>: I/O 操作（读写文件、读写数据库、网络信息交互等）所使用的 <code>Scheduler</code>。行为模式和 <code>newThread()</code> 差不多，区别在于 <code>io()</code> 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 <code>io()</code> 比 <code>newThread()</code> 更有效率。不要把计算工作放在 <code>io()</code> 中，可以避免创建不必要的线程。</li>
-<li><code>Schedulers.computation()</code>: 计算所使用的 <code>Scheduler</code>。这个计算指的是 CPU 密集型计算，即不会被 I/O 等操作限制性能的操作，例如图形的计算。这个 <code>Scheduler</code> 使用的固定的线程池，大小为 CPU 核数。不要把 I/O 操作放在 <code>computation()</code> 中，否则 I/O 操作的等待时间会浪费 CPU。</li>
-<li>另外， Android 还有一个专用的 <code>AndroidSchedulers.mainThread()</code>，它指定的操作将在 Android 主线程运行。</li>
-</ul>
-<p>有了这几个 <code>Scheduler</code> ，就可以使用 <code>subscribeOn()</code> 和 <code>observeOn()</code> 两个方法来对线程进行控制了。</p>
-<ul>
-<li><code>subscribeOn()</code>: 指定 <code>subscribe()</code> 所发生的线程，即 <code>Observable.OnSubscribe</code> 被激活时所处的线程。或者叫做事件产生的线程。</li>
-<li><code>observeOn()</code>: 指定 <code>Subscriber</code> 所运行在的线程。或者叫做事件消费的线程。</li>
-</ul>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>)</span><br><span class="line">    .subscribeOn(Schedulers.io()) <span class="hljs-comment">// 指定 subscribe() 发生在 IO 线程</span></span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread()) <span class="hljs-comment">// 指定 Subscriber 的回调发生在主线程</span></span><br><span class="line">    .subscribe(<span class="hljs-keyword">new</span> Action1&lt;Integer&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">call</span><span class="hljs-params">(Integer number)</span> </span>&#123;</span><br><span class="line">            Log.d(TAG, <span class="hljs-string">"number: "</span> + number);</span><br><span class="line">            Log.d(TAG, <span class="hljs-string">"Thread: "</span> + Thread.currentThread());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<h3 id="4-变换"><a href="#4-变换" class="headerlink" title="4. 变换"></a>4. 变换</h3><p>RxJava 提供了对事件序列进行变换的支持，这是它的核心功能之一，也是大多数人说『RxJava 真是太好用了』的最大原因。所谓变换，就是将事件序列中的对象或整个序列进行加工处理，转换成不同的事件或事件序列。概念说着总是模糊难懂的，来看 API。</p>
-<h4 id="1-API"><a href="#1-API" class="headerlink" title="1) API"></a>1) API</h4><p>首先看一个 <code>map()</code> 的例子：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="hljs-string">"images/logo.png"</span>) <span class="hljs-comment">// 输入类型 String</span></span><br><span class="line">    .map(<span class="hljs-keyword">new</span> Func1&lt;String, Bitmap&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> Bitmap <span class="hljs-title">call</span><span class="hljs-params">(String filePath)</span> </span>&#123; <span class="hljs-comment">// 参数类型 String</span></span><br><span class="line">            <span class="hljs-keyword">return</span> getBitmapFromPath(filePath); <span class="hljs-comment">// 返回类型 Bitmap</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribe(<span class="hljs-keyword">new</span> Action1&lt;Bitmap&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">call</span><span class="hljs-params">(Bitmap bitmap)</span> </span>&#123; <span class="hljs-comment">// 参数类型 Bitmap</span></span><br><span class="line">            showBitmap(bitmap);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<ul>
-<li><code>map()</code>: 事件对象的直接变换，具体功能上面已经介绍过。它是 <code>RxJava</code> 最常用的变换。 <code>map()</code> 的示意图：</li>
-</ul>
-<p><img src="http://ww1.sinaimg.cn/mw1024/52eb2279jw1f2rx4fitvfj20hw0ea0tg.jpg" alt="image"></p>
-<ul>
-<li><code>flatMap()</code>: 这是一个很有用但非常难理解的变换，因此我决定花多些篇幅来介绍它。 首先假设这么一种需求：假设有一个数据结构『学生』，现在需要打印出一组学生的名字。实现方式很简单：</li>
-</ul>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Student[] students = ...;</span><br><span class="line">Subscriber&lt;String&gt; subscriber = <span class="hljs-keyword">new</span> Subscriber&lt;String&gt;() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(String name)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, name);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line">Observable.from(students)</span><br><span class="line">    .map(<span class="hljs-keyword">new</span> Func1&lt;Student, String&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">call</span><span class="hljs-params">(Student student)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> student.getName();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribe(subscriber);</span><br></pre></td></tr></table></figure>
-<p>很简单。那么再假设：如果要打印出每个学生所需要修的所有课程的名称呢？（需求的区别在于，每个学生只有一个名字，但却有多个课程。）首先可以这样实现：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Student[] students = ...;</span><br><span class="line">Subscriber&lt;Student&gt; subscriber = <span class="hljs-keyword">new</span> Subscriber&lt;Student&gt;() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(Student student)</span> </span>&#123;</span><br><span class="line">        List&lt;Course&gt; courses = student.getCourses();</span><br><span class="line">        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; courses.size(); i++) &#123;</span><br><span class="line">            Course course = courses.get(i);</span><br><span class="line">            Log.d(tag, course.getName());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line">Observable.from(students)</span><br><span class="line">    .subscribe(subscriber);</span><br></pre></td></tr></table></figure>
-<p>依然很简单。那么如果我不想在 Subscriber 中使用 for 循环，而是希望 Subscriber 中直接传入单个的 Course 对象呢（这对于代码复用很重要）？用 map() 显然是不行的，因为 map() 是一对一的转化，而我现在的要求是一对多的转化。那怎么才能把一个 Student 转化成多个 Course 呢？</p>
-<p>这个时候，就需要用 flatMap() 了：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Student[] students = ...;</span><br><span class="line">Subscriber&lt;Course&gt; subscriber = <span class="hljs-keyword">new</span> Subscriber&lt;Course&gt;() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onNext</span><span class="hljs-params">(Course course)</span> </span>&#123;</span><br><span class="line">        Log.d(tag, course.getName());</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br><span class="line">Observable.from(students)</span><br><span class="line">    .flatMap(<span class="hljs-keyword">new</span> Func1&lt;Student, Observable&lt;Course&gt;&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> Observable&lt;Course&gt; <span class="hljs-title">call</span><span class="hljs-params">(Student student)</span> </span>&#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> Observable.from(student.getCourses());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribe(subscriber);</span><br></pre></td></tr></table></figure>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//RxJava2</span></span><br><span class="line">Flowable.fromIterable(students)</span><br><span class="line">    .flatMap(<span class="hljs-keyword">new</span> Function&lt;Student, Publisher&lt;?&gt;&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-keyword">public</span> Publisher&lt;?&gt; apply(Student student) <span class="hljs-keyword">throws</span> Exception &#123;</span><br><span class="line">            <span class="hljs-keyword">return</span> Flowable.fromIterable(student.mSources);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread())</span><br><span class="line">    .subscribe(<span class="hljs-keyword">new</span> Consumer&lt;Object&gt;() &#123;</span><br><span class="line">        <span class="hljs-meta">@Override</span></span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">accept</span><span class="hljs-params">(Object o)</span> <span class="hljs-keyword">throws</span> Exception </span>&#123;</span><br><span class="line">            Log.d(TAG, <span class="hljs-string">"accept: "</span> + ((Cource) o).name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p>从上面的代码可以看出， <code>flatMap()</code> 和 <code>map()</code> 有一个相同点：它也是把传入的参数转化之后返回另一个对象。但需要注意，和 <code>map()</code> 不同的是， <code>flatMap()</code> 中返回的是个 <code>Observable</code> 对象，并且这个 <code>Observable</code> 对象并不是被直接发送到了 <code>Subscriber</code> 的回调方法中。 <code>flatMap()</code> 的原理是这样的：</p>
-<ol>
-<li>使用传入的事件对象创建一个 <code>Observable</code> 对象；</li>
-<li>并不发送这个 <code>Observable</code>, 而是将它激活，于是它开始发送事件；</li>
-<li>每一个创建出来的 <code>Observable</code> 发送的事件，都被汇入同一个 <code>Observable</code> ，而这个 <code>Observable</code> 负责将这些事件统一交给 <code>Subscriber</code> 的回调方法。这三个步骤，把事件拆成了两级，通过一组新创建的 Observable 将初始的对象『铺平』之后通过统一路径分发了下去。而这个『铺平』就是 <code>flatMap()</code> 所谓的 flat。</li>
-</ol>
-<p><code>flatMap()</code> 示意图：<br><img src="http://ww1.sinaimg.cn/mw1024/52eb2279jw1f2rx4i8da2j20hg0dydgx.jpg" alt="image"></p>
-<h3 id="5-线程控制：Scheduler-二"><a href="#5-线程控制：Scheduler-二" class="headerlink" title="5. 线程控制：Scheduler (二)"></a>5. 线程控制：Scheduler (二)</h3><h4 id="1-Scheduler-的-API-二"><a href="#1-Scheduler-的-API-二" class="headerlink" title="1) Scheduler 的 API (二)"></a>1) Scheduler 的 API (二)</h4><p>前面讲到了，可以利用 <code>subscribeOn()</code> 结合 <code>observeOn()</code> 来实现线程控制，让事件的产生和消费发生在不同的线程。可是在了解了 <code>map()</code> <code>flatMap()</code> 等变换方法后，有些好事的（其实就是当初刚接触 RxJava 时的我）就问了：能不能多切换几次线程？</p>
-<p>答案是：能。因为 <code>observeOn()</code> 指定的是 <code>Subscriber</code> 的线程，而这个 <code>Subscriber</code> 并不是（严格说应该为『不一定是』，但这里不妨理解为『不是』）<code>subscribe()</code> 参数中的 <code>Subscriber</code> ，而是 <code>observeOn()</code> 执行时的当前 <code>Observable</code> 所对应的 <code>Subscriber</code> ，即它的直接下级 <code>Subscriber</code> 。换句话说，<code>observeOn()</code> 指定的是它之后的操作所在的线程。因此如果有多次切换线程的需求，只要在每个想要切换线程的位置调用一次 <code>observeOn()</code> 即可。上代码：</p>
-<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Observable.just(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>) <span class="hljs-comment">// IO 线程，由 subscribeOn() 指定</span></span><br><span class="line">    .subscribeOn(Schedulers.io())</span><br><span class="line">    .observeOn(Schedulers.newThread())</span><br><span class="line">    .map(mapOperator) <span class="hljs-comment">// 新线程，由 observeOn() 指定</span></span><br><span class="line">    .observeOn(Schedulers.io())</span><br><span class="line">    .map(mapOperator2) <span class="hljs-comment">// IO 线程，由 observeOn() 指定</span></span><br><span class="line">    .observeOn(AndroidSchedulers.mainThread)</span><br><span class="line">    .subscribe(subscriber);  <span class="hljs-comment">// Android 主线程，由 observeOn() 指定</span></span><br></pre></td></tr></table></figure>
-<p>如上，通过 <code>observeOn()</code> 的多次调用，程序实现了线程的多次切换。</p>
-<p>不过，不同于 <code>observeOn()</code> ， <code>subscribeOn()</code> 的位置放在哪里都可以，但它是只能调用一次的。</p>
-<h4 id="2-Scheduler-的原理（二）"><a href="#2-Scheduler-的原理（二）" class="headerlink" title="2) Scheduler 的原理（二）"></a>2) Scheduler 的原理（二）</h4><p>其实， <code>subscribeOn()</code> 和 <code>observeOn()</code> 的内部实现，也是用的 <code>lift()</code>。具体看图（不同颜色的箭头表示不同的线程）：</p>
-<p>subscribeOn() 原理图：<br><img src="http://ww4.sinaimg.cn/mw1024/52eb2279jw1f2rxcynbsuj20ha0d7wg2.jpg" alt="image"></p>
-<p>observeOn() 原理图：<br><img src="http://ww4.sinaimg.cn/mw1024/52eb2279jw1f2rxd05lttj20hj0cyabl.jpg" alt="image"></p>
-<p>从图中可以看出，<code>subscribeOn()</code> 和 <code>observeOn()</code> 都做了线程切换的工作（图中的 “schedule…” 部位）。不同的是， <code>subscribeOn()</code> 的线程切换发生在 <code>OnSubscribe</code> 中，即在它通知上一级 <code>OnSubscribe</code> 时，这时事件还没有开始发送，因此 <code>subscribeOn()</code> 的线程控制可以从事件发出的开端就造成影响；而 <code>observeOn()</code> 的线程切换则发生在它内建的 <code>Subscriber</code> 中，即发生在它即将给下一级 <code>Subscriber</code> 发送事件时，因此 <code>observeOn()</code> 控制的是它后面的线程。</p>
-<p>最后，我用一张图来解释当多个 <code>subscribeOn()</code> 和 <code>observeOn()</code> 混合使用时，线程调度是怎么发生的（由于图中对象较多，相对于上面的图对结构做了一些简化调整）：<br><img src="http://ww1.sinaimg.cn/mw1024/52eb2279jw1f2rxd1vl7xj20hd0hzq6e.jpg" alt="image"></p>
-<p>图中共有 5 处含有对事件的操作。由图中可以看出，①和②两处受第一个 <code>subscribeOn()</code> 影响，运行在红色线程；③和④处受第一个 <code>observeOn()</code> 的影响，运行在绿色线程；⑤处受第二个 <code>onserveOn()</code> 影响，运行在紫色线程；而第二个 <code>subscribeOn()</code> ，由于在通知过程中线程就被第一个 <code>subscribeOn()</code> 截断，因此对整个流程并没有任何影响。这里也就回答了前面的问题：当使用了多个 <code>subscribeOn()</code> 的时候，只有第一个 <code>subscribeOn()</code> 起作用。</p>
-<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p>Github 源码地址：</p>
-<ul>
-<li><a href="https://github.com/ReactiveX/RxJava" target="_blank" rel="noopener">RxJava</a></li>
-<li><a href="https://github.com/ReactiveX/RxAndroid" target="_blank" rel="noopener">RxAndroid</a></li>
-</ul>
-<p>引入依赖：</p>
-<ul>
-<li><code>implementation &quot;io.reactivex.rxjava2:rxjava:2.1.7&quot;</code></li>
-<li><code>implementation &#39;io.reactivex.rxjava2:rxandroid:2.0.2&#39;</code></li>
-</ul>
-<p><strong>参考资料</strong>：</p>
-<ul>
-<li><a href="http://gank.io/post/560e15be2dca930e00da1083#toc_8" target="_blank" rel="noopener">给 Android 开发者的 RxJava 详解</a></li>
-<li><a href="https://www.jianshu.com/p/f67e05d7cd30" target="_blank" rel="noopener">RxJava 操作符flatMap 与 concatMap详解</a></li>
-<li><a href="http://www.jcodecraeer.com/a/chengxusheji/java/2017/0731/8315.html" target="_blank" rel="noopener">Rxjava2的学习与总结</a></li>
-<li><a href="https://www.gitbook.com/book/mcxiaoke/rxdocs/details" target="_blank" rel="noopener">ReactiveX/RxJava文档中文版</a></li>
-</ul>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1251,7 +1136,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/7/">7</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/page/8/">8</a></li>
             
         </ul>
     </nav>
@@ -1295,7 +1180,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        70
+                        71
                     </p>
                 </div>
             </div>
@@ -1460,7 +1345,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">17</span>
+                <span class="level-item tag">18</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
@@ -1603,6 +1488,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time></div>
+                    <a href="/2018/12/26/Android-屏幕适配/" class="has-link-black-ter is-size-6">Android 屏幕适配</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
@@ -1677,25 +1581,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/懒加载-fragment/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="懒加载 fragment">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:29:53.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/懒加载-fragment/" class="has-link-black-ter is-size-6">懒加载 fragment</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1714,7 +1599,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">26</span>
+                            <span class="level-item tag">27</span>
                         </span>
                     </a>
                 </li>
@@ -2050,6 +1935,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time></div>
+                    <a href="/2018/12/26/Android-屏幕适配/" class="has-link-black-ter is-size-6">Android 屏幕适配</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
@@ -2124,25 +2028,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/09/26/懒加载-fragment/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="懒加载 fragment">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-26T07:29:53.000Z">2018-09-26</time></div>
-                    <a href="/2018/09/26/懒加载-fragment/" class="has-link-black-ter is-size-6">懒加载 fragment</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -2161,7 +2046,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">26</span>
+                            <span class="level-item tag">27</span>
                         </span>
                     </a>
                 </li>
