@@ -132,6 +132,128 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2018-05-08T12:51:33.000Z">2018-05-08</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1887 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2018/05/08/Lottie-详解/">Lottie 详解</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>Lottie 是 Airbnb 开源的一个面向 iOS、Android、React Native 的动画库，能分析 Adobe After Effects 导出的动画，并且能让原生 App 像使用静态素材一样使用这些动画，完美实现动画效果。</p>
+<p>现在使用各平台的 native 代码实现一套复杂的动画是一件很困难并且耗时的事，我们需要为不同尺寸的屏幕加载不同的素材资源，还需要写大量难维护的代码，而 Lottie 可以做到同一个动画文件在不同平台上实现相同的效果，极大减少开发时间，实现不同的动画，只需要设置不同的动画文件即可，极大减少开发和维护成本。</p>
+<p>官方效果图：</p>
+<p><img src="http://o797mwhn1.bkt.clouddn.com/lottie_intro.gif" alt="官方效果图"></p>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>Lottie 支持多平台，使用同一个 JSON 动画文件，可在不同平台实现相同的效果。其中，Android 通过 Airbnb 的开源项目 lottie-android 实现，最低支持 API 16。</p>
+<h2 id="引入依赖"><a href="#引入依赖" class="headerlink" title="引入依赖"></a>引入依赖</h2><p><code>implementation &#39;com.airbnb.android:lottie:2.5.4&#39;</code></p>
+<h2 id="添加-Adobe-After-Effects-导出的动画文件"><a href="#添加-Adobe-After-Effects-导出的动画文件" class="headerlink" title="添加 Adobe After Effects 导出的动画文件"></a>添加 Adobe After Effects 导出的动画文件</h2><p>Lottie 默认读取 Assets 中的文件，我们需要把动画文件 react.json 保存在 <code>app/src/main/assets</code> 文件里。在 <a href="https://www.lottiefiles.com/popular" target="_blank" rel="noopener">官网</a> 可以免费下载动画文件。</p>
+<figure class="highlight hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">// react.json</span><br><span class="line">&#123;</span><br><span class="line">    <span class="hljs-attr">"v"</span>: <span class="hljs-string">"4.6.0"</span>,</span><br><span class="line">    <span class="hljs-attr">"fr"</span>: <span class="hljs-number">29.9700012207031</span>,</span><br><span class="line">    <span class="hljs-attr">"ip"</span>: <span class="hljs-number">0</span>,</span><br><span class="line">    <span class="hljs-attr">"op"</span>: <span class="hljs-number">141.000005743048</span>,</span><br><span class="line">    <span class="hljs-attr">"w"</span>: <span class="hljs-number">800</span>,</span><br><span class="line">    <span class="hljs-attr">"h"</span>: <span class="hljs-number">800</span>,</span><br><span class="line">    <span class="hljs-attr">"ddd"</span>: <span class="hljs-number">0</span>,</span><br><span class="line">    <span class="hljs-attr">"assets"</span>: [ ],</span><br><span class="line">    <span class="hljs-attr">"layers"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="hljs-attr">"ddd"</span>: <span class="hljs-number">0</span>,</span><br><span class="line">            <span class="hljs-attr">"ind"</span>: <span class="hljs-number">0</span>,</span><br><span class="line">            <span class="hljs-attr">"ty"</span>: <span class="hljs-number">4</span>,</span><br><span class="line">            <span class="hljs-attr">"nm"</span>: <span class="hljs-string">"center_circle"</span>,</span><br><span class="line">            "ks": &#123;...&#125;,</span><br><span class="line">            "ao": 0,</span><br><span class="line">            "shapes": [...],</span><br><span class="line">            "ip": 0,</span><br><span class="line">            "op": 900.000036657751,</span><br><span class="line">            "st": 0,</span><br><span class="line">            "bm": 0,</span><br><span class="line">            "sr": 1</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;...&#125;,</span><br><span class="line">        &#123;...&#125;,</span><br><span class="line">        &#123;...&#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用Lottie"><a href="#使用Lottie" class="headerlink" title="使用Lottie"></a>使用Lottie</h2><p>在布局文件中直接添加 Lottie 的 LottieAnimationView 控件，即可在界面显示 React logo 动画效果</p>
+<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">com.airbnb.lottie.LottieAnimationView</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/animation_view"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"wrap_content"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">app:lottie_fileName</span>=<span class="hljs-string">"react.json"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">app:lottie_loop</span>=<span class="hljs-string">"true"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">app:lottie_autoPlay</span>=<span class="hljs-string">"true"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p><strong>属性说明：</strong></p>
+<ul>
+<li><code>app:lottie_fileName</code>: assets 文件夹下对应的动画文件的文件名</li>
+<li><code>app:lottie_loop</code>: 是否循环播放动画</li>
+<li><code>app:lottie_autoPlay</code>: 是否自动播放动画</li>
+<li><code>app:lottie_cacheStrategy</code>: 设置缓存策略。默认为none，可选值有strong和weak</li>
+<li><code>app:lottie_colorFilter</code>: 设置背景颜色</li>
+<li><code>app:lottie_progress</code>: 设置动画播放进度</li>
+<li><code>app:lottie_imageAssetsFolder</code>: 动画所需图片资源在assets中的绝对路径。如果没有图片资源，可以省略</li>
+</ul>
+<p><strong>代码使用:</strong></p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">LottieAnimationView animationView = (LottieAnimationView) findViewById(R.id.animation_view);</span><br><span class="line"></span><br><span class="line">animationView.playAnimation(); <span class="hljs-comment">//播放动画</span></span><br><span class="line"></span><br><span class="line">animationView.setAnimation(<span class="hljs-string">"data1.json"</span>, CacheStrategy.Strong); <span class="hljs-comment">// 设置动画文件以及缓存策略</span></span><br><span class="line"></span><br><span class="line">PorterDuffColorFilter colorFilter = <span class="hljs-keyword">new</span> PorterDuffColorFilter(ContextCompat.getColor(<span class="hljs-keyword">this</span>,android.R.color.holo_blue_light), PorterDuff.Mode.ADD);</span><br><span class="line">animationView.addColorFilter(colorFilter); <span class="hljs-comment">// 设置背景颜色</span></span><br><span class="line"></span><br><span class="line">animationView.loop(<span class="hljs-keyword">true</span>); <span class="hljs-comment">// 循环播放</span></span><br><span class="line"></span><br><span class="line">animationView.setProgress(<span class="hljs-number">0.5f</span>); <span class="hljs-comment">// 设置动画播放进度。需要注意值是float型。</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 监听动画的状态</span></span><br><span class="line">animationView.addAnimatorListener(<span class="hljs-keyword">new</span> Animator.AnimatorListener() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAnimationStart</span><span class="hljs-params">(Animator animation)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">// 开始</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAnimationEnd</span><span class="hljs-params">(Animator animation)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">// 结束</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAnimationCancel</span><span class="hljs-params">(Animator animation)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">// 取消</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAnimationRepeat</span><span class="hljs-params">(Animator animation)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">// 重复</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 动态监听动画演示过程，可以动态获取动画进度</span></span><br><span class="line">animationView.addAnimatorUpdateListener(<span class="hljs-keyword">new</span> AnimatorUpdateListener() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onAnimationUpdate</span><span class="hljs-params">(ValueAnimator animation)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">animationView.pauseAnimation(); <span class="hljs-comment">// 暂停动画</span></span><br><span class="line"></span><br><span class="line">animationView.isAnimating() <span class="hljs-comment">// 是否正在播放动画</span></span><br><span class="line"></span><br><span class="line">animationView.resumeAnimation() <span class="hljs-comment">// 恢复动画</span></span><br><span class="line"></span><br><span class="line">animationView.cancelAnimation() <span class="hljs-comment">// 取消动画</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用小技巧"><a href="#使用小技巧" class="headerlink" title="使用小技巧"></a>使用小技巧</h2><h3 id="加载SDCard动画文件"><a href="#加载SDCard动画文件" class="headerlink" title="加载SDCard动画文件"></a>加载SDCard动画文件</h3><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">StringBuilder stringBuilder = <span class="hljs-keyword">new</span> StringBuilder();</span><br><span class="line">BufferedReader bufferedReader = <span class="hljs-keyword">new</span> BufferedReader(<span class="hljs-keyword">new</span> FileReader(<span class="hljs-keyword">new</span> File(JSON_PATH + <span class="hljs-string">"react.json"</span>)));</span><br><span class="line">String content = <span class="hljs-keyword">null</span>;</span><br><span class="line"><span class="hljs-keyword">while</span> ((content = bufferedReader.readLine()) != <span class="hljs-keyword">null</span>)&#123;</span><br><span class="line">    stringBuilder.append(content);</span><br><span class="line">&#125;</span><br><span class="line">JSONObject jsonObject = <span class="hljs-keyword">new</span> JSONObject(stringBuilder.toString());</span><br><span class="line">animationView.setAnimation(jsonObject);</span><br><span class="line">animationView.loop(<span class="hljs-keyword">true</span>);</span><br><span class="line">animationView.playAnimation();</span><br></pre></td></tr></table></figure>
+<h3 id="加载SDCard图片"><a href="#加载SDCard图片" class="headerlink" title="加载SDCard图片"></a>加载SDCard图片</h3><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">animationView.setImageAssetDelegate(<span class="hljs-keyword">new</span> ImageAssetDelegate() &#123;</span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Bitmap <span class="hljs-title">fetchBitmap</span><span class="hljs-params">(LottieImageAsset asset)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            FileInputStream fileInputStream = <span class="hljs-keyword">new</span> FileInputStream(IMAGE_PATH + asset.getFileName());</span><br><span class="line">            <span class="hljs-keyword">return</span> BitmapFactory.decodeStream(fileInputStream);  <span class="hljs-comment">///把流转化为Bitmap图片</span></span><br><span class="line">        &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="加载SDCard字体"><a href="#加载SDCard字体" class="headerlink" title="加载SDCard字体"></a>加载SDCard字体</h3><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">animationView.setFontAssetDelegate(<span class="hljs-keyword">new</span> FontAssetDelegate()&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Typeface <span class="hljs-title">fetchFont</span><span class="hljs-params">(String fontFamily)</span> </span>&#123;</span><br><span class="line">        Typeface customFont = Typeface.createFromFile(FONT_PATH + fontFamily);</span><br><span class="line">        <span class="hljs-keyword">return</span> customFont;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="缓存动画"><a href="#缓存动画" class="headerlink" title="缓存动画"></a>缓存动画</h3><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">/**</span></span><br><span class="line"><span class="hljs-comment"> *Lottie内部有两个缓存map（强引用缓存，弱引用缓存），在动画文件加载完成后会根据设置的缓存策略缓存动画，方便下次使用。</span></span><br><span class="line"><span class="hljs-comment"> */</span></span><br><span class="line">animationView.setAnimation(animation, LottieAnimationView.CacheStrategy.Strong);    <span class="hljs-comment">//强缓存</span></span><br><span class="line">animationView.setAnimation(animation, LottieAnimationView.CacheStrategy.Weak);      <span class="hljs-comment">//弱缓存</span></span><br></pre></td></tr></table></figure>
+<h1 id="Lottie实现原理"><a href="#Lottie实现原理" class="headerlink" title="Lottie实现原理"></a>Lottie实现原理</h1><p>Lottie 的使用的资源是需要先通过 bodymovin( bodymovin 插件本身是用于网页上呈现各种AE效果的一个开源库) 将 Adobe After Effects (AE) 生成的aep动画工程文件转换为通用的json格式描述文件。Lottie则负责解析动画的数据，计算每个动画在某个时间点的状态，准确地绘制到屏幕上。</p>
+<p>Lottie 对外通过控件 LottieAnimationView 暴露接口，控制动画。<br>LottieAnimationView 继承自 ImageView，通过当前时间绘制 canvas 显示到界面上。这里有两个关键类：LottieComposition 负责解析json描述文件，把json内容转成Java数据对象；LottieDrawable负责绘制，把LottieComposition转成的数据对象绘制成drawable显示到View上。顺序如下：</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKVViaibdGgicluU6AI9bYtKnn1IpOtMYxeA3HUFwb6jZHOsyEd5pLFMsCA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt="顺序"></p>
+<p>探究更多原理解析内容请在 <a href="https://mp.weixin.qq.com/s/LrkZtDZY3SE8IUQ-x1hsmQ" target="_blank" rel="noopener">Lottie–让动画如此简单</a> 查看。</p>
+<h1 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h1><p>内容来自 腾讯音乐技术团队 。</p>
+<h2 id="官方说明"><a href="#官方说明" class="headerlink" title="官方说明"></a>官方说明</h2><ul>
+<li>如果没有 mask 和 mattes，那么性能和内存非常好，没有 bitmap 创建，大部分操作都是简单的 cavas 绘制。</li>
+<li>如果存在 mattes，将会创建2～3个 bitmap。bitmap 在动画加载到 window 时被创建，被 window 删除时回收。所以不宜在 RecyclerView 中使用包涵 mattes 或者 mask 的动画，否则会引起 bitmap 抖动。除了内存抖动，mattes和mask中必要的 bitmap.eraseColor() 和 canvas.drawBitmap() 也会降低动画性能。对于简单的动画，在实际使用时性能不太明显。</li>
+<li>如果在列表中使用动画，推荐使用缓存 <code>LottieAnimationView.setAnimation(String, CacheStrategy)</code> 。</li>
+</ul>
+<h2 id="属性动画和Lottie动画对比"><a href="#属性动画和Lottie动画对比" class="headerlink" title="属性动画和Lottie动画对比"></a>属性动画和Lottie动画对比</h2><p>以下性能对比是以K歌内单个礼物动画效果</p>
+<table>
+<thead>
+<tr>
+<th>-</th>
+<th>属性动画</th>
+<th>lottie使用硬件加速</th>
+<th>lottie未使用硬件加速</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>帧率</td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKqiarh4eITib6uwiatVQaNfVweOw718rVlZvvUpBG95tGNHDoFjGgWIkPg/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKq33Z1py8eMsicCMLNu43ric7YQJduoYe7qfgxiamDIbwkaHYW3wmpeibzA/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKNkbbUqcKkCyt0DDPMBh3ZH3iadzoNIJvAmTfpyXjx1jNEDQEjuT4ddQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+</tr>
+<tr>
+<td>内存</td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKVk16ibr4mM9UVG7UqQTZQ6mz1Z1ETAzO6zcreiaFlJ7RyXA7o6dkCVAw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKzD5U96LDhGdLOa6JWq9E7CyGHpg1URdW4hPhQpsfv10ibDugFHWcDlw/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_jpg/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKpn3XOrnTs65wtF9cH75xBtNGW3mJqg66fZZFOu1yb4XBuSDsXVBoyQ/640?wx_fmt=jpeg&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+</tr>
+<tr>
+<td>cpu</td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_png/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKhJd4RiaicroohE8nukwLliaC4ia6iaqRqFzFGGibTNLf258Rt3AnAvibOW6YQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_png/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKaTVzCvZicYKjiay4OmNqj9VDACibWfH1g5FOqT5ibHAfL4Ry1QicNWeApng/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+<td><img src="https://mmbiz.qpic.cn/mmbiz_png/6GYDCe0a26ibjkHUZlJZHpCUQ4Cibj6oCKaU3hrhxWQYCe3Vd5LrVNURxdmfqgmbzfj2jW1v9frUCGO3r9O1wibLQ/640?wx_fmt=png&amp;tp=webp&amp;wxfrom=5&amp;wx_lazy=1" alt=""></td>
+</tr>
+</tbody>
+</table>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Lottie使用简单，易于上手，非常值得尝试。</p>
+<h2 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h2><ul>
+<li>开发效率高—代码实现简单，更换动画方便，易于调试和维护。</li>
+<li>数据源多样性—可从assets,sdcard,网络加载动画资源，能做到不发版本，动态更新</li>
+<li>跨平台—设计稿导出一份动画描述文件，android,ios,react native通用</li>
+</ul>
+<h2 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h2><ul>
+<li>性能不够好—某些动画特效，内存和性能不够好；</li>
+<li>相对于属性动画，在展示大动画时，帧率较低</li>
+</ul>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><ul>
+<li><a href="https://www.jianshu.com/p/a37b3e4d9ccd" target="_blank" rel="noopener">Android开发之Lottie动画解析库</a></li>
+<li><a href="https://mp.weixin.qq.com/s/LrkZtDZY3SE8IUQ-x1hsmQ" target="_blank" rel="noopener">Lottie–让动画如此简单</a></li>
+<li><a href="http://airbnb.io/lottie/android/android.html" target="_blank" rel="noopener">Lottie 官网</a></li>
+</ul>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2018-05-03T12:39:33.000Z">2018-05-03</time>
                 
                 <div class="level-item">
@@ -1075,47 +1197,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2018-02-26T13:30:21.000Z">2018-02-26</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 343 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2018/02/26/CrashHandler/">CrashHandler</a>
-            
-        </h1>
-        <div class="content">
-            <h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CrashHandler</span> <span class="hljs-keyword">implements</span> <span class="hljs-title">Thread</span>.<span class="hljs-title">UncaughtExceptionHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String TAG = <span class="hljs-string">"CrashHandler"</span>;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">boolean</span> DEBUG = <span class="hljs-keyword">true</span>;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String PATH = Environment.getExternalStorageDirectory().getPath() + <span class="hljs-string">"/CrashTest/log/"</span>;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String FILE_NAME = <span class="hljs-string">"crash"</span>;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">final</span> String FILE_NAME_SUFFIX = <span class="hljs-string">".trace"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> CrashHandler sInstance = <span class="hljs-keyword">new</span> CrashHandler();</span><br><span class="line">    <span class="hljs-keyword">private</span> Thread.UncaughtExceptionHandler mDefaultCrashHandler;</span><br><span class="line">    <span class="hljs-keyword">private</span> Context mContext;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-title">CrashHandler</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> CrashHandler <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> sInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">init</span><span class="hljs-params">(Context context)</span> </span>&#123;</span><br><span class="line">        mContext = context.getApplicationContext();</span><br><span class="line">        mDefaultCrashHandler = Thread.getDefaultUncaughtExceptionHandler();</span><br><span class="line">        Thread.setDefaultUncaughtExceptionHandler(<span class="hljs-keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">uncaughtException</span><span class="hljs-params">(Thread t, Throwable e)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            dumpExceptionToSDCard(e);</span><br><span class="line">            uploadExceptionToServer();</span><br><span class="line">        &#125; <span class="hljs-keyword">catch</span> (IOException e1) &#123;</span><br><span class="line">            e1.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">if</span> (mDefaultCrashHandler != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">            mDefaultCrashHandler.uncaughtException(t, e);</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            Process.killProcess(Process.myPid());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dumpExceptionToSDCard</span><span class="hljs-params">(Throwable t)</span> <span class="hljs-keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) &#123;</span><br><span class="line">            <span class="hljs-keyword">if</span> (DEBUG) &#123;</span><br><span class="line">                Log.w(TAG, <span class="hljs-string">"sdcard unmounted, skip dump exception"</span>);</span><br><span class="line">                <span class="hljs-keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        File dir = <span class="hljs-keyword">new</span> File(PATH);</span><br><span class="line">        <span class="hljs-keyword">if</span> (!dir.exists()) &#123;</span><br><span class="line">            dir.mkdirs();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">long</span> current = System.currentTimeMillis();</span><br><span class="line">        String time = <span class="hljs-keyword">new</span> SimpleDateFormat(<span class="hljs-string">"yyyy-MM-dd HH:mm:ss"</span>).format(<span class="hljs-keyword">new</span> Date(current));</span><br><span class="line">        File file = <span class="hljs-keyword">new</span> File(PATH + FILE_NAME + time + FILE_NAME_SUFFIX);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">try</span> &#123;</span><br><span class="line">            PrintWriter printWriter = <span class="hljs-keyword">new</span> PrintWriter(<span class="hljs-keyword">new</span> BufferedWriter(<span class="hljs-keyword">new</span> FileWriter(file)));</span><br><span class="line">            printWriter.println(time);</span><br><span class="line">            dumpPhoneInfo(printWriter);</span><br><span class="line">            printWriter.println();</span><br><span class="line">            t.printStackTrace(printWriter);</span><br><span class="line">            printWriter.close();</span><br><span class="line">        &#125; <span class="hljs-keyword">catch</span> (PackageManager.NameNotFoundException e) &#123;</span><br><span class="line">            Log.e(TAG, <span class="hljs-string">"dump crash info failed "</span>);</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">dumpPhoneInfo</span><span class="hljs-params">(PrintWriter pw)</span> <span class="hljs-keyword">throws</span> PackageManager.NameNotFoundException </span>&#123;</span><br><span class="line">        PackageManager manager = mContext.getPackageManager();</span><br><span class="line">        PackageInfo pi = manager.getPackageInfo(mContext.getPackageName(), PackageManager.GET_ACTIVITIES);</span><br><span class="line">        pw.print(<span class="hljs-string">"App Version: "</span>);</span><br><span class="line">        pw.print(pi.versionName);</span><br><span class="line">        pw.print(<span class="hljs-string">"_"</span>);</span><br><span class="line">        pw.println(pi.versionCode);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//Android版本号</span></span><br><span class="line">        pw.print(<span class="hljs-string">"OS Version: "</span>);</span><br><span class="line">        pw.print(Build.VERSION.RELEASE);</span><br><span class="line">        pw.print(<span class="hljs-string">"_"</span>);</span><br><span class="line">        pw.println(Build.VERSION.SDK_INT);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//手机制造商</span></span><br><span class="line">        pw.print(<span class="hljs-string">"Vendor: "</span>);</span><br><span class="line">        pw.println(Build.MANUFACTURER);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//手机型号</span></span><br><span class="line">        pw.print(<span class="hljs-string">"Model: "</span>);</span><br><span class="line">        pw.println(Build.MODEL);</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">//CPU架构</span></span><br><span class="line">        pw.print(<span class="hljs-string">"CPU ABI: "</span>);</span><br><span class="line">        pw.println(Build.CPU_ABI);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">uploadExceptionToServer</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">//<span class="hljs-doctag">TODO:</span> Upload Exception Message To Web Server</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">BaseApplication</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> BaseApplication sInstance;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate();</span><br><span class="line">        sInstance = <span class="hljs-keyword">this</span>;</span><br><span class="line">        CrashHandler crashHandler = CrashHandler.getInstance();</span><br><span class="line">        crashHandler.init(<span class="hljs-keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> BaseApplication <span class="hljs-title">getInstance</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> sInstance;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1180,7 +1261,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        71
+                        72
                     </p>
                 </div>
             </div>
@@ -1488,6 +1569,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/31/2018-end/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018 end">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-31T12:59:51.000Z">2018-12-31</time></div>
+                    <a href="/2018/12/31/2018-end/" class="has-link-black-ter is-size-6">2018 end</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
@@ -1557,25 +1657,6 @@
                     <a href="/2018/09/28/Android流行ORM框架/" class="has-link-black-ter is-size-6">Android流行ORM框架</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/09/28/法/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-28T03:19:43.000Z">2018-09-28</time></div>
-                    <a href="/2018/09/28/法/" class="has-link-black-ter is-size-6">法</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
@@ -1935,6 +2016,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/31/2018-end/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018 end">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-31T12:59:51.000Z">2018-12-31</time></div>
+                    <a href="/2018/12/31/2018-end/" class="has-link-black-ter is-size-6">2018 end</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
@@ -2004,25 +2104,6 @@
                     <a href="/2018/09/28/Android流行ORM框架/" class="has-link-black-ter is-size-6">Android流行ORM框架</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/09/28/法/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-28T03:19:43.000Z">2018-09-28</time></div>
-                    <a href="/2018/09/28/法/" class="has-link-black-ter is-size-6">法</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>

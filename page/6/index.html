@@ -132,6 +132,71 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-06-04T07:11:07.000Z">2017-06-04</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 705 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2017/06/04/Django入门/">Django入门</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="1-Django安装"><a href="#1-Django安装" class="headerlink" title="1.Django安装"></a>1.Django安装</h1><p>方法1：用pip安装  <code>pip install django</code></p>
+<p>方法2：下载安装包，在<a href="https://www.djangoproject.com/download/" target="_blank" rel="noopener">这里</a>下载 django 安装包，然后<code>python setup.py install</code></p>
+<h1 id="2-配置环境变量"><a href="#2-配置环境变量" class="headerlink" title="2.配置环境变量"></a>2.配置环境变量</h1><p>在 <code>path</code> 中添加 <code>C:\Python33\Lib\site-packages\django\bin</code> </p>
+<h1 id="3-新建Django项目"><a href="#3-新建Django项目" class="headerlink" title="3.新建Django项目"></a>3.新建Django项目</h1><p>在安装 Python，Django 以及添加环境变量后，就可以通过使用 <code>django-admin startproject HelloWorld</code> 命令来创建第一个 django 项目 HelloWorld 。</p>
+<p>创建完成后，可以看到如下的目录结构<br><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ cd HelloWorld/</span><br><span class="line">$ tree</span><br><span class="line">.</span><br><span class="line">|-- HelloWorld</span><br><span class="line">|   |-- __init__.py</span><br><span class="line">|   |-- settings.py</span><br><span class="line">|   |-- urls.py</span><br><span class="line">|   `-- wsgi.py</span><br><span class="line">`-- manage.py</span><br></pre></td></tr></table></figure></p>
+<p>目录说明：</p>
+<ul>
+<li><code>HelloWorld</code> 项目的容器。</li>
+<li><code>manage.py</code> 一个实用的命令行工具，可让你以各种方式与该 Django 项目进行交互。</li>
+<li><code>HelloWorld/__init__.py</code>: 一个空文件，告诉 Python 该目录是一个 Python 包。</li>
+<li><code>HelloWorld/settings.py</code>: 该 Django 项目的设置/配置。</li>
+<li><code>HelloWorld/urls.py</code>: 该 Django 项目的 URL 声明; 一份由 Django 驱动的网站”目录”。</li>
+<li><code>HelloWorld/wsgi.py</code>: 一个 WSGI 兼容的 Web 服务器的入口，以便运行你的项目。</li>
+</ul>
+<p>然后进入第一层 HelloWorld 目录，使用命令 <code>python manage.py runserver 0.0.0.0:8089</code> 来启动服务器，8089 是端口号，不说明的话默认是 8000</p>
+<p>在浏览器输入你服务器的ip及端口号，如果正常启动，输出结果如下：<br><img src="http://o797mwhn1.bkt.clouddn.com/QQ%E6%88%AA%E5%9B%BE20170604143905.png" alt=""></p>
+<h1 id="4-配置"><a href="#4-配置" class="headerlink" title="4.配置"></a>4.配置</h1><p>在创建的 HelloWorld 下的 HelloWorld 目录新建一个 view.py 文件,并写入代码<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> django.http <span class="hljs-keyword">import</span> HttpResponse</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">hello</span><span class="hljs-params">(request)</span>:</span></span><br><span class="line">    <span class="hljs-keyword">return</span> HttpResponse(<span class="hljs-string">"Hello World !"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>接着，绑定 URL 与视图函数。打开 urls.py 文件，删除原来代码，将以下代码复制粘贴到 urls.py 文件中：<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> django.conf.urls <span class="hljs-keyword">import</span> url</span><br><span class="line"><span class="hljs-keyword">from</span> . <span class="hljs-keyword">import</span> view</span><br><span class="line"></span><br><span class="line">urlpatterns=[</span><br><span class="line">    url(<span class="hljs-string">r'^$'</span>, view.hello)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>这时再用浏览器访问 <code>127.0.0.1:8089</code> 会出现下图<br><img src="http://o797mwhn1.bkt.clouddn.com/django%E6%88%AA%E5%9B%BE2.png" alt=""></p>
+<p>也可以在urls.py里修改规则<br><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">from</span> django.conf.urls <span class="hljs-keyword">import</span> url</span><br><span class="line"><span class="hljs-keyword">from</span> . <span class="hljs-keyword">import</span> view</span><br><span class="line"></span><br><span class="line">urlpatterns=[</span><br><span class="line">    url(<span class="hljs-string">r'^hello'</span>, view.hello)</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>浏览器访问 <code>127.0.0.1:8089/hello</code> 会出现下图<br><img src="http://o797mwhn1.bkt.clouddn.com/django%E6%88%AA%E5%9B%BE3.png" alt=""></p>
+<p>Django 的 url() 函数可以接受四个参数，分别是两个必选参数：regex、view 和两个可选参数：kwargs、name，接下来详细介绍这四个参数。</p>
+<ul>
+<li>regex：正则表达式，与之匹配的url将会执行对应的第二个参数 view。</li>
+<li>view：用于执行与正则表达式匹配的 URL 请求。</li>
+<li>kwargs：视图使用的字典类型的参数。</li>
+<li>name: 用来反向获取 URL。</li>
+</ul>
+<p><b>注意：</b><br>如果用其他设备访问被拒绝的话，应该是没有开启允许访问，这时应该修改项目下的settings.py，把其中的<br><code>ALLOWED_HOSTS=[]</code> 改成 <code>ALLOWED_HOSTS=[&#39;*&#39;]</code>， 其中 <code>*</code> 表示任意地址。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-05-16T15:08:02.000Z">2017-05-16</time>
                 
                 
@@ -553,51 +618,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2016-09-16T15:26:45.000Z">2016-09-16</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 355 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2016/09/16/要笑啊/">你的眼里有光</a>
-            
-        </h1>
-        <div class="content">
-            <p><img src="http://o797mwhn1.bkt.clouddn.com/526997.jpg" alt=""></p>
-<p>反正已经都这样了，还能怎么办（︶︿︶），还不如笑呢(=^▽^=)，是吧。</p>
-<p>总有些笑容，每次看见不管再差的心情都会立刻笑容满面，比如韩佳人啊，比如你啊，记得你在隧道3车上看见摩天轮时对我的微微一笑，记得你在换宿舍时却发现我在帮别人换宿舍时笑着拍了我一巴掌，记得你在坐客车回家的时候在休息区上厕所的时候很自然的把外套给我，我搭在胳膊上，等你出来，这就是我想象中的情侣该有的样子。</p>
-<p>后来，我想为什么对这些细节记得这么清楚。就刚才，我想到了，你的眼里有光，看见摩天轮时的羡慕，对我的抱怨和娇气，还有那种自然。你的眼里有那种让我抵挡不了的东西。我一直认为眼漂亮的话，人就不会难看，因为眼里有光。</p>
-<p>争取若干年之后，我可以说：“我一直在你的眼里啊”。</p>
-<blockquote>
-<p>为了让你爱上我，人们对我说：“要让她笑啊。”</p>
-<p>可是每次你一笑啊，明明是我又爱上了你</p>
-</blockquote>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -664,7 +684,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        71
+                        72
                     </p>
                 </div>
             </div>
@@ -972,6 +992,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/31/2018-end/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018 end">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-31T12:59:51.000Z">2018-12-31</time></div>
+                    <a href="/2018/12/31/2018-end/" class="has-link-black-ter is-size-6">2018 end</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
@@ -1041,25 +1080,6 @@
                     <a href="/2018/09/28/Android流行ORM框架/" class="has-link-black-ter is-size-6">Android流行ORM框架</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/09/28/法/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-28T03:19:43.000Z">2018-09-28</time></div>
-                    <a href="/2018/09/28/法/" class="has-link-black-ter is-size-6">法</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
@@ -1419,6 +1439,25 @@
         
         <article class="media">
             
+            <a href="/2018/12/31/2018-end/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018 end">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-31T12:59:51.000Z">2018-12-31</time></div>
+                    <a href="/2018/12/31/2018-end/" class="has-link-black-ter is-size-6">2018 end</a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
@@ -1488,25 +1527,6 @@
                     <a href="/2018/09/28/Android流行ORM框架/" class="has-link-black-ter is-size-6">Android流行ORM框架</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/09/28/法/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="法">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-28T03:19:43.000Z">2018-09-28</time></div>
-                    <a href="/2018/09/28/法/" class="has-link-black-ter is-size-6">法</a>
-                    <p class="is-size-7 is-uppercase">
-                        
                     </p>
                 </div>
             </div>
