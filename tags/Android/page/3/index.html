@@ -143,6 +143,104 @@
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <!--  -->
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-08-24T14:31:33.000Z">
+                    2017-08-24</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    3 分钟 读完 (大约 452 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+            <a class="has-link-black-ter" href="/2017/08/24/Android-ListView无数据时显示其他View/">
+                Android ListView无数据时显示其他View</a>
+            
+        </h1>
+        <div class="content">
+            <p>大家都遇到过这样的情况，当 ListView 中的数据为空时，需要显示一个 “没有数据” 的 View 。想过一些办法，比如 FrameLayout 来 包含 ListView 和 数据为空时的 View，当有数据时隐藏空 View，没有数据时显示空 View。或者是给 ListView 添加一个 header 或 footer。但是今天看到了一种更简单的方案，下面来介绍一下。</p>
+<p>先贴一下今天看到的代码</p>
+<p>布局文件</p>
+<figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">FrameLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span> &gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">ListView</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@android:id/list"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@android:id/empty"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:gravity</span>=<span class="hljs-string">"center"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:text</span>=<span class="hljs-string">"No items."</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">FrameLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>Activity<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ListActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        ArrayAdapter&lt;String&gt; adapter = <span class="hljs-keyword">new</span> ArrayAdapter&lt;String&gt;(<span class="hljs-keyword">this</span>,</span><br><span class="line">                android.R.layout.simple_list_item_1, generateStrings());</span><br><span class="line">        </span><br><span class="line">        setListAdapter(adapter);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> String[] generateStrings() &#123;</span><br><span class="line">        String[] strings = <span class="hljs-keyword">new</span> String[<span class="hljs-number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; strings.length; ++i) &#123;</span><br><span class="line">            strings[i] = <span class="hljs-string">"String "</span> + i;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">return</span> strings;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Activity 是继承自 ListActivity ，到这里代码都能看懂。奇怪的一点是布局文件中 <code>android:id=&quot;@android:id/empty&quot;</code> id 是这样写的。在网上查了一下，这个属性的作用就是，当 ListView 关联的 Adapter 的数据为时，就显示这个 id 为 <code>@android:id/empty</code> 的 View。而当数据不为空时，这个 空 View 就不可见。</p>
+<p>如果在不是继承自 ListActivity 的话，上面的那个属性没有作用，TextView 会是一直可见的状态。</p>
+<p>所以如果是不继承 ListActivity 的情况下，需要在代码中调用 <code>listView.setEmptyView(nullView)</code> 来设置 listView 数据为空时 显示 nullView 。</p>
+<p>样例代码如下：</p>
+<figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">FrameLayout</span> <span class="hljs-attr">xmlns:android</span>=<span class="hljs-string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span> &gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">ListView</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/myList"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">&lt;!-- Here is the view to show if the list is emtpy --&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-tag">&lt;<span class="hljs-name">TextView</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/myText"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:gravity</span>=<span class="hljs-string">"center"</span></span></span><br><span class="line"><span class="hljs-tag">        <span class="hljs-attr">android:text</span>=<span class="hljs-string">"No items."</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">FrameLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> ListView mListView = <span class="hljs-keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        mListView = (ListView) findViewById(R.id.myList);</span><br><span class="line">        mListView.setEmptyView(findViewById(R.id.myText));</span><br><span class="line"></span><br><span class="line">        ArrayAdapter&lt;String&gt; adapter = <span class="hljs-keyword">new</span> ArrayAdapter&lt;String&gt;(<span class="hljs-keyword">this</span>,</span><br><span class="line">                android.R.layout.simple_list_item_1, generateStrings());</span><br><span class="line"></span><br><span class="line">        mListView.setAdapter(adapter);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> String[] generateStrings() &#123;</span><br><span class="line">        String[] strings = <span class="hljs-keyword">new</span> String[<span class="hljs-number">100</span>];</span><br><span class="line"></span><br><span class="line">        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; strings.length; ++i) &#123;</span><br><span class="line">            strings[i] = <span class="hljs-string">"String "</span> + i;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="hljs-keyword">return</span> strings;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <!--  -->
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-08-15T13:56:33.000Z">
+                    2017-08-15</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    5 分钟 读完 (大约 728 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+            <a class="has-link-black-ter" href="/2017/08/15/Android与JS交互/">
+                Android与JS交互</a>
+            
+        </h1>
+        <div class="content">
+            <p>最近的项目里用到了混合开发，需要进行 Android 与 JS 的交互，就了解了一下相关知识。</p>
+<h2 id="Android-调用-JS-中的方法"><a href="#Android-调用-JS-中的方法" class="headerlink" title="Android 调用 JS 中的方法"></a>Android 调用 JS 中的方法</h2><p>布局就不放出来了。</p>
+<p>html 代码如下。两个按钮，分别创建两个 script 方法，一个有参，一个无参。<br><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/1999/xhtml"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"Content-Type"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"text/html; charset=UTF-8"</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>jsandroid_test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">language</span>=<span class="hljs-string">"javascript"</span>&gt;</span><span class="hljs-undefined">   </span></span><br><span class="line"><span class="hljs-undefined">    function showFromHtml()&#123;  </span></span><br><span class="line"><span class="hljs-undefined">        document.getElementById("id_input").value = "Java call Html";  </span></span><br><span class="line"><span class="hljs-undefined">    &#125;  </span></span><br><span class="line"><span class="hljs-undefined">      </span></span><br><span class="line"><span class="hljs-undefined">    function showFromHtml2( param )&#123;  </span></span><br><span class="line"><span class="hljs-undefined">        document.getElementById("id_input2").value = "Java call Html : " + param;   </span></span><br><span class="line"><span class="hljs-undefined">    &#125;  </span></span><br><span class="line"><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"id_input"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"width: 90%"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"null"</span> /&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"JavacallHtml"</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"window.jsObj.JavacallHtml()"</span> /&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"id_input2"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"width: 90%"</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"null"</span> /&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"JavacallHtml2"</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"window.jsObj.JavacallHtml2()"</span> /&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>android 代码<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">showWebView</span><span class="hljs-params">()</span></span>&#123;     <span class="hljs-comment">// webView与js交互代码  </span></span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;  </span><br><span class="line">        mWebView = <span class="hljs-keyword">new</span> WebView(<span class="hljs-keyword">this</span>);  </span><br><span class="line">        setContentView(mWebView);  </span><br><span class="line">          </span><br><span class="line">        mWebView.requestFocus();  <span class="hljs-comment">//触摸焦点起作用,如果不设置，则在点击网页文本输入框时，不能弹出软键盘及不响应其他的一些事件。 </span></span><br><span class="line">          </span><br><span class="line">        <span class="hljs-comment">// 设置 WebChromeClient</span></span><br><span class="line">        mWebView.setWebChromeClient(<span class="hljs-keyword">new</span> WebChromeClient()&#123;  </span><br><span class="line">            <span class="hljs-meta">@Override</span>  </span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onProgressChanged</span><span class="hljs-params">(WebView view, <span class="hljs-keyword">int</span> progress)</span></span>&#123;  </span><br><span class="line">                JSAndroidActivity.<span class="hljs-keyword">this</span>.setTitle(<span class="hljs-string">"Loading..."</span>);  </span><br><span class="line">                JSAndroidActivity.<span class="hljs-keyword">this</span>.setProgress(progress);  </span><br><span class="line">                  </span><br><span class="line">                <span class="hljs-keyword">if</span>(progress &gt;= <span class="hljs-number">80</span>) &#123;  </span><br><span class="line">                    JSAndroidActivity.<span class="hljs-keyword">this</span>.setTitle(<span class="hljs-string">"JsAndroid Test"</span>);  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;);  </span><br><span class="line">          </span><br><span class="line">        WebSettings webSettings = mWebView.getSettings();  </span><br><span class="line">        webSettings.setJavaScriptEnabled(<span class="hljs-keyword">true</span>);  <span class="hljs-comment">//支持 JavaScript</span></span><br><span class="line">        webSettings.setDefaultTextEncodingName(<span class="hljs-string">"utf-8"</span>);  </span><br><span class="line">  </span><br><span class="line">        mWebView.addJavascriptInterface(getHtmlObject(), <span class="hljs-string">"jsObj"</span>); <span class="hljs-comment">//设置 JS 接口,第一个参数是事件接口实例，第二个参数是 实例 在 JS 中的别名 </span></span><br><span class="line">        mWebView.loadUrl(<span class="hljs-string">"http://192.168.1.121:8080/jsandroid/index.html"</span>);  </span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">        e.printStackTrace();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> Object <span class="hljs-title">getHtmlObject</span><span class="hljs-params">()</span></span>&#123;  </span><br><span class="line"></span><br><span class="line">    Object insertObj = <span class="hljs-keyword">new</span> Object()&#123;  </span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">JavacallHtml</span><span class="hljs-params">()</span></span>&#123;  </span><br><span class="line">            runOnUiThread(<span class="hljs-keyword">new</span> Runnable() &#123;  </span><br><span class="line">                <span class="hljs-meta">@Override</span>  </span><br><span class="line">                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;  </span><br><span class="line">                    mWebView.loadUrl(<span class="hljs-string">"javascript: showFromHtml()"</span>);  </span><br><span class="line">                    Toast.makeText(JSAndroidActivity.<span class="hljs-keyword">this</span>, <span class="hljs-string">"clickBtn"</span>, Toast.LENGTH_SHORT).show();  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;);  </span><br><span class="line">        &#125;  </span><br><span class="line">          </span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">JavacallHtml2</span><span class="hljs-params">()</span></span>&#123;  </span><br><span class="line">            runOnUiThread(<span class="hljs-keyword">new</span> Runnable() &#123;  </span><br><span class="line">                <span class="hljs-meta">@Override</span>  </span><br><span class="line">                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">run</span><span class="hljs-params">()</span> </span>&#123;  </span><br><span class="line">                    mWebView.loadUrl(<span class="hljs-string">"javascript: showFromHtml2('IT-homer blog')"</span>);  </span><br><span class="line">                    Toast.makeText(JSAndroidActivity.<span class="hljs-keyword">this</span>, <span class="hljs-string">"clickBtn2"</span>, Toast.LENGTH_SHORT).show();  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;);  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;;  </span><br><span class="line">      </span><br><span class="line">    <span class="hljs-keyword">return</span> insertObj;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如上所示，在 JS 中新建两个方法。按钮的点击事件是 <code>window.jsObj.JavacallHtml()</code> 其中 window 代表当前界面，jsObj 是 java 里设置的 JS 接口的别名，<code>JavacallHtml()</code> 是 java 里的方法名字。</p>
+<h2 id="JS-调用-Android-中的方法"><a href="#JS-调用-Android-中的方法" class="headerlink" title="JS 调用 Android 中的方法"></a>JS 调用 Android 中的方法</h2><figure class="highlight html hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">"http://www.w3.org/1999/xhtml"</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"Content-Type"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"text/html; charset=UTF-8"</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>jsandroid_test<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text/javascript"</span> <span class="hljs-attr">language</span>=<span class="hljs-string">"javascript"</span>&gt;</span><span class="hljs-undefined">   </span></span><br><span class="line"><span class="hljs-undefined">    function showHtmlcallJava()&#123;  </span></span><br><span class="line"><span class="hljs-undefined">        var str = window.jsObj.HtmlcallJava();  </span></span><br><span class="line"><span class="hljs-undefined">        alert(str);  </span></span><br><span class="line"><span class="hljs-undefined">    &#125;  </span></span><br><span class="line"><span class="hljs-undefined">      </span></span><br><span class="line"><span class="hljs-undefined">    function showHtmlcallJava2()&#123;  </span></span><br><span class="line"><span class="hljs-undefined">        var str = window.jsObj.HtmlcallJava2("IT-homer blog");  </span></span><br><span class="line"><span class="hljs-undefined">        alert(str);  </span></span><br><span class="line"><span class="hljs-undefined">    &#125;  </span></span><br><span class="line"><span class="hljs-undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"HtmlcallJava"</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"showHtmlcallJava()"</span> /&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"HtmlcallJava2"</span> <span class="hljs-attr">onclick</span>=<span class="hljs-string">"showHtmlcallJava2()"</span> /&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>  </span><br><span class="line"><span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>android 代码<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">showWebView</span><span class="hljs-params">()</span></span>&#123;     <span class="hljs-comment">// webView与js交互代码  </span></span><br><span class="line">    <span class="hljs-keyword">try</span> &#123;  </span><br><span class="line">        mWebView = <span class="hljs-keyword">new</span> WebView(<span class="hljs-keyword">this</span>);  </span><br><span class="line">        setContentView(mWebView);  </span><br><span class="line">          </span><br><span class="line">        mWebView.requestFocus();  <span class="hljs-comment">//触摸焦点起作用,如果不设置，则在点击网页文本输入框时，不能弹出软键盘及不响应其他的一些事件。 </span></span><br><span class="line">          </span><br><span class="line">        <span class="hljs-comment">// 设置 WebChromeClient</span></span><br><span class="line">        mWebView.setWebChromeClient(<span class="hljs-keyword">new</span> WebChromeClient()&#123;  </span><br><span class="line">            <span class="hljs-meta">@Override</span>  </span><br><span class="line">            <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onProgressChanged</span><span class="hljs-params">(WebView view, <span class="hljs-keyword">int</span> progress)</span></span>&#123;  </span><br><span class="line">                JSAndroidActivity.<span class="hljs-keyword">this</span>.setTitle(<span class="hljs-string">"Loading..."</span>);  </span><br><span class="line">                JSAndroidActivity.<span class="hljs-keyword">this</span>.setProgress(progress);  </span><br><span class="line">                  </span><br><span class="line">                <span class="hljs-keyword">if</span>(progress &gt;= <span class="hljs-number">80</span>) &#123;  </span><br><span class="line">                    JSAndroidActivity.<span class="hljs-keyword">this</span>.setTitle(<span class="hljs-string">"JsAndroid Test"</span>);  </span><br><span class="line">                &#125;  </span><br><span class="line">            &#125;  </span><br><span class="line">        &#125;);  </span><br><span class="line">          </span><br><span class="line">        WebSettings webSettings = mWebView.getSettings();  </span><br><span class="line">        webSettings.setJavaScriptEnabled(<span class="hljs-keyword">true</span>);  <span class="hljs-comment">//支持 JavaScript</span></span><br><span class="line">        webSettings.setDefaultTextEncodingName(<span class="hljs-string">"utf-8"</span>);  </span><br><span class="line">  </span><br><span class="line">        mWebView.addJavascriptInterface(getHtmlObject(), <span class="hljs-string">"jsObj"</span>); <span class="hljs-comment">//设置 JS 接口,第一个参数是事件接口实例，第二个参数是 实例 在 JS 中的别名 </span></span><br><span class="line">        mWebView.loadUrl(<span class="hljs-string">"http://192.168.1.121:8080/jsandroid/index.html"</span>);  </span><br><span class="line">    &#125; <span class="hljs-keyword">catch</span> (Exception e) &#123;  </span><br><span class="line">        e.printStackTrace();  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  </span><br><span class="line">  </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> Object <span class="hljs-title">getHtmlObject</span><span class="hljs-params">()</span></span>&#123;  </span><br><span class="line"></span><br><span class="line">    Object insertObj = <span class="hljs-keyword">new</span> Object()&#123;  </span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">HtmlcallJava</span><span class="hljs-params">()</span></span>&#123;  </span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-string">"Html call Java"</span>;  </span><br><span class="line">        &#125;  </span><br><span class="line">          </span><br><span class="line">        <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">HtmlcallJava2</span><span class="hljs-params">(<span class="hljs-keyword">final</span> String param)</span></span>&#123;  </span><br><span class="line">            <span class="hljs-keyword">return</span> <span class="hljs-string">"Html call Java : "</span> + param;  </span><br><span class="line">        &#125;  </span><br><span class="line">    &#125;;  </span><br><span class="line">      </span><br><span class="line">    <span class="hljs-keyword">return</span> insertObj;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="WebViewClient与WebChromeClient的区别"><a href="#WebViewClient与WebChromeClient的区别" class="headerlink" title="WebViewClient与WebChromeClient的区别"></a>WebViewClient与WebChromeClient的区别</h2><p>WebViewClient主要帮助WebView处理各种通知、请求事件的，比如：onLoadResource, onPageStart,onPageFinish, onReceiveError, onReceivedHttpAuthRequest, shouldOverrideUrlLoading, 可以进行 url 的跳转链接等处理。</p>
+<p>WebChromeClient主要辅助WebView处理JavaScript的对话框、网站图标、网站title、加载进度等比如 onCloseWindow， onCreateWindow，onJsAlert，onProgressChanged, onReceivedTitle 等。  </p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <!--  -->
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-07-28T12:24:50.000Z">
                     2017-07-28</time>
                 
@@ -584,7 +682,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        72
+                        74
                     </p>
                 </div>
             </div>
@@ -604,7 +702,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        29
+                        30
                     </p>
                 </div>
             </div>
@@ -749,7 +847,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">18</span>
+                <span class="level-item tag">20</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
@@ -875,7 +973,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 12.86px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 11.43px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Dagger/" style="font-size: 11.43px;">Dagger</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 12.86px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 11.43px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
     </div>
 </div>
 
@@ -889,6 +987,44 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dependency Injection with Dagger 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:37.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="has-link-black-ter is-size-6">Dependency Injection with Dagger 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dagger2-使用/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dagger2 使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:24.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dagger2-使用/" class="has-link-black-ter is-size-6">Dagger2 使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -947,44 +1083,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/12/05/todo/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
-                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/09/28/Android流行ORM框架/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android流行ORM框架">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-28T10:46:37.000Z">2018-09-28</time></div>
-                    <a href="/2018/09/28/Android流行ORM框架/" class="has-link-black-ter is-size-6">Android流行ORM框架</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1003,7 +1101,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">27</span>
+                            <span class="level-item tag">29</span>
                         </span>
                     </a>
                 </li>
@@ -1012,6 +1110,17 @@
                     <a class="level is-marginless" href="/tags/Android开发艺术探索/">
                         <span class="level-start">
                             <span class="level-item">Android开发艺术探索</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Dagger/">
+                        <span class="level-start">
+                            <span class="level-item">Dagger</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
@@ -1339,6 +1448,44 @@
         
         <article class="media">
             
+            <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dependency Injection with Dagger 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:37.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="has-link-black-ter is-size-6">Dependency Injection with Dagger 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dagger2-使用/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dagger2 使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:24.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dagger2-使用/" class="has-link-black-ter is-size-6">Dagger2 使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/31/2018-end/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="2018 end">
@@ -1394,44 +1541,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/12/05/todo/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
-                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/09/28/Android流行ORM框架/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android流行ORM框架">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-28T10:46:37.000Z">2018-09-28</time></div>
-                    <a href="/2018/09/28/Android流行ORM框架/" class="has-link-black-ter is-size-6">Android流行ORM框架</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1450,7 +1559,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">27</span>
+                            <span class="level-item tag">29</span>
                         </span>
                     </a>
                 </li>
@@ -1459,6 +1568,17 @@
                     <a class="level is-marginless" href="/tags/Android开发艺术探索/">
                         <span class="level-start">
                             <span class="level-item">Android开发艺术探索</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Dagger/">
+                        <span class="level-start">
+                            <span class="level-item">Dagger</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>

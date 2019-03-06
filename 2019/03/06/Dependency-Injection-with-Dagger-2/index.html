@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html  lang="zh">
+<head>
+    <meta charset="utf-8">
+<title>Dependency Injection with Dagger 2 - changoal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+
+
+    <meta name="description" content="Dependency Injection with Dagger 2原文：Dependency Injection with Dagger 2 创建单例 下面展示一个简单的Dagger来管理所有单例创建的例子：">
+<meta name="keywords" content="Android,Dagger">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Dependency Injection with Dagger 2">
+<meta property="og:url" content="http://yoursite.com/2019/03/06/Dependency-Injection-with-Dagger-2/index.html">
+<meta property="og:site_name" content="changoal">
+<meta property="og:description" content="Dependency Injection with Dagger 2原文：Dependency Injection with Dagger 2 创建单例 下面展示一个简单的Dagger来管理所有单例创建的例子：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_general.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_qualifiers.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_scopes.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_dependency.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_subcomponent.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/codepath/android_guides/master/images/subcomponent_builders.png">
+<meta property="og:updated_time" content="2019-03-06T08:45:15.206Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dependency Injection with Dagger 2">
+<meta name="twitter:description" content="Dependency Injection with Dagger 2原文：Dependency Injection with Dagger 2 创建单例 下面展示一个简单的Dagger来管理所有单例创建的例子：">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_general.png">
+
+
+
+
+
+<link rel="icon" href="/images/icon_round.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+<link rel="stylesheet" href="/css/style.css">
+
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+    
+
+    
+    
+    
+    <style>body{opacity: 0}</style>
+    
+
+    
+    
+    
+    
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-105599788-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-105599788-1');
+</script>
+
+
+    
+    
+    
+    
+
+    
+
+
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/icon_round.png" alt="" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item"
+                href="/">Home</a>
+                
+                <a class="navbar-item"
+                href="/archives">Archives</a>
+                
+                <a class="navbar-item"
+                href="/categories">Categories</a>
+                
+                <a class="navbar-item"
+                href="/tags">Tags</a>
+                
+                <a class="navbar-item"
+                href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="material-icons is-size-5">search</i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns main">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <!--  -->
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-03-06T08:39:37.000Z">
+                    2019-03-06</time>
+                
+                <div class="level-item">
+                    <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3369 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+            Dependency Injection with Dagger 2
+            
+        </h1>
+        <div class="content">
+            <h1 id="Dependency-Injection-with-Dagger-2"><a href="#Dependency-Injection-with-Dagger-2" class="headerlink" title="Dependency Injection with Dagger 2"></a>Dependency Injection with Dagger 2</h1><p>原文：<a href="https://github.com/codepath/android_guides/wiki/_new" target="_blank" rel="noopener">Dependency Injection with Dagger 2</a></p>
+<h2 id="创建单例"><a href="#创建单例" class="headerlink" title="创建单例"></a>创建单例</h2><p><img src="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_general.png" alt=""></p>
+<p>下面展示一个简单的Dagger来管理所有单例创建的例子：</p>
+<a id="more"></a>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">OkHttpClient client = <span class="hljs-keyword">new</span> OkHttpClient();</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// Enable caching for OkHttp</span></span><br><span class="line"><span class="hljs-keyword">int</span> cacheSize = <span class="hljs-number">10</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>; <span class="hljs-comment">// 10 MiB</span></span><br><span class="line">Cache cache = <span class="hljs-keyword">new</span> Cache(getApplication().getCacheDir(), cacheSize);</span><br><span class="line">client.setCache(cache);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// Used for caching authentication tokens</span></span><br><span class="line">SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(<span class="hljs-keyword">this</span>);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// Instantiate Gson</span></span><br><span class="line">Gson gson = <span class="hljs-keyword">new</span> GsonBuilder().create();</span><br><span class="line">GsonConverterFactory converterFactory = GsonConverterFactory.create(gson);</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// Build Retrofit</span></span><br><span class="line">Retrofit retrofit = <span class="hljs-keyword">new</span> Retrofit.Builder()</span><br><span class="line">                                .baseUrl(<span class="hljs-string">"https://api.github.com"</span>)</span><br><span class="line">                                .addConverterFactory(converterFactory)</span><br><span class="line">                                .client(client)  <span class="hljs-comment">// custom client</span></span><br><span class="line">                                .build();</span><br></pre></td></tr></table></figure>
+<h3 id="声明你的单例"><a href="#声明你的单例" class="headerlink" title="声明你的单例"></a>声明你的单例</h3><p>我们需要一个和 Application 生命周期绑定的用来提供给 Activity 和 Fragment 的 Retrofit 。</p>
+<p>因为我们希望使用缓存，所以需要一个 Application context。首先新建 <code>AppModule.java</code> 模块来提供这个引用。我们将定义一个使用 <code>@Provides</code> 注释的方法，来使 Dagger 知道该方法是 Application 返回类型的构造函数。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Module</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AppModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    Application mApplication;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">AppModule</span><span class="hljs-params">(Application application)</span> </span>&#123;</span><br><span class="line">        mApplication = application;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Provides</span></span><br><span class="line">    <span class="hljs-meta">@Singleton</span></span><br><span class="line">    <span class="hljs-function">Application <span class="hljs-title">providesApplication</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> mApplication;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们创建了一个名为 <code>NetModule.java</code> 的类，并使用 @Module 对其进行注释，以便向 Dagger 发出信号，以便在可用的方法中搜索可能的实例提供程序。</p>
+<p>实际上返回公共可用类型的方法也应该使用 @Provides 注释进行注释。@Singleton 注释还向 Dagger 编译器发出信号，表明该实例应该只在应用程序中创建一次。In the following example, we are specifying <code>SharedPreferences</code>, <code>Gson</code>, <code>Cache</code>, <code>OkHttpClient</code>, and <code>Retrofit</code> as the return types that can be used as part of the dependency list.</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Module</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">NetModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    String mBaseUrl;</span><br><span class="line">    </span><br><span class="line">    <span class="hljs-comment">// Constructor needs one parameter to instantiate.  </span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">NetModule</span><span class="hljs-params">(String baseUrl)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">this</span>.mBaseUrl = baseUrl;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// Dagger will only look for methods annotated with @Provides</span></span><br><span class="line">    <span class="hljs-meta">@Provides</span></span><br><span class="line">    <span class="hljs-meta">@Singleton</span></span><br><span class="line">    <span class="hljs-comment">// Application reference must come from AppModule.class</span></span><br><span class="line">    <span class="hljs-function">SharedPreferences <span class="hljs-title">providesSharedPreferences</span><span class="hljs-params">(Application application)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> PreferenceManager.getDefaultSharedPreferences(application);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Provides</span></span><br><span class="line">    <span class="hljs-meta">@Singleton</span></span><br><span class="line">    <span class="hljs-function">Cache <span class="hljs-title">provideOkHttpCache</span><span class="hljs-params">(Application application)</span> </span>&#123; </span><br><span class="line">        <span class="hljs-keyword">int</span> cacheSize = <span class="hljs-number">10</span> * <span class="hljs-number">1024</span> * <span class="hljs-number">1024</span>; <span class="hljs-comment">// 10 MiB</span></span><br><span class="line">        Cache cache = <span class="hljs-keyword">new</span> Cache(application.getCacheDir(), cacheSize);</span><br><span class="line">        <span class="hljs-keyword">return</span> cache;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="hljs-meta">@Provides</span> </span><br><span class="line">   <span class="hljs-meta">@Singleton</span></span><br><span class="line">   <span class="hljs-function">Gson <span class="hljs-title">provideGson</span><span class="hljs-params">()</span> </span>&#123;  </span><br><span class="line">       GsonBuilder gsonBuilder = <span class="hljs-keyword">new</span> GsonBuilder();</span><br><span class="line">       gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);</span><br><span class="line">       <span class="hljs-keyword">return</span> gsonBuilder.create();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="hljs-meta">@Provides</span></span><br><span class="line">   <span class="hljs-meta">@Singleton</span></span><br><span class="line">   <span class="hljs-function">OkHttpClient <span class="hljs-title">provideOkHttpClient</span><span class="hljs-params">(Cache cache)</span> </span>&#123;</span><br><span class="line">      OkHttpClient.Builder client = <span class="hljs-keyword">new</span> OkHttpClient.Builder();</span><br><span class="line">      client.cache(cache);</span><br><span class="line">      <span class="hljs-keyword">return</span> client.build();</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="hljs-meta">@Provides</span></span><br><span class="line">   <span class="hljs-meta">@Singleton</span></span><br><span class="line">   <span class="hljs-function">Retrofit <span class="hljs-title">provideRetrofit</span><span class="hljs-params">(Gson gson, OkHttpClient okHttpClient)</span> </span>&#123;</span><br><span class="line">      Retrofit retrofit = <span class="hljs-keyword">new</span> Retrofit.Builder()</span><br><span class="line">                .addConverterFactory(GsonConverterFactory.create(gson))</span><br><span class="line">                .baseUrl(mBaseUrl)</span><br><span class="line">                .client(okHttpClient)</span><br><span class="line">                .build();</span><br><span class="line">        <span class="hljs-keyword">return</span> retrofit;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意方法可以随意命名。使用 @Provides 注释的方法的返回类型将用于此实例化与任何其他相同类型的模块相关联。@Singleton 注释用于声明 Dagger 仅在应用程序的整个生命周期中初始化一次。</p>
+<h3 id="定义注解目标"><a href="#定义注解目标" class="headerlink" title="定义注解目标"></a>定义注解目标</h3><p>Dagger 为您的 activities, fragments, services 中的 field 提供了一种方法，只需通过使用 @Inject 批注注释字段并调用inject() 方法即可为其分配引用。调用 <code>inject()</code> 将使 Dagger2 在依赖表中找到对应返回类型的单例。如果找到一个，它会将引用分配给相应的字段。例如，在下面的示例中，它将尝试查找返回 MyTwitterApiClient 和 SharedPreferences 类型的提供者。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MainActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="hljs-meta">@Inject</span> </span><br><span class="line">	MyTwitterApiClient mTwitterApiClient;</span><br><span class="line">	<span class="hljs-meta">@Inject</span> </span><br><span class="line">    SharedPreferences sharedPreferences;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstance)</span> </span>&#123;</span><br><span class="line">         <span class="hljs-comment">// assign singleton instances to fields</span></span><br><span class="line">		InjectorClass.inject(<span class="hljs-keyword">this</span>);</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Dagger 2中使用的注入器类称为 <strong>component</strong>。它在我们的 activities, fragments, services 中分配引用，以访问我们之前定义的单例。我们需要用 <code>@Component</code> 来注解该类。注意，允许请求模块声明的依赖项的 activities, fragments, services （通过 @Inject 注解）应该在此类中使用单独的i nject() 方法声明：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Singleton</span></span><br><span class="line"><span class="hljs-meta">@Component</span>(modules=&#123;AppModule.class, NetModule.class&#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AppComponent</span> </span>&#123;</span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">inject</span><span class="hljs-params">(MainActivity activity)</span></span>;</span><br><span class="line">    <span class="hljs-comment">// void inject(MyFragment fragment);</span></span><br><span class="line">    <span class="hljs-comment">// void inject(MyService service);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>请注意，基类不能作为注入目标。Dagger 2 依赖于强类型类，因此必须明确指定应定义哪些类。</p>
+<h3 id="生成代码"><a href="#生成代码" class="headerlink" title="生成代码"></a>生成代码</h3><p>Dagger 2 的一个重要方面是该库为使用 @Component 接口注释的类生成代码。您可以使用以 Dagger 为前缀的类（即DaggerTwitterApiComponent.java），该类将负责实例化我们的依赖关系图的实例，并使用它来为使用@Inject注释的字段执行注入工作。</p>
+<h2 id="实例化-Component"><a href="#实例化-Component" class="headerlink" title="实例化 Component"></a>实例化 Component</h2><p>我们应该在 Application 类的初试化中完成所有这些工作，因为这些实例应该在应用程序的整个生命周期中只声明一次：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Application</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> AppComponent mAppComponent;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">super</span>.onCreate();</span><br><span class="line">        </span><br><span class="line">        <span class="hljs-comment">// Dagger%COMPONENT_NAME%</span></span><br><span class="line">        mAppComponent = DaggerAppComponent.builder()</span><br><span class="line">                <span class="hljs-comment">// list of modules that are part of this component need to be created here too</span></span><br><span class="line">                .appModule(<span class="hljs-keyword">new</span> AppModule(<span class="hljs-keyword">this</span>)) <span class="hljs-comment">// This also corresponds to the name of your module: %component_name%Module</span></span><br><span class="line">                .netModule(<span class="hljs-keyword">new</span> NetModule(<span class="hljs-string">"https://api.github.com"</span>))</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">        <span class="hljs-comment">// If a Dagger 2 component does not have any constructor arguments for any of its modules,</span></span><br><span class="line">        <span class="hljs-comment">// then we can use .create() as a shortcut instead:</span></span><br><span class="line">        <span class="hljs-comment">//  mAppComponent = com.codepath.dagger.components.DaggerAppComponent.create();</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> AppComponent <span class="hljs-title">getAppComponent</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">       <span class="hljs-keyword">return</span> mAppComponent;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在我们的 Activity 中，我们只需要访问这些 Component 并调用 inject（）。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> </span>&#123;</span><br><span class="line">	<span class="hljs-meta">@Inject</span> OkHttpClient mOkHttpClient;</span><br><span class="line">	<span class="hljs-meta">@Inject</span> SharedPreferences sharedPreferences;</span><br><span class="line"></span><br><span class="line">	<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstance)</span> </span>&#123;</span><br><span class="line">		<span class="hljs-comment">// assign singleton instances to fields</span></span><br><span class="line">		<span class="hljs-comment">// We need to cast to `MyApp` in order to get the right method</span></span><br><span class="line">		((MyApp) getApplication()).getAppComponent().inject(<span class="hljs-keyword">this</span>);</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Qualified-types（限定值类型）"><a href="#Qualified-types（限定值类型）" class="headerlink" title="Qualified types（限定值类型）"></a>Qualified types（限定值类型）</h2><p><img src="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_qualifiers.png" alt=""></p>
+<p>如果我们需要一种返回类型的不同对象，我们可以使用 <code>@Named</code> 限定符注解。需要在提供单例（@Provides注释）的位置以及注入它们的位置（@Inject注释）中定义它：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Provides</span> </span><br><span class="line"><span class="hljs-meta">@Named</span>(<span class="hljs-string">"cached"</span>)</span><br><span class="line"><span class="hljs-meta">@Singleton</span></span><br><span class="line"><span class="hljs-function">OkHttpClient <span class="hljs-title">provideOkHttpClient</span><span class="hljs-params">(Cache cache)</span> </span>&#123;</span><br><span class="line">    OkHttpClient client = <span class="hljs-keyword">new</span> OkHttpClient();</span><br><span class="line">    client.setCache(cache);</span><br><span class="line">    <span class="hljs-keyword">return</span> client;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@Provides</span> </span><br><span class="line"><span class="hljs-meta">@Named</span>(<span class="hljs-string">"non_cached"</span>) </span><br><span class="line"><span class="hljs-meta">@Singleton</span></span><br><span class="line"><span class="hljs-function">OkHttpClient <span class="hljs-title">provideOkHttpClient</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    OkHttpClient client = <span class="hljs-keyword">new</span> OkHttpClient();</span><br><span class="line">    <span class="hljs-keyword">return</span> client;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Inject</span> </span><br><span class="line"><span class="hljs-meta">@Named</span>(<span class="hljs-string">"cached"</span>) </span><br><span class="line">OkHttpClient client;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@Inject</span> </span><br><span class="line"><span class="hljs-meta">@Named</span>(<span class="hljs-string">"non_cached"</span>) </span><br><span class="line">OkHttpClient client2;</span><br></pre></td></tr></table></figure>
+<p><code>@Named</code> 是 Dagger 预定义的限定符，但是你也可以创建你自己的限定符注解：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Qualifier</span></span><br><span class="line"><span class="hljs-meta">@Documented</span></span><br><span class="line"><span class="hljs-meta">@Retention</span>(RUNTIME)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> DefaultPreferences &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Scopes（作用域）"><a href="#Scopes（作用域）" class="headerlink" title="Scopes（作用域）"></a>Scopes（作用域）</h2><p><img src="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_scopes.png" alt=""></p>
+<p>在Dagger 2中，您可以通过定义自定义 scopes 来定义组件应如何封装。例如，您可以创建仅存在于 Activity、Fragment 生命周期持续时间的范围。您可以创建仅映射到用户身份验证会话的范围。您可以通过将它们声明为公共 @interface 来定义程序中的任意数量的自定义范围注释。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Scope</span></span><br><span class="line"><span class="hljs-meta">@Documented</span></span><br><span class="line"><span class="hljs-meta">@Retention</span>(value=RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> MyActivityScope&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>即使 Dagger 2 在运行时不依赖于注解，将 RetentionPolicy 保留在RUNTIME在让您以后检查 Module 时也很有用。</p>
+<h2 id="Dependent-Components-vs-Subcomponents"><a href="#Dependent-Components-vs-Subcomponents" class="headerlink" title="Dependent Components vs. Subcomponents"></a>Dependent Components vs. Subcomponents</h2><p>利用 scopes 允许我们创建 <strong>dependent components</strong> 或 <strong>subcomponents</strong>。上面的例子表明我们使用了持续应用程序整个生命周期的 @Singleton 注释。我们还依赖于一个主要的 Dagger 组件。</p>
+<p>如果我们不希望有多个组件一直保留在内存中(即与 Activity 或 Fragment 的生命周期相关联的 component ，甚至与用户登录时绑定的 component )，我们可以创建 <strong>dependent components</strong> 或 <strong>subcomponents</strong>。在任何一种情况下，每种方法都提供了一种封装代码的方法。我们将在下一节中看到如何使用它们。</p>
+<p>使用这些方法时有几个注意事项：</p>
+<ul>
+<li><p><strong>Dependent components</strong> 要求父组件明确列出可以向下游注入的依赖项，而 <strong>subcomponents</strong> 则不需要。对于父 components，您需要通过指定类型和方法来向下游组件公开：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// parent component</span></span><br><span class="line"><span class="hljs-meta">@Singleton</span></span><br><span class="line"><span class="hljs-meta">@Component</span>(modules=&#123;AppModule.class, NetModule.class&#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AppComponent</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// remove injection methods if downstream modules will perform injection</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// downstream components need these exposed</span></span><br><span class="line">    <span class="hljs-comment">// the method name does not matter, only the return type</span></span><br><span class="line">    <span class="hljs-function">Retrofit <span class="hljs-title">retrofit</span><span class="hljs-params">()</span></span>; </span><br><span class="line">    <span class="hljs-function">OkHttpClient <span class="hljs-title">okHttpClient</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    <span class="hljs-function">SharedPreferences <span class="hljs-title">sharedPreferences</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果您忘记添加此行，您可能会看到有关缺少注射目标的错误。与私有/公共变量的管理方式类似，使用父 components 允许更明确的控制和更好的封装，但使用子组件使得依赖注入更容易管理，代价是更少的封装。</p>
+</li>
+<li><p>两个 <strong>dependent components</strong> 不能共享同一个 <strong>scope</strong>。例如，两个组件不能同时作为 @Singleton 作用域（<a href="https://github.com/google/dagger/issues/107#issuecomment-71073298" target="_blank" rel="noopener">原因</a>）。<strong>dependent components</strong> 需要定义自己的 scope。</p>
+</li>
+<li>虽然 Dagger 2 还支持创建范围实例的功能，但您有责任创建和删除与预期行为一致的引用。Dagger 2对底层实现一无所知。（<a href="https://stackoverflow.com/questions/28411352/what-determines-the-lifecycle-of-a-component-object-graph-in-dagger-2" target="_blank" rel="noopener">更多细节</a>）。</li>
+</ul>
+<h3 id="Dependent-Components"><a href="#Dependent-Components" class="headerlink" title="Dependent Components"></a>Dependent Components</h3><p> <img src="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_dependency.png" alt=""></p>
+<p>例如，如果我们希望使用为签署到应用程序的用户会话的整个生命周期创建的组件，我们可以定义自己的 UserScope 接口：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Scope</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> UserScope &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来我们定义父 component:</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Singleton</span></span><br><span class="line"><span class="hljs-meta">@Component</span>(modules=&#123;AppModule.class, NetModule.class&#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AppComponent</span> </span>&#123;</span><br><span class="line">	<span class="hljs-comment">// downstream components need these exposed with the return type</span></span><br><span class="line">	<span class="hljs-comment">// method name does not really matter</span></span><br><span class="line">	<span class="hljs-function">Retrofit <span class="hljs-title">retrofit</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后我们定义子component：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@UserScope</span> <span class="hljs-comment">// using the previously defined scope, note that @Singleton will not work</span></span><br><span class="line"><span class="hljs-meta">@Component</span>(dependencies = AppComponent.class, modules = GitHubModule.class)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">UserComponent</span> </span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">inject</span><span class="hljs-params">(MainActivity activity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们假设这个 GitHub 模块只返回一个 API 接口到 GitHub API：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Module</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GitHubModule</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">GitHubApiInterface</span> </span>&#123;</span><br><span class="line">      <span class="hljs-meta">@GET</span>(<span class="hljs-string">"/org/&#123;orgName&#125;/repos"</span>)</span><br><span class="line">      Call&lt;List&lt;Repository&gt;&gt; getRepository(<span class="hljs-meta">@Path</span>(<span class="hljs-string">"orgName"</span>) String orgName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Provides</span></span><br><span class="line">    <span class="hljs-meta">@UserScope</span> <span class="hljs-comment">// needs to be consistent with the component scope</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> GitHubApiInterface <span class="hljs-title">providesGitHubInterface</span><span class="hljs-params">(Retrofit retrofit)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> retrofit.create(GitHubApiInterface.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了使 <code>GitHubModule.java</code> 能够访问 Retrofit 实例，我们需要在上游组件中明确定义它们。 如果下游模块将执行注入，它们也应该从上游组件中移除：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Singleton</span></span><br><span class="line"><span class="hljs-meta">@Component</span>(modules=&#123;AppModule.class, NetModule.class&#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">AppComponent</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// remove injection methods if downstream modules will perform injection</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// downstream components need these exposed</span></span><br><span class="line">    <span class="hljs-function">Retrofit <span class="hljs-title">retrofit</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    <span class="hljs-function">OkHttpClient <span class="hljs-title">okHttpClient</span><span class="hljs-params">()</span></span>;</span><br><span class="line">    <span class="hljs-function">SharedPreferences <span class="hljs-title">sharedPreferences</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后一步是使用 <code>UserComponent</code> 来执行实例化。这次，我们首先需要构建 <code>AppComponent</code> 并将其传递给 <code>DaggerUserComponent</code> 构建器的构造函数：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AppComponent mAppComponent = DaggerAppComponent.builder()</span><br><span class="line">                .appModule(<span class="hljs-keyword">new</span> AppModule(<span class="hljs-keyword">this</span>))</span><br><span class="line">                .netModule(<span class="hljs-keyword">new</span> NetModule(<span class="hljs-string">"https://api.github.com"</span>))</span><br><span class="line">                .build();</span><br><span class="line"></span><br><span class="line">UserComponent userComponent = DaggerUserComponent.builder()</span><br><span class="line">                .appComponent(mAppComponent)</span><br><span class="line">                .gitHubModule(<span class="hljs-keyword">new</span> GitHubModule()) <span class="hljs-comment">// this is optional</span></span><br><span class="line">                .build();</span><br></pre></td></tr></table></figure>
+<h3 id="Subcomponents"><a href="#Subcomponents" class="headerlink" title="Subcomponents"></a>Subcomponents</h3><p><img src="https://raw.githubusercontent.com/codepath/android_guides/master/images/dagger_subcomponent.png" alt=""></p>
+<p>使用 subcomponents 是扩展 component 对象图的另一种方法。与具有依赖关系的 components  一样，subcomponents  具有自己的生命周期，并且当对 subcomponents 的所有引用都消失并且具有相同的 scope 限制时可以进行垃圾收集。使用此方法的一个优点是您无需定义所有下游 components。</p>
+<p>另一个主要区别是 subcomponents 只需要在父组件中声明。</p>
+<p>以下是 Activity 使用 subcomponent 的示例。我们使用自定义 scope 和 @Subcomponent 注解来注解该类：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@MyActivityScope</span></span><br><span class="line"><span class="hljs-meta">@Subcomponent</span>(modules=&#123; MyActivityModule.class &#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyActivitySubComponent</span> </span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">inject</span><span class="hljs-params">(MyActivity activity)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将使用的 module  定义如下：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Module</span></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyActivityModule</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> MyActivity activity;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// must be instantiated with an activity</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">MyActivityModule</span><span class="hljs-params">(MyActivity activity)</span> </span>&#123; <span class="hljs-keyword">this</span>.activity = activity; &#125;</span><br><span class="line">   </span><br><span class="line">    <span class="hljs-meta">@Provides</span> </span><br><span class="line">    <span class="hljs-meta">@MyActivityScope</span> </span><br><span class="line">    <span class="hljs-meta">@Named</span>(<span class="hljs-string">"my_list"</span>)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> ArrayAdapter <span class="hljs-title">providesMyListAdapter</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> ArrayAdapter&lt;String&gt;(activity, android.R.layout.my_list);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，在父 <strong>component</strong> 中，我们将定义一个工厂方法，该方法具有 component  的返回值和实例化它所需的依赖项：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Singleton</span></span><br><span class="line"><span class="hljs-meta">@Component</span>(modules=&#123; ... &#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyApplicationComponent</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// injection targets here</span></span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// factory method to instantiate the subcomponent defined here (passing in the module instance)</span></span><br><span class="line">    <span class="hljs-function">MyActivitySubComponent <span class="hljs-title">newMyActivitySubcomponent</span><span class="hljs-params">(MyActivityModule activityModule)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的示例中，每次调用 <code>newMyActivitySubcomponent()</code> 时都会创建子 component 的新实例。要使用子 module 注入Activity：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> </span>&#123;</span><br><span class="line">  <span class="hljs-meta">@Inject</span> ArrayAdapter arrayAdapter;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstance)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">// assign singleton instances to fields</span></span><br><span class="line">        <span class="hljs-comment">// We need to cast to `MyApp` in order to get the right method</span></span><br><span class="line">        ((MyApp) getApplication()).getApplicationComponent())</span><br><span class="line">            .newMyActivitySubcomponent(<span class="hljs-keyword">new</span> MyActivityModule(<span class="hljs-keyword">this</span>))</span><br><span class="line">            .inject(<span class="hljs-keyword">this</span>);</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Subcomponent-Builders"><a href="#Subcomponent-Builders" class="headerlink" title="Subcomponent Builders"></a>Subcomponent Builders</h3><p><img src="https://raw.githubusercontent.com/codepath/android_guides/master/images/subcomponent_builders.png" alt=""></p>
+<p>Subcomponent  builders  </p>
+<p>通过消除在该父 component 上声明的子 component 工厂方法的需要，子 component 构建器允许子 component 的创建者与父 component 解耦。</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@MyActivityScope</span></span><br><span class="line"><span class="hljs-meta">@Subcomponent</span>(modules=&#123; MyActivityModule.class &#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">MyActivitySubComponent</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="hljs-meta">@Subcomponent</span>.Builder</span><br><span class="line">    <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Builder</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">SubcomponentBuilder</span>&lt;<span class="hljs-title">MyActivitySubComponent</span>&gt; </span>&#123;</span><br><span class="line">        <span class="hljs-function">Builder <span class="hljs-title">activityModule</span><span class="hljs-params">(MyActivityModule <span class="hljs-keyword">module</span>)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">SubcomponentBuilder</span>&lt;<span class="hljs-title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="hljs-function">V <span class="hljs-title">build</span><span class="hljs-params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Subcomponent  构建器在 Subcomponent  接口中声明为内部接口，并且必须包含与 Subcomponent  匹配的返回类型的build() 方法。使用此方法声明基接口很方便，如上面的 SubcomponentBuilder 。必须使用带有“subcomponents”参数的“binder”模块将此新构建器添加到父组件图中：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">@Module</span>(subcomponents=&#123; MyActivitySubComponent.class &#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ApplicationBinders</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// Provide the builder to be included in a mapping used for creating the builders.</span></span><br><span class="line">    <span class="hljs-meta">@Binds</span> <span class="hljs-meta">@IntoMap</span> <span class="hljs-meta">@SubcomponentKey</span>(MyActivitySubComponent.Builder.class)</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">abstract</span> SubcomponentBuilder <span class="hljs-title">myActivity</span><span class="hljs-params">(MyActivitySubComponent.Builder impl)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@Component</span>(modules=&#123;..., ApplicationBinders.class&#125;)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">ApplicationComponent</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// Returns a map with all the builders mapped by their class.</span></span><br><span class="line">    Map&lt;Class&lt;?&gt;, Provider&lt;SubcomponentBuilder&gt;&gt; subcomponentBuilders();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// Needed only to create the above mapping</span></span><br><span class="line"><span class="hljs-meta">@MapKey</span> <span class="hljs-meta">@Target</span>(&#123;ElementType.METHOD&#125;) <span class="hljs-meta">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-meta">@interface</span> SubcomponentKey &#123;</span><br><span class="line">    Class&lt;?&gt; value();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>一旦构建器在 component 图中可用，Activity 就可以使用它来创建其子组件：</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyActivity</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Activity</span> </span>&#123;</span><br><span class="line">  <span class="hljs-meta">@Inject</span> ArrayAdapter arrayAdapter;</span><br><span class="line"></span><br><span class="line">  <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onCreate</span><span class="hljs-params">(Bundle savedInstance)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-comment">// assign singleton instances to fields</span></span><br><span class="line">        <span class="hljs-comment">// We need to cast to `MyApp` in order to get the right method</span></span><br><span class="line">        MyActivitySubcomponent.Builder builder = (MyActivitySubcomponent.Builder)</span><br><span class="line">            ((MyApp) getApplication()).getApplicationComponent())</span><br><span class="line">            .subcomponentBuilders()</span><br><span class="line">            .get(MyActivitySubcomponent.Builder.class)</span><br><span class="line">            .get();</span><br><span class="line">        builder.activityModule(<span class="hljs-keyword">new</span> MyActivityModule(<span class="hljs-keyword">this</span>)).build().inject(<span class="hljs-keyword">this</span>);</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ProGuard"><a href="#ProGuard" class="headerlink" title="ProGuard"></a>ProGuard</h2><p>Dagger 2 should work out of box without ProGuard, but if you start seeing <code>library class dagger.producers.monitoring.internal.Monitors$1 extends or implements program class javax.inject.Provider</code>, make sure your Gradle configuration uses the <code>annotationProcessor</code>declaration instead of <code>provided</code>.</p>
+<h2 id="Troubleshooting"><a href="#Troubleshooting" class="headerlink" title="Troubleshooting"></a>Troubleshooting</h2><ul>
+<li>If you are upgrading Dagger 2 versions (i.e. from v2.0 to v2.5), some of the generated code has changed. If you are incorporating Dagger code that was generated with older versions, you may see <code>MemberInjector</code> and <code>actual and former argument lists different in length</code> errors. Make sure to clean the entire project and verify that you have upgraded all versions to use the consistent version of Dagger 2.</li>
+</ul>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a href="http://google.github.io/dagger/" target="_blank" rel="noopener">Dagger 2 Github Page</a></li>
+<li><a href="https://github.com/vinc3m1/nowdothis" target="_blank" rel="noopener">Sample project using Dagger 2</a></li>
+<li><a href="https://docs.google.com/presentation/d/1bkctcKjbLlpiI0Nj9v0QpCcNIiZBhVsJsJp1dgU5n98/" target="_blank" rel="noopener">Vince Mi’s Codepath Meetup Dagger 2 Slides</a></li>
+<li><a href="http://code.tutsplus.com/tutorials/dependency-injection-with-dagger-2-on-android--cms-23345" target="_blank" rel="noopener">http://code.tutsplus.com/tutorials/dependency-injection-with-dagger-2-on-android--cms-23345</a></li>
+<li><a href="https://speakerdeck.com/jakewharton/dependency-injection-with-dagger-2-devoxx-2014" target="_blank" rel="noopener">Jake Wharton’s Devoxx Dagger 2 Slides</a></li>
+<li><a href="https://www.parleys.com/tutorial/5471cdd1e4b065ebcfa1d557/" target="_blank" rel="noopener">Jake Wharton’s Devoxx Dagger 2 Talk</a></li>
+<li><a href="https://www.youtube.com/watch?v=oK_XtfXPkqw" target="_blank" rel="noopener">Dagger 2 Google Developers Talk</a></li>
+<li><a href="http://frogermcs.github.io/dagger-1-to-2-migration/" target="_blank" rel="noopener">Dagger 1 to Dagger 2</a></li>
+<li><a href="http://fernandocejas.com/2015/04/11/tasting-dagger-2-on-android/" target="_blank" rel="noopener">Tasting Dagger 2 on Android</a></li>
+<li><a href="http://blog.sqisland.com/2015/04/dagger-2-espresso-2-mockito.html#sthash.IMzjLiVu.dpuf" target="_blank" rel="noopener">Dagger 2 Testing with Mockito</a></li>
+<li><a href="https://github.com/konmik/konmik.github.io/wiki/Snorkeling-with-Dagger-2" target="_blank" rel="noopener">Snorkeling with Dagger 2</a></li>
+<li><a href="https://www.objc.io/issues/11-android/dependency-injection-in-java/" target="_blank" rel="noopener">Dependency Injection in Java</a></li>
+<li><a href="http://jellybeanssir.blogspot.de/2015/05/component-dependency-vs-submodules-in.html" target="_blank" rel="noopener">Component Dependency vs. Submodules in Dagger 2</a></li>
+<li><a href="https://github.com/joesteele/dagger2-component-scopes-test" target="_blank" rel="noopener">Dagger 2 Component Scopes Test</a></li>
+<li><a href="http://www.slideshare.net/nakhimovich/advanced-dagger-talk-from-360anDev" target="_blank" rel="noopener">Advanced Dagger Talk</a></li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/Android/">Android</a>, <a class="has-link-grey -link" href="/tags/Dagger/">Dagger</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/03/06/Dagger2-使用/">
+                <span class="level-item">
+                    Dagger2 使用</span>
+                <i class="level-item material-icons">keyboard_arrow_right</i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">
+            评论
+        </h3>
+        
+<div id="SOHUCS" sid="2019/03/06/Dependency-Injection-with-Dagger-2/"></div>
+<script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
+<script type="text/javascript">
+window.changyan.api.config({
+    appid: 'cytbPTnjI',
+    conf: '96c2d0183701bbf3977fba585925c4ff'
+});
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+<div class="column has-order-1 is-4-tablet is-4-desktop is-3-widescreen ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    <img class="image is-128x128 has-mb-6" src="/images/ha.jpg">
+                    
+                    <p class="is-size-4 is-block">
+                        changoal
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        十年之前和现在
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="material-icons is-size-5 has-mr-7">location_on</i>
+                        <span>BeiJing</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        74
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        30
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="http://github.com/changoal">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white" target="_blank"
+                title="Github" href="http://github.com/changoal">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank"
+                title="Twitter" href="http://twitter.com/Changoall">
+                
+                <i class="fab fa-twitter"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank"
+                title="Weibo" href="https://weibo.com/p/1005056712011575">
+                
+                <i class="fab fa-weibo"></i>
+                
+            </a>
+            
+            <a class="level-item button is-white" target="_blank"
+                title="Zhihu" href="http://www.zhihu.com/people/changoal">
+                
+                <i class="fab fa-zhihu"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level" href="http://blog.kinderriven.cn/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">花月阁</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.kinderriven.cn/</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.csdn.net/LEE18254290736" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">LEE</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.csdn.net/LEE18254290736</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://gongchen.net.cn/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">宫晨写字的地方</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://gongchen.net.cn/</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://blog.alrise.xyz/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">求学</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://blog.alrise.xyz/</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://leoshi.me/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">Leo Shi</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://leoshi.me/</span>
+                    </span>
+                </a>
+            </li>
+        
+            <li>
+                <a class="level" href="http://2naive.cn/" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">大队长</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">http://2naive.cn/</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/Android/">
+            <span class="level-start">
+                <span class="level-item">Android</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">20</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Java/">
+            <span class="level-start">
+                <span class="level-item">Java</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/">
+            <span class="level-start">
+                <span class="level-item">Python</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Python/Django/">
+            <span class="level-start">
+                <span class="level-item">Django</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Python/爬虫/">
+            <span class="level-start">
+                <span class="level-item">爬虫</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/师太/">
+            <span class="level-start">
+                <span class="level-item">师太</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/想说的/">
+            <span class="level-start">
+                <span class="level-item">想说的</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/摄影/">
+            <span class="level-start">
+                <span class="level-item">摄影</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/数据结构/">
+            <span class="level-start">
+                <span class="level-item">数据结构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/文字/">
+            <span class="level-start">
+                <span class="level-item">文字</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/文字/收藏/">
+            <span class="level-start">
+                <span class="level-item">收藏</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/生活/">
+            <span class="level-start">
+                <span class="level-item">生活</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/算法/">
+            <span class="level-start">
+                <span class="level-item">算法</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程思想/">
+            <span class="level-start">
+                <span class="level-item">编程思想</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/足球/">
+            <span class="level-start">
+                <span class="level-item">足球</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Dagger/" style="font-size: 11.43px;">Dagger</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 12.86px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 11.43px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+    </div>
+</div>
+
+    
+    
+        <div class="card card-transparent is-hidden-widescreen">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dependency Injection with Dagger 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:37.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="has-link-black-ter is-size-6">Dependency Injection with Dagger 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dagger2-使用/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dagger2 使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:24.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dagger2-使用/" class="has-link-black-ter is-size-6">Dagger2 使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/31/2018-end/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018 end">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-31T12:59:51.000Z">2018-12-31</time></div>
+                    <a href="/2018/12/31/2018-end/" class="has-link-black-ter is-size-6">2018 end</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/生活/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time></div>
+                    <a href="/2018/12/26/Android-屏幕适配/" class="has-link-black-ter is-size-6">Android 屏幕适配</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time></div>
+                    <a href="/2018/12/06/RxJava系列-一-入门/" class="has-link-black-ter is-size-6">RxJava系列(一) 入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Android/">
+                        <span class="level-start">
+                            <span class="level-item">Android</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">29</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Android开发艺术探索/">
+                        <span class="level-start">
+                            <span class="level-item">Android开发艺术探索</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Dagger/">
+                        <span class="level-start">
+                            <span class="level-item">Dagger</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Django/">
+                        <span class="level-start">
+                            <span class="level-item">Django</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">4</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Java/">
+                        <span class="level-start">
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Lottie/">
+                        <span class="level-start">
+                            <span class="level-item">Lottie</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Python/">
+                        <span class="level-start">
+                            <span class="level-item">Python</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">12</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RecyclerView/">
+                        <span class="level-start">
+                            <span class="level-item">RecyclerView</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RxJava/">
+                        <span class="level-start">
+                            <span class="level-item">RxJava</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Scrapy/">
+                        <span class="level-start">
+                            <span class="level-item">Scrapy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/bug/">
+                        <span class="level-start">
+                            <span class="level-item">bug</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/linux/">
+                        <span class="level-start">
+                            <span class="level-item">linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/动态权限申请/">
+                        <span class="level-start">
+                            <span class="level-item">动态权限申请</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/北漂/">
+                        <span class="level-start">
+                            <span class="level-item">北漂</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/师太/">
+                        <span class="level-start">
+                            <span class="level-item">师太</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/想说的/">
+                        <span class="level-start">
+                            <span class="level-item">想说的</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">8</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/感悟/">
+                        <span class="level-start">
+                            <span class="level-item">感悟</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/排序/">
+                        <span class="level-start">
+                            <span class="level-item">排序</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/推荐/">
+                        <span class="level-start">
+                            <span class="level-item">推荐</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/摄影/">
+                        <span class="level-start">
+                            <span class="level-item">摄影</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/收藏/">
+                        <span class="level-start">
+                            <span class="level-item">收藏</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/数据结构/">
+                        <span class="level-start">
+                            <span class="level-item">数据结构</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/文字/">
+                        <span class="level-start">
+                            <span class="level-item">文字</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/杂/">
+                        <span class="level-start">
+                            <span class="level-item">杂</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/爬虫/">
+                        <span class="level-start">
+                            <span class="level-item">爬虫</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">7</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/生活/">
+                        <span class="level-start">
+                            <span class="level-item">生活</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/编程思想/">
+                        <span class="level-start">
+                            <span class="level-item">编程思想</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/足球/">
+                        <span class="level-start">
+                            <span class="level-item">足球</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/随笔/">
+                        <span class="level-start">
+                            <span class="level-item">随笔</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/面试/">
+                        <span class="level-start">
+                            <span class="level-item">面试</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+<div class="column has-order-3 is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dependency Injection with Dagger 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:37.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="has-link-black-ter is-size-6">Dependency Injection with Dagger 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dagger2-使用/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dagger2 使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:24.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dagger2-使用/" class="has-link-black-ter is-size-6">Dagger2 使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/31/2018-end/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018 end">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-31T12:59:51.000Z">2018-12-31</time></div>
+                    <a href="/2018/12/31/2018-end/" class="has-link-black-ter is-size-6">2018 end</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/生活/">生活</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/26/Android-屏幕适配/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android 屏幕适配">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-26T11:27:44.000Z">2018-12-26</time></div>
+                    <a href="/2018/12/26/Android-屏幕适配/" class="has-link-black-ter is-size-6">Android 屏幕适配</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2018/12/06/RxJava系列-一-入门/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="RxJava系列(一) 入门">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-06T14:46:22.000Z">2018-12-06</time></div>
+                    <a href="/2018/12/06/RxJava系列-一-入门/" class="has-link-black-ter is-size-6">RxJava系列(一) 入门</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <ul class="menu-list">
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Android/">
+                        <span class="level-start">
+                            <span class="level-item">Android</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">29</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Android开发艺术探索/">
+                        <span class="level-start">
+                            <span class="level-item">Android开发艺术探索</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Dagger/">
+                        <span class="level-start">
+                            <span class="level-item">Dagger</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Django/">
+                        <span class="level-start">
+                            <span class="level-item">Django</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">4</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Java/">
+                        <span class="level-start">
+                            <span class="level-item">Java</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Lottie/">
+                        <span class="level-start">
+                            <span class="level-item">Lottie</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Python/">
+                        <span class="level-start">
+                            <span class="level-item">Python</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">12</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RecyclerView/">
+                        <span class="level-start">
+                            <span class="level-item">RecyclerView</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/RxJava/">
+                        <span class="level-start">
+                            <span class="level-item">RxJava</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Scrapy/">
+                        <span class="level-start">
+                            <span class="level-item">Scrapy</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/bug/">
+                        <span class="level-start">
+                            <span class="level-item">bug</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/linux/">
+                        <span class="level-start">
+                            <span class="level-item">linux</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/动态权限申请/">
+                        <span class="level-start">
+                            <span class="level-item">动态权限申请</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/北漂/">
+                        <span class="level-start">
+                            <span class="level-item">北漂</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/师太/">
+                        <span class="level-start">
+                            <span class="level-item">师太</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/想说的/">
+                        <span class="level-start">
+                            <span class="level-item">想说的</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">8</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/感悟/">
+                        <span class="level-start">
+                            <span class="level-item">感悟</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/排序/">
+                        <span class="level-start">
+                            <span class="level-item">排序</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/推荐/">
+                        <span class="level-start">
+                            <span class="level-item">推荐</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/摄影/">
+                        <span class="level-start">
+                            <span class="level-item">摄影</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/收藏/">
+                        <span class="level-start">
+                            <span class="level-item">收藏</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/数据结构/">
+                        <span class="level-start">
+                            <span class="level-item">数据结构</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/文字/">
+                        <span class="level-start">
+                            <span class="level-item">文字</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/杂/">
+                        <span class="level-start">
+                            <span class="level-item">杂</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/爬虫/">
+                        <span class="level-start">
+                            <span class="level-item">爬虫</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">7</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/生活/">
+                        <span class="level-start">
+                            <span class="level-item">生活</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/编程思想/">
+                        <span class="level-start">
+                            <span class="level-item">编程思想</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/足球/">
+                        <span class="level-start">
+                            <span class="level-item">足球</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">3</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/随笔/">
+                        <span class="level-start">
+                            <span class="level-item">随笔</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/面试/">
+                        <span class="level-start">
+                            <span class="level-item">面试</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">1</span>
+                        </span>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/icon_round.png" alt="" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 chang&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-icarus">Icarus</a>
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="http://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+    <script>
+        (function ($) {
+            $(document).ready(function () {
+                if (typeof($.fn.lightGallery) === 'function') {
+                    $('.article').lightGallery({ selector: '.gallery-item' });
+                }
+                if (typeof($.fn.justifiedGallery) === 'function') {
+                    $('.justified-gallery').justifiedGallery();
+                }
+            });
+        })(jQuery);
+    </script>
+    
+
+    
+    
+    
+    <div id="outdated">
+        <h6>Your browser is out-of-date!</h6>
+        <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update my browser now </a></p>
+        <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // plugin function, place inside DOM ready function
+            outdatedBrowser({
+                bgColor: '#f25648',
+                color: '#ffffff',
+                lowerThan: 'flex'
+            })
+        });
+    </script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/animejs@2.2.0/anime.js"></script>
+    <script>
+    function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf('MSIE ');
+        var trident = ua.indexOf('Trident/');
+        return (msie > 0 || trident > 0);
+    }
+
+    $(document).ready(function () {
+        $('body').css('opacity', 1);
+        if (!isIE()) {
+            ['.main > .column:first-child .card',
+            '.main > .column:nth-child(2) .card',
+            '.main > .column:last-child .card'].map(function(target) {
+                anime({
+                    targets: target,
+                    scale: [0.8, 1],
+                    opacity: [0, 1],
+                    duration: 300,
+                    easing: 'easeOutSine',
+                    delay: function(el, i, l) {
+                        return i * 100;
+                    }
+                })
+            });
+    
+            anime({
+                targets: '.navbar-main',
+                translateY: [-100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutSine'
+            });
+        }
+    });
+    </script>
+    
+
+    
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script>
+    MathJax.Hub.Config({
+        "HTML-CSS": {matchFontHeight: false},
+        SVG: {matchFontHeight: false},
+        CommonHTML: {matchFontHeight: false}
+    });
+</script>
+
+    
+    
+
+<div id="back-to-top" class="is-flex is-flex-center is-hidden-tablet">
+    <i class="material-icons">keyboard_arrow_up</i>
+    <span class="is-size-7">
+        回到顶端</span>
+</div>
+<script>
+    $(document).ready(function () {
+        var lastScrollTop = 0;
+        $(window).scroll(function (event) {
+            var scrollTop = $(this).scrollTop();
+            if (scrollTop > lastScrollTop || scrollTop === 0) {
+                $('#back-to-top').removeClass('is-active');
+            } else {
+                $('#back-to-top').addClass('is-active');
+            }
+            lastScrollTop = scrollTop;
+        });
+        $('#back-to-top').on('click', function () {
+            $('body, html').animate({ scrollTop: 0 }, 400);
+        });
+    });
+</script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+
+
+<script src="/js/main.js"></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js"></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

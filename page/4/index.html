@@ -133,6 +133,114 @@
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <!--  -->
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-21T15:41:44.000Z">
+                    2017-09-21</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1236 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+            <a class="has-link-black-ter" href="/2017/09/21/用-viewpager-创建欢迎页轮播图/">
+                用 viewpager 创建欢迎页轮播图</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="使用-viewpager-创建欢迎页轮播图"><a href="#使用-viewpager-创建欢迎页轮播图" class="headerlink" title="使用 viewpager 创建欢迎页轮播图"></a>使用 viewpager 创建欢迎页轮播图</h1><p>布局文件</p>
+<figure class="highlight xml hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">android.support.v4.view.ViewPager</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/view_pager_2"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"match_parent"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"0dp"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_marginLeft</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_marginRight</span>=<span class="hljs-string">"50dp"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_weight</span>=<span class="hljs-string">"1"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-tag">&lt;<span class="hljs-name">LinearLayout</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:id</span>=<span class="hljs-string">"@+id/view_dot_container"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_width</span>=<span class="hljs-string">"wrap_content"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_height</span>=<span class="hljs-string">"wrap_content"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:layout_gravity</span>=<span class="hljs-string">"center"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:gravity</span>=<span class="hljs-string">"center"</span></span></span><br><span class="line"><span class="hljs-tag">    <span class="hljs-attr">android:orientation</span>=<span class="hljs-string">"horizontal"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<p>其中 <code>view_dot_container</code> 是轮播图下显示第几页的指示点的容器</p>
+<p>adapter 需要继承自 PagerAdapter</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloAdapter</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">PagerAdapter</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">private</span> Context mContext;</span><br><span class="line">    <span class="hljs-keyword">private</span> <span class="hljs-keyword">int</span>[] imgs;</span><br><span class="line">    <span class="hljs-keyword">private</span> List&lt;ImageView&gt; mImageViews;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">HelloAdapter</span><span class="hljs-params">(Context context, <span class="hljs-keyword">int</span>[] imgs)</span> </span>&#123;</span><br><span class="line">        mContext = context;</span><br><span class="line">        <span class="hljs-keyword">this</span>.imgs = imgs;</span><br><span class="line">        mImageViews = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> img : imgs) &#123;</span><br><span class="line">            ImageView view = <span class="hljs-keyword">new</span> ImageView(context);</span><br><span class="line"></span><br><span class="line">            ViewGroup.LayoutParams params = <span class="hljs-keyword">new</span> ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);</span><br><span class="line">            view.setLayoutParams(params);</span><br><span class="line">            Glide.with(context).load(img).into(view);</span><br><span class="line">            mImageViews.add(view);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">int</span> <span class="hljs-title">getCount</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> imgs.length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">destroyItem</span><span class="hljs-params">(ViewGroup container, <span class="hljs-keyword">int</span> position, Object object)</span> </span>&#123;</span><br><span class="line">        container.removeView(mImageViews.get(position));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> Object <span class="hljs-title">instantiateItem</span><span class="hljs-params">(ViewGroup container, <span class="hljs-keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        container.addView(mImageViews.get(position));</span><br><span class="line">        <span class="hljs-keyword">return</span> mImageViews.get(position);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-meta">@Override</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isViewFromObject</span><span class="hljs-params">(View view, Object object)</span> </span>&#123;</span><br><span class="line">        <span class="hljs-keyword">return</span> view == object;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里。我是传进来一组本地的 drawable 资源 ID，也可以传进来一个 View 的集合(如 <code>List&lt;ImageView&gt;</code> )。</p>
+<p>PagerAdapter 的重点是 instantiateItem 和 isViewFromObject 方法。</p>
+<p>instantiateItem 这个方法，return 一个对象，这个对象表明了 PagerAdapter 选择哪个对象放在当前的 ViewPager 中；</p>
+<p>isViewFromObject 用来判断 instantiateItem(ViewGroup, int) 函数所返回来的 Key 与一个页面视图是否是代表的同一个视图(即它俩是否是对应的，对应的表示同一个View)</p>
+<p>destroyItem 在重写该方法的时候主动从 ViewPager 中移除该 ContentView 。</p>
+<p>初始化</p>
+<figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">private</span> List&lt;ImageView&gt; mDotViews;<span class="hljs-comment">//用来存放指示点的集合</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">initViewPager</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span>[] imgs = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[]&#123;R.drawable.a, R.drawable.b, R.mipmap.c&#125;;</span><br><span class="line">    HelloAdapter helloAdapter = <span class="hljs-keyword">new</span> HelloAdapter(<span class="hljs-keyword">this</span>, imgs);</span><br><span class="line">    ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);</span><br><span class="line">    viewPager.setAdapter(helloAdapter);</span><br><span class="line">    viewPager.addOnPageChangeListener(<span class="hljs-keyword">this</span>);<span class="hljs-comment">//监听 ViewPager 的滚动事件</span></span><br><span class="line">    mDotViews = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    dotContainer = (LinearLayout) findViewById(R.id.view_dot_container);</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> img : imgs) &#123;</span><br><span class="line">        ImageView dotView = <span class="hljs-keyword">new</span> ImageView(<span class="hljs-keyword">this</span>);</span><br><span class="line">        dotView.setImageResource(R.drawable.bg_radius_4);</span><br><span class="line">        LinearLayout.LayoutParams params = <span class="hljs-keyword">new</span> LinearLayout.LayoutParams(<span class="hljs-number">30</span>, <span class="hljs-number">30</span>);</span><br><span class="line">        params.setMargins(<span class="hljs-number">15</span>, <span class="hljs-number">0</span>, <span class="hljs-number">15</span>, <span class="hljs-number">0</span>);</span><br><span class="line">        dotView.setLayoutParams(params);</span><br><span class="line">        mDotViews.add(dotView);</span><br><span class="line">        dotContainer.addView(dotView);</span><br><span class="line">    &#125;</span><br><span class="line">    viewPager.setCurrentItem(<span class="hljs-number">0</span>);</span><br><span class="line">    mDotViews.get(<span class="hljs-number">0</span>).setImageResource(R.drawable.check_dot);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@Override</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPageScrolled</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position, <span class="hljs-keyword">float</span> positionOffset, intpositionOffsetPixels)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@Override</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPageSelected</span><span class="hljs-params">(<span class="hljs-keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; mDotViews.size(); i++) &#123;</span><br><span class="line">        tvTitle.setText(titles[position]);</span><br><span class="line">        <span class="hljs-keyword">if</span> (i == position) &#123;</span><br><span class="line">            mDotViews.get(i).setImageResource(R.drawable.check);</span><br><span class="line">        &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">            mDotViews.get(i).setImageResource(R.drawable.uncheck);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">@Override</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">onPageScrollStateChanged</span><span class="hljs-params">(<span class="hljs-keyword">int</span> state)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li><p><code>onPageSelected(int position)</code>：这个方法有一个参数 position ，代表哪个页面被选中。当用手指滑动翻页的时候，如果翻动成功了（滑动的距离够长），手指抬起来就会立即执行这个方法，position 就是当前滑动到的页面。如果直接 setCurrentItem 翻页，那 position 就和 setCurrentItem 的参数一致，这种情况在 onPageScrolled 执行方法前就会立即执行。</p>
+</li>
+<li><p><code>onPageScrolled(int position,float positionOffset, int positionOffsetPixels)</code>：这个方法会在屏幕滚动过程中不断被调用。有三个参数，第一个position，这个参数要特别注意一下。当用手指滑动时，如果手指按在页面上不动，position和当前页面index是一致的；如果手指向左拖动（相应页面向右翻动），这时候position大部分时间和当前页面是一致的，只有翻页成功的情况下最后一次调用才会变为目标页面；如果手指向右拖动（相应页面向左翻动），这时候position大部分时间和目标页面是一致的，只有翻页不成功的情况下最后一次调用才会变为原页面。当直接设置setCurrentItem翻页时，如果是相邻的情况（比如现在是第二个页面，跳到第一或者第三个页面），如果页面向右翻动，大部分时间是和当前页面是一致的，只有最后才变成目标页面；如果向左翻动，position和目标页面是一致的。这和用手指拖动页面翻动是基本一致的。如果不是相邻的情况，比如我从第一个页面跳到第三个页面，position先是0，然后逐步变成1，然后逐步变成2；我从第三个页面跳到第一个页面，position先是1，然后逐步变成0，并没有出现为2的情况。positionOffset是当前页面滑动比例，如果页面向右翻动，这个值不断变大，最后在趋近1的情况后突变为0。如果页面向左翻动，这个值不断变小，最后变为0。positionOffsetPixels是当前页面滑动像素，变化情况和positionOffset一致。</p>
+</li>
+<li><p><code>onPageScrollStateChanged(int state)</code>：这个方法在手指操作屏幕的时候发生变化。有三个值：0（END）,1(PRESS) , 2(UP) 。当用手指滑动翻页时，手指按下去的时候会触发这个方法，state值为1，手指抬起时，如果发生了滑动（即使很小），这个值会变为2，然后最后变为0 。总共执行这个方法三次。一种特殊情况是手指按下去以后一点滑动也没有发生，这个时候只会调用这个方法两次，state值分别是1,0 。</p>
+</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <!--  -->
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2017-09-18T14:01:49.000Z">
+                    2017-09-18</time>
+                
+                <div class="level-item">
+                    <a class="has-link-grey -link" href="/categories/师太/">师太</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 584 个字)
+                </span>
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+            <a class="has-link-black-ter" href="/2017/09/18/四年之久/">
+                四年之久</a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="http://o797mwhn1.bkt.clouddn.com/IMG_20170916_154010%20%281%29.jpg" alt=""></p>
+<p>2017.9.16  周六<br>等了一年，终于等来了这天。我之前无数次想象着这天的场景。七年已经过去了四年。</p>
+<p>提前一天，准备着要去的地方，最近的路线，路上的商家。你说去人少的地方，好，那就先不去故宫，你说不想去太远的地方，那颐和园798以后有时间再去。之前想过无数次在北京相见时的场景，没想到到了这天我却迟到了。</p>
+<p>我记得跟你说过我特别讨厌北京，因为三张图给了我继续留在北京的支持，一张是雪中的故宫，我一直认为故宫真的是北京最值得逛的一处景点，无论去多少次都不会感到无聊，那种作为曾经皇城的尊严是别的地方感受不到的。第二张是角楼的照片，应该是每个摄影爱好者心中的圣地吧，我也去拍过，手机直拍，加上是正中午，糊的一片。第三张就是你，起码是一部分因为你让我选择继续留在北京。</p>
+<p>之前有人问我有没有喜欢的人，我说不知道，因为我真的不知道自己还喜不喜欢你真的不知道。不过，昨天我终于确定了，我喜欢你，喜欢了你四年，真的，只是有时候可能不是特别喜欢那种。之前怕被拒绝，怕尴尬，但是现在都四年了，还怕什么，四年都过来了。这四年太年轻，什么都不懂，一直没有行动，还总是自己感动自己。当时说的七年现在已经过去一大半了。有时候经常会无缘无故的想起你，想到未来，想起与你的点点滴滴。我已经习惯了一个人的生活，不过这种生活的前提是未来有你，不然的话我不知道我要怎么过来，像我这么无聊的人。</p>
+<p>我要加油啊！带你去看故宫的雪。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <!--  -->
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2017-09-02T13:19:00.000Z">
                     2017-09-02</time>
                 
@@ -751,189 +859,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <!--  -->
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-07-28T12:24:50.000Z">
-                    2017-07-28</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    2 分钟 读完 (大约 228 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-            <a class="has-link-black-ter" href="/2017/07/28/Android面试题集/">
-                Android面试题集</a>
-            
-        </h1>
-        <div class="content">
-            <p>在这里记录一下面试中遇到的问题，慢慢更新。</p>
-<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><ul>
-<li><p>堆和栈的区别 </p>
-<p>  堆：先进先出。Java中，创建的对象存放在堆内存里。</p>
-<p>  栈：先进后出。Java中，基本数据类型以及其他类的引用放在栈内存里，速度快。</p>
-</li>
-</ul>
-<h1 id="Java基础"><a href="#Java基础" class="headerlink" title="Java基础"></a>Java基础</h1><ul>
-<li><p>Java基本数据类型 (8种) </p>
-  <table border="1"><br>  <tr><br>  <th>数据类型</th><br>  <th>int</th><br>  <th>short</th><br>  <th>long</th><br>  <th>float</th><br>  <th>double</th><br>  <th>byte</th><br>  <th>char</th><br>  <th>boolean</th><br>  </tr><br><br>  <tr><br>  <th>字节</th><br>  <th>4</th><br>  <th>2</th><br>  <th>8</th><br>  <th>4</th><br>  <th>8</th><br>  <th>1</th><br>  <th>2</th><br>  <th>1</th><br>  </tr><br>  </table></li>
-<li>String 和 StringBuilder 以及 StringBuffer 区别</li>
-</ul>
-<h1 id="Android基础"><a href="#Android基础" class="headerlink" title="Android基础"></a>Android基础</h1><ul>
-<li><p>Handler机制</p>
-</li>
-<li><p>事件分发</p>
-</li>
-<li><p>线程间通信方式</p>
-</li>
-</ul>
-<h1 id="项目经验"><a href="#项目经验" class="headerlink" title="项目经验"></a>项目经验</h1><ul>
-<li><p>Glide源码</p>
-</li>
-<li><p>Android性能优化</p>
-</li>
-</ul>
-<h1 id="面试经验"><a href="#面试经验" class="headerlink" title="面试经验"></a>面试经验</h1><ul>
-<li>面试前看下公司的一些要求以及公司给的薪资。</li>
-<li>最好是有一些自己深入了解过的东西，比如 Glide 源码之类的。然后主动跟面试官聊自己擅长的东西。</li>
-<li>不会的就直说不会。</li>
-</ul>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <!--  -->
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2017-07-18T12:17:00.000Z">
-                    2017-07-18</time>
-                
-                <div class="level-item">
-                    <a class="has-link-grey -link" href="/categories/数据结构/">数据结构</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    19 分钟 读完 (大约 2885 个字)
-                </span>
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-            <a class="has-link-black-ter" href="/2017/07/18/数据结构基础/">
-                数据结构基础</a>
-            
-        </h1>
-        <div class="content">
-            <p>本文将介绍常用的数据结构。慢慢完善。</p>
-<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>先进后出</p>
-<h2 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h2><p>先进先出</p>
-<h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>树形结构，每个节点最多只能有两个子分支</p>
-<p>遍历等等</p>
-<h2 id="图"><a href="#图" class="headerlink" title="图"></a>图</h2><ul>
-<li>由顶点的有穷非空集合和顶点之间的边的集合组成</li>
-<li>图中和边有关的数叫做权，带权的图称作 网</li>
-<li>无向图中，与顶点 V 相关联的边的数目称作 V 的 <strong>度</strong></li>
-<li>有向图中，以顶点 V 为起点的弧的数目叫做 V 的 <strong>入度</strong>；以顶点 V 为终点的弧的数目叫做 V 的 <strong>出度</strong></li>
-</ul>
-<h3 id="存储结构"><a href="#存储结构" class="headerlink" title="存储结构"></a>存储结构</h3><h4 id="邻接矩阵"><a href="#邻接矩阵" class="headerlink" title="邻接矩阵"></a>邻接矩阵</h4><p>图的邻接矩阵存储方式是用两个数组来表示图。一个一维数组存储图中顶点信息，一个二维数组（邻接矩阵）存储图中的边或弧的信息。</p>
-<p>设图G有n个顶点，则邻接矩阵是一个n*n的方阵，定义为：<img src="http://blog.chinaunix.net/attachment/201301/28/26548237_1359358455QE9d.png" alt=""></p>
-<p>看一个实例，下图左就是一个无向图。<br><img src="http://blog.chinaunix.net/attachment/201301/28/26548237_1359358505GMa9.png" alt=""></p>
-<p>从上面可以看出，无向图的边数组是一个对称矩阵。所谓对称矩阵就是n阶矩阵的元满足aij = aji。即从矩阵的左上角到右下角的主对角线为轴，右上角的元和左下角相对应的元全都是相等的。</p>
-<p>  从这个矩阵中，很容易知道图中的信息。</p>
-<p>  （1）要判断任意两顶点是否有边无边就很容易了；</p>
-<p>  （2）要知道某个顶点的度，其实就是这个顶点vi在邻接矩阵中第i行或（第i列）的元素之和；</p>
-<p>  （3）求顶点vi的所有邻接点就是将矩阵中第i行元素扫描一遍，arc[i][j]为1就是邻接点；</p>
-<p>  而有向图讲究入度和出度，顶点vi的入度为1，正好是第i列各数之和。顶点vi的出度为2，即第i行的各数之和。</p>
-<p>  若图G是网图，有n个顶点，则邻接矩阵是一个n*n的方阵，定义为</p>
-<p><img src="http://blog.chinaunix.net/attachment/201301/28/26548237_1359358929SkA2.png" alt=""></p>
-<p>这里的wij表示 (vi,vj) 上的权值。无穷大表示一个计算机允许的、大于所有边上权值的值，也就是一个不可能的极限值。下面左图就是一个有向网图，右图就是它的邻接矩阵。</p>
-<p><img src="http://blog.chinaunix.net/attachment/201301/28/26548237_1359359055yEhp.png" alt=""></p>
-<h4 id="邻接表"><a href="#邻接表" class="headerlink" title="邻接表"></a>邻接表</h4><p>邻接矩阵是不错的一种图存储结构，但是，对于边数相对顶点较少的图，这种结构存在对存储空间的极大浪费。因此，找到一种数组与链表相结合的存储方法称为邻接表。</p>
-<p>邻接表的处理方法是这样的：<br>（1）图中顶点用一个一维数组存储，当然，顶点也可以用单链表来存储，不过，数组可以较容易的读取顶点的信息，更加方便。<br>（2）图中每个顶点vi的所有邻接点构成一个线性表，由于邻接点的个数不定，所以，用单链表存储，无向图称为顶点vi的边表，有向图则称为顶点vi作为弧尾的出边表。<br>例如，下图就是一个无向图的邻接表的结构。</p>
-<p><img src="http://blog.chinaunix.net/attachment/201301/28/26548237_1359371746DDZF.png" alt=""></p>
-<p>从图中可以看出，顶点表的各个结点由data和firstedge两个域表示，data是数据域，存储顶点的信息，firstedge是指针域，指向边表的第一个结点，即此顶点的第一个邻接点。边表结点由adjvex和next两个域组成。adjvex是邻接点域，存储某顶点的邻接点在顶点表中的下标，next则存储指向边表中下一个结点的指针。</p>
-<p>对于带权值的网图，可以在边表结点定义中再增加一个weight的数据域，存储权值信息即可。如下图所示。</p>
-<p><img src="http://blog.chinaunix.net/attachment/201301/28/26548237_13593720165ssU.png" alt=""></p>
-<h4 id="十字链表"><a href="#十字链表" class="headerlink" title="十字链表"></a>十字链表</h4><p>对于有向图来说，邻接表是有缺陷的。关心了出度问题，想了解入度就必须要遍历整个图才知道，反之，逆邻接表解决了入度却不了解出度情况。下面介绍的这种有向图的存储方法：十字链表，就是把邻接表和逆邻接表结合起来的。</p>
-<p>重新定义顶点表结点结构，如下所示。<br><img src="http://blog.chinaunix.net/attachment/201301/28/26548237_1359379404626B.png" alt=""></p>
-<p>其中firstin表示入边表头指针，指向该顶点的入边表中第一个结点，firstout表示出边表头指针，指向该顶点的出边表中的第一个结点。</p>
-<p>重新定义边表结构，如下所示。</p>
-<p><img src="http://blog.chinaunix.net/attachment/201301/28/26548237_1359379502NBBu.png" alt=""></p>
-<p>其中，tailvex是指弧起点在顶点表的下表，headvex是指弧终点在顶点表的下标，headlink是指入边表指针域，指向终点相同的下一条边，taillink是指边表指针域，指向起点相同的下一条边。如果是网，还可以增加一个weight域来存储权值。</p>
-<p>比如下图，顶点依然是存入一个一维数组，实线箭头指针的图示完全与邻接表相同。就以顶点v0来说，firstout指向的是出边表中的第一个结点v3。所以，v0边表结点hearvex = 3，而tailvex其实就是当前顶点v0的下标0，由于v0只有一个出边顶点，所有headlink和taillink都是空的。</p>
-<p><img src="http://blog.chinaunix.net/attachment/201301/28/26548237_1359379826wexn.png" alt=""></p>
-<p>重点需要解释虚线箭头的含义。它其实就是此图的逆邻接表的表示。对于v0来说，它有两个顶点v1和v2的入边。因此的firstin指向顶点v1的边表结点中headvex为0的结点，如上图圆圈1。接着由入边结点的headlink指向下一个入边顶点v2，如上图圆圈2。对于顶点v1，它有一个入边顶点v2，所以它的firstin指向顶点v2的边表结点中headvex为1的结点，如上图圆圈3。</p>
-<p>十字链表的好处就是因为把邻接表和逆邻接表整合在一起，这样既容易找到以v为尾的弧，也容易找到以v为头的弧，因而比较容易求得顶点的出度和入度。</p>
-<p>而且除了结构复杂一点外，其实创建图算法的时间复杂度是和邻接表相同的，因此，在有向图应用中，十字链表是非常好的数据结构模型。</p>
-<p>这里就介绍以上三种存储结构，除了第三种存储结构外，其他的两种存储结构比较简单。</p>
-<h3 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h3><p>图的遍历和树的遍历类似，希望从图中某一顶点出发访遍图中其余顶点，且使每一个顶点仅被访问一次，这一过程就叫图的遍历。</p>
-<h4 id="深度优先遍历"><a href="#深度优先遍历" class="headerlink" title="深度优先遍历"></a>深度优先遍历</h4><p>深度优先遍历也叫深度优先搜索(Depth First Search)。它的遍历规则：不断地沿着顶点的深度方向遍历。顶点的深度方向是指它的邻接点方向。</p>
-<p>具体点，给定一图G=&lt;V,E&gt;，用visited[i]表示顶点i的访问情况，则初始情况下所有的visited[i]都为false。假设从顶点V0开始遍历，则下一个遍历的顶点是V0的第一个邻接点Vi，接着遍历Vi的第一个邻接点Vj，……直到所有的顶点都被访问过。</p>
-<p>所谓的第一个是指在某种存储结构中(邻接矩阵、邻接表)，所有邻接点中存储位置最近的，通常指的是下标最小的。在遍历的过程中有两种情况经常出现</p>
-<ol>
-<li><p>某个顶点的邻接点都已被访问过的情况，此时需回溯已访问过的顶点。</p>
-</li>
-<li><p>图不连通，所有的已访问过的顶点都已回溯完了，仍找不出未被访问的顶点。此时需从下标0开始检测visited[i]，找到未被访问的顶点i，从i开始新一轮的深度搜索。</p>
-</li>
-</ol>
-<p>看一个例子</p>
-<p><img src="http://o797mwhn1.bkt.clouddn.com/Image.png" alt=""></p>
-<p>从V0开始遍历</p>
-<p>遍历分析：V0有两个邻接点V1和V2，选择下标最小的V1遍历。接着从V1开始深度遍历，V1只有邻接点V3，也就是没有选的：遍历V3。接着从V3开始遍历，V3只有邻接点V0，而V0已经被遍历过。此时出现了上面提到的情况一，开始回溯V1，V1无未被遍历的邻接点，接着回溯V0，V0有一个未被遍历的邻接点V2，新的一轮深度遍历从V2开始。V2无邻接点，且无法回溯。此时出现了情况二，检测visited[i]，只有V4了。深度遍历完成。看到回溯，应该可以想到需要使用栈。</p>
-<p>遍历序列是<br>V0-&gt;V1-&gt;V3-&gt;V2-&gt;V4。</p>
-<h4 id="广度优先遍历"><a href="#广度优先遍历" class="headerlink" title="广度优先遍历"></a>广度优先遍历</h4><p>广度优先遍历也叫广度优先搜索(Breadth First Search)。它的遍历规则：</p>
-<ol>
-<li>先访问完当前顶点的所有邻接点。(应该看得出广度的意思)</li>
-<li>先访问顶点的邻接点先于后访问顶点的邻接点被访问。</li>
-</ol>
-<p>具体点，给定一图G=&lt;V,E&gt;，用visited[i]表示顶点i的访问情况，则初始情况下所有的visited[i]都为false。假设从顶点V0开始遍历，且顶点V0的邻接点下表从小到大有Vi、Vj…Vk。按规则1，接着应遍历Vi、Vj和Vk。再按规则2，接下来应遍历Vi的所有邻接点，之后是Vj的所有邻接点，…，最后是Vk的所有邻接点。接下来就是递归的过程…</p>
-<p>在广度遍历的过程中，会出现图不连通的情况，此时也需按上述情况二来进行：测试visited[i]…。在上述过程中，可以看出需要用到队列。</p>
-<p>举个例子，还是同样一幅图：</p>
-<p><img src="http://o797mwhn1.bkt.clouddn.com/Image.png" alt=""></p>
-<p>从V0开始遍历</p>
-<p>遍历分析：V0有两个邻接点V1和V2，于是按序遍历V1、V2。V1先于V2被访问，于是V1的邻接点应先于V2的邻接点被访问，那就是接着访问V3。V2无邻接点，只能看V3的邻接点了，而V0已被访问过了。此时需检测visited[i]，只有V4了。广度遍历完毕。</p>
-<p>遍历序列是<br>V0-&gt;V1-&gt;V2-&gt;V3-&gt;V4。</p>
-<p><strong>参考文章</strong>：<a href="http://blog.chinaunix.net/uid-26548237-id-3483650.html" target="_blank" rel="noopener">数据结构之图（存储结构、遍历） </a></p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -1002,7 +927,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        72
+                        74
                     </p>
                 </div>
             </div>
@@ -1022,7 +947,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        29
+                        30
                     </p>
                 </div>
             </div>
@@ -1167,7 +1092,7 @@
                 <span class="level-item">Android</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">18</span>
+                <span class="level-item tag">20</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/Java/">
@@ -1293,7 +1218,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 12.86px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 11.43px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
+        <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Android开发艺术探索/" style="font-size: 11.43px;">Android开发艺术探索</a> <a href="/tags/Dagger/" style="font-size: 11.43px;">Dagger</a> <a href="/tags/Django/" style="font-size: 14.29px;">Django</a> <a href="/tags/Java/" style="font-size: 11.43px;">Java</a> <a href="/tags/Lottie/" style="font-size: 10px;">Lottie</a> <a href="/tags/Python/" style="font-size: 18.57px;">Python</a> <a href="/tags/RecyclerView/" style="font-size: 10px;">RecyclerView</a> <a href="/tags/RxJava/" style="font-size: 10px;">RxJava</a> <a href="/tags/Scrapy/" style="font-size: 11.43px;">Scrapy</a> <a href="/tags/bug/" style="font-size: 10px;">bug</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/动态权限申请/" style="font-size: 10px;">动态权限申请</a> <a href="/tags/北漂/" style="font-size: 11.43px;">北漂</a> <a href="/tags/师太/" style="font-size: 12.86px;">师太</a> <a href="/tags/想说的/" style="font-size: 17.14px;">想说的</a> <a href="/tags/感悟/" style="font-size: 10px;">感悟</a> <a href="/tags/排序/" style="font-size: 10px;">排序</a> <a href="/tags/推荐/" style="font-size: 10px;">推荐</a> <a href="/tags/摄影/" style="font-size: 10px;">摄影</a> <a href="/tags/收藏/" style="font-size: 10px;">收藏</a> <a href="/tags/数据结构/" style="font-size: 11.43px;">数据结构</a> <a href="/tags/文字/" style="font-size: 10px;">文字</a> <a href="/tags/杂/" style="font-size: 12.86px;">杂</a> <a href="/tags/爬虫/" style="font-size: 15.71px;">爬虫</a> <a href="/tags/生活/" style="font-size: 12.86px;">生活</a> <a href="/tags/编程思想/" style="font-size: 10px;">编程思想</a> <a href="/tags/足球/" style="font-size: 12.86px;">足球</a> <a href="/tags/随笔/" style="font-size: 11.43px;">随笔</a> <a href="/tags/面试/" style="font-size: 10px;">面试</a>
     </div>
 </div>
 
@@ -1307,6 +1232,44 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dependency Injection with Dagger 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:37.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="has-link-black-ter is-size-6">Dependency Injection with Dagger 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dagger2-使用/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dagger2 使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:24.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dagger2-使用/" class="has-link-black-ter is-size-6">Dagger2 使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1365,44 +1328,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/12/05/todo/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
-                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/09/28/Android流行ORM框架/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android流行ORM框架">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-28T10:46:37.000Z">2018-09-28</time></div>
-                    <a href="/2018/09/28/Android流行ORM框架/" class="has-link-black-ter is-size-6">Android流行ORM框架</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1421,7 +1346,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">27</span>
+                            <span class="level-item tag">29</span>
                         </span>
                     </a>
                 </li>
@@ -1430,6 +1355,17 @@
                     <a class="level is-marginless" href="/tags/Android开发艺术探索/">
                         <span class="level-start">
                             <span class="level-item">Android开发艺术探索</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Dagger/">
+                        <span class="level-start">
+                            <span class="level-item">Dagger</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
@@ -1757,6 +1693,44 @@
         
         <article class="media">
             
+            <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dependency Injection with Dagger 2">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:37.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dependency-Injection-with-Dagger-2/" class="has-link-black-ter is-size-6">Dependency Injection with Dagger 2</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/03/06/Dagger2-使用/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Dagger2 使用">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-03-06T08:39:24.000Z">2019-03-06</time></div>
+                    <a href="/2019/03/06/Dagger2-使用/" class="has-link-black-ter is-size-6">Dagger2 使用</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2018/12/31/2018-end/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="2018 end">
@@ -1812,44 +1786,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2018/12/05/todo/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="todo">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-12-05T08:51:54.000Z">2018-12-05</time></div>
-                    <a href="/2018/12/05/todo/" class="has-link-black-ter is-size-6">todo</a>
-                    <p class="is-size-7 is-uppercase">
-                        
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2018/09/28/Android流行ORM框架/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/gallery/thumbnails/landscape.jpg" alt="Android流行ORM框架">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2018-09-28T10:46:37.000Z">2018-09-28</time></div>
-                    <a href="/2018/09/28/Android流行ORM框架/" class="has-link-black-ter is-size-6">Android流行ORM框架</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Android/">Android</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1868,7 +1804,7 @@
                             <span class="level-item">Android</span>
                         </span>
                         <span class="level-end">
-                            <span class="level-item tag">27</span>
+                            <span class="level-item tag">29</span>
                         </span>
                     </a>
                 </li>
@@ -1877,6 +1813,17 @@
                     <a class="level is-marginless" href="/tags/Android开发艺术探索/">
                         <span class="level-start">
                             <span class="level-item">Android开发艺术探索</span>
+                        </span>
+                        <span class="level-end">
+                            <span class="level-item tag">2</span>
+                        </span>
+                    </a>
+                </li>
+                
+                <li>
+                    <a class="level is-marginless" href="/tags/Dagger/">
+                        <span class="level-start">
+                            <span class="level-item">Dagger</span>
                         </span>
                         <span class="level-end">
                             <span class="level-item tag">2</span>
