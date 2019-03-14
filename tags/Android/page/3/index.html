@@ -322,7 +322,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    16 分钟 读完 (大约 2376 个字)
+                    16 分钟 读完 (大约 2457 个字)
                 </span>
                 
             </div>
@@ -366,6 +366,8 @@
 <p>再来看一下View中的post()方法，代码如下所示：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">post</span><span class="hljs-params">(Runnable action)</span> </span>&#123;</span><br><span class="line">    Handler handler;</span><br><span class="line">    <span class="hljs-keyword">if</span> (mAttachInfo != <span class="hljs-keyword">null</span>) &#123;</span><br><span class="line">        handler = mAttachInfo.mHandler;</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        ViewRoot.getRunQueue().post(action);</span><br><span class="line">        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-keyword">return</span> handler.post(action);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>原来就是调用了Handler中的post()方法，我相信已经没有什么必要再做解释了。<br>最后再来看一下Activity中的runOnUiThread()方法，代码如下所示：<br><figure class="highlight java hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">final</span> <span class="hljs-keyword">void</span> <span class="hljs-title">runOnUiThread</span><span class="hljs-params">(Runnable action)</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (Thread.currentThread() != mUiThread) &#123;</span><br><span class="line">        mHandler.post(action);</span><br><span class="line">    &#125; <span class="hljs-keyword">else</span> &#123;</span><br><span class="line">        action.run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>如果当前的线程不等于UI线程(主线程)，就去调用Handler的post()方法，否则就直接调用Runnable对象的run()方法。</p>
+<p>线程是怎么切换的？</p>
+<p>当 A 线程创建 Handler 的时候，同时创建了 Looper 和 MessageQueue，Looper 随即在 A 线程中调用 loop() 方法，而有因为在 loop() 方法中从 MessageQueue 取出消息并进行下一步的操作，所以操作又回到了 A 线程中。</p>
 <p><strong>参考文章：<a href="http://blog.csdn.net/woshiwxw765/article/details/38146185" target="_blank" rel="noopener">Android Handler、Message完全解析，带你从源码的角度彻底理解</a></strong></p>
 
         </div>
