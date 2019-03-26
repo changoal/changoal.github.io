@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="changoal">
 <meta property="og:description" content="因为 Android 只允许在主线程中更新 UI ，所以每个 Android 开发者都会使用到 Handler ，最近面试也一直在问这个问题。先说一下我自己的理解吧  每个 Activity 都会自动初始化一个 Looper 对象，这个 Looper 对象通过 loop() 方法，不断的遍历 MessageQueue，来查看消息队列里是否存在 Message，在代码里 在其他线程中可以通过 han">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-14T12:48:28.567Z">
+<meta property="og:updated_time" content="2019-03-14T12:50:00.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Handler源码解析">
 <meta name="twitter:description" content="因为 Android 只允许在主线程中更新 UI ，所以每个 Android 开发者都会使用到 Handler ，最近面试也一直在问这个问题。先说一下我自己的理解吧  每个 Activity 都会自动初始化一个 Looper 对象，这个 Looper 对象通过 loop() 方法，不断的遍历 MessageQueue，来查看消息队列里是否存在 Message，在代码里 在其他线程中可以通过 han">
@@ -327,13 +327,6 @@ window.changyan.api.config({
                 title="Github" href="http://github.com/changoal">
                 
                 <i class="fab fa-github"></i>
-                
-            </a>
-            
-            <a class="level-item button is-white" target="_blank"
-                title="Twitter" href="http://twitter.com/Changoall">
-                
-                <i class="fab fa-twitter"></i>
                 
             </a>
             
